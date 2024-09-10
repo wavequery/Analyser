@@ -1,0 +1,1076 @@
+{
+  "tables": [
+    {
+      "name": "user_role_mappings",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "role_id",
+          "type": "integer",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "user_id",
+        "role_id"
+      ]
+    },
+    {
+      "name": "user_profiles",
+      "columns": [
+        {
+          "name": "profile_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "first_name",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "last_name",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "phone_number",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "birth_date",
+          "type": "date",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "profile_id"
+      ]
+    },
+    {
+      "name": "product_categories",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "category_id",
+          "type": "integer",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "product_id",
+        "category_id"
+      ]
+    },
+    {
+      "name": "product_images",
+      "columns": [
+        {
+          "name": "image_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "image_url",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "is_primary",
+          "type": "boolean",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "image_id"
+      ]
+    },
+    {
+      "name": "product_attribute_values",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "attribute_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "value",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "product_id",
+        "attribute_id"
+      ]
+    },
+    {
+      "name": "inventory_transactions",
+      "columns": [
+        {
+          "name": "transaction_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "supplier_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "transaction_type",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "transaction_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "transaction_id"
+      ]
+    },
+    {
+      "name": "order_items",
+      "columns": [
+        {
+          "name": "order_item_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "order_item_id"
+      ]
+    },
+    {
+      "name": "payments",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "payment_method_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "payment_id"
+      ]
+    },
+    {
+      "name": "shipments",
+      "columns": [
+        {
+          "name": "shipment_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "shipping_method_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "address_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "tracking_number",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "shipped_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "estimated_delivery_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "shipment_id"
+      ]
+    },
+    {
+      "name": "product_reviews",
+      "columns": [
+        {
+          "name": "review_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "rating",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "review_text",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "review_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "review_id"
+      ]
+    },
+    {
+      "name": "wishlist_items",
+      "columns": [
+        {
+          "name": "wishlist_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "added_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "wishlist_id",
+        "product_id"
+      ]
+    },
+    {
+      "name": "order_coupons",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "coupon_id",
+          "type": "integer",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "order_id",
+        "coupon_id"
+      ]
+    },
+    {
+      "name": "ticket_responses",
+      "columns": [
+        {
+          "name": "response_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "ticket_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "response_text",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "response_id"
+      ]
+    },
+    {
+      "name": "seo_metadata",
+      "columns": [
+        {
+          "name": "metadata_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "page_url",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "keywords",
+          "type": "character varying",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "metadata_id"
+      ]
+    },
+    {
+      "name": "page_views",
+      "columns": [
+        {
+          "name": "view_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "page_url",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "view_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "ip_address",
+          "type": "character varying",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "view_id"
+      ]
+    },
+    {
+      "name": "user_roles",
+      "columns": [
+        {
+          "name": "role_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "role_name",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "role_id"
+      ]
+    },
+    {
+      "name": "categories",
+      "columns": [
+        {
+          "name": "category_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "parent_category_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "category_id"
+      ]
+    },
+    {
+      "name": "product_attributes",
+      "columns": [
+        {
+          "name": "attribute_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "attribute_id"
+      ]
+    },
+    {
+      "name": "suppliers",
+      "columns": [
+        {
+          "name": "supplier_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "contact_person",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "email",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "phone",
+          "type": "character varying",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "supplier_id"
+      ]
+    },
+    {
+      "name": "payment_methods",
+      "columns": [
+        {
+          "name": "payment_method_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "payment_method_id"
+      ]
+    },
+    {
+      "name": "shipping_methods",
+      "columns": [
+        {
+          "name": "shipping_method_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "shipping_method_id"
+      ]
+    },
+    {
+      "name": "addresses",
+      "columns": [
+        {
+          "name": "address_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "address_line1",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "address_line2",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "city",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "state",
+          "type": "character varying",
+          "isNullable": true
+        },
+        {
+          "name": "postal_code",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "country",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "is_default",
+          "type": "boolean",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "address_id"
+      ]
+    },
+    {
+      "name": "wishlists",
+      "columns": [
+        {
+          "name": "wishlist_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "wishlist_id"
+      ]
+    },
+    {
+      "name": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false
+        },
+        {
+          "name": "stock_quantity",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "product_id"
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "order_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "total_amount",
+          "type": "numeric",
+          "isNullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false
+        }
+      ],
+      "primaryKeys": [
+        "order_id"
+      ]
+    },
+    {
+      "name": "coupons",
+      "columns": [
+        {
+          "name": "coupon_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "code",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "discount_type",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "discount_value",
+          "type": "numeric",
+          "isNullable": false
+        },
+        {
+          "name": "start_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "end_date",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "usage_limit",
+          "type": "integer",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "coupon_id"
+      ]
+    },
+    {
+      "name": "support_tickets",
+      "columns": [
+        {
+          "name": "ticket_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true
+        },
+        {
+          "name": "subject",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "ticket_id"
+      ]
+    },
+    {
+      "name": "users",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": false
+        },
+        {
+          "name": "username",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "email",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "password_hash",
+          "type": "character varying",
+          "isNullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        },
+        {
+          "name": "last_login",
+          "type": "timestamp without time zone",
+          "isNullable": true
+        }
+      ],
+      "primaryKeys": [
+        "user_id"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "sourceTable": "user_role_mappings",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "user_role_mappings",
+      "sourceColumn": "role_id",
+      "targetTable": "user_roles",
+      "targetColumn": "role_id"
+    },
+    {
+      "sourceTable": "user_profiles",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "categories",
+      "sourceColumn": "parent_category_id",
+      "targetTable": "categories",
+      "targetColumn": "category_id"
+    },
+    {
+      "sourceTable": "product_categories",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "product_categories",
+      "sourceColumn": "category_id",
+      "targetTable": "categories",
+      "targetColumn": "category_id"
+    },
+    {
+      "sourceTable": "product_images",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "product_attribute_values",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "product_attribute_values",
+      "sourceColumn": "attribute_id",
+      "targetTable": "product_attributes",
+      "targetColumn": "attribute_id"
+    },
+    {
+      "sourceTable": "inventory_transactions",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "inventory_transactions",
+      "sourceColumn": "supplier_id",
+      "targetTable": "suppliers",
+      "targetColumn": "supplier_id"
+    },
+    {
+      "sourceTable": "orders",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "order_items",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id"
+    },
+    {
+      "sourceTable": "order_items",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "payments",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id"
+    },
+    {
+      "sourceTable": "payments",
+      "sourceColumn": "payment_method_id",
+      "targetTable": "payment_methods",
+      "targetColumn": "payment_method_id"
+    },
+    {
+      "sourceTable": "addresses",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "shipments",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id"
+    },
+    {
+      "sourceTable": "shipments",
+      "sourceColumn": "shipping_method_id",
+      "targetTable": "shipping_methods",
+      "targetColumn": "shipping_method_id"
+    },
+    {
+      "sourceTable": "shipments",
+      "sourceColumn": "address_id",
+      "targetTable": "addresses",
+      "targetColumn": "address_id"
+    },
+    {
+      "sourceTable": "product_reviews",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "product_reviews",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "wishlists",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "wishlist_items",
+      "sourceColumn": "wishlist_id",
+      "targetTable": "wishlists",
+      "targetColumn": "wishlist_id"
+    },
+    {
+      "sourceTable": "wishlist_items",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id"
+    },
+    {
+      "sourceTable": "order_coupons",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id"
+    },
+    {
+      "sourceTable": "order_coupons",
+      "sourceColumn": "coupon_id",
+      "targetTable": "coupons",
+      "targetColumn": "coupon_id"
+    },
+    {
+      "sourceTable": "support_tickets",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "ticket_responses",
+      "sourceColumn": "ticket_id",
+      "targetTable": "support_tickets",
+      "targetColumn": "ticket_id"
+    },
+    {
+      "sourceTable": "ticket_responses",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    },
+    {
+      "sourceTable": "page_views",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id"
+    }
+  ],
+  "circularDependencies": [
+    [
+      "categories"
+    ]
+  ]
+}
