@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database Schema Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="icon" href="data:," />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .node {
+        cursor: pointer;
+      }
+      .link {
+        stroke: #999;
+        stroke-opacity: 0.6;
+        stroke-width: 1px;
+      }
+      #error {
+        color: red;
+      }
+      #debug {
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Database Schema Visualization</h1>
+    <div id="error"></div>
+    <div id="schema-viz"></div>
+    <h2>Debug Information:</h2>
+    <div id="debug"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        d3.json("/schema")
+          .then((data) => {
+            console.log("Received data:", data);
+            document.getElementById("debug").textContent = JSON.stringify(
+              data,
+              null,
+              2
+            );
+
+            if (
+              !data ||
+              !Array.isArray(data.tables) ||
+              !Array.isArray(data.relationships)
+            ) {
+              throw new Error("Invalid data structure");
+            }
+
+            const width = 960;
+            const height = 600;
+
+            const svg = d3
+              .select("#schema-viz")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height);
+
+            // Create a map of table names to table objects for quick lookup
+            const tableMap = new Map(
+              data.tables.map((table) => [table.name, table])
+            );
+
+            // Process relationships to ensure all referenced tables exist
+            const validRelationships = data.relationships.filter((rel) => {
+              const sourceExists = tableMap.has(rel.sourceTable);
+              const targetExists = tableMap.has(rel.targetTable);
+              if (!sourceExists)
+                console.warn(`Source table "${rel.sourceTable}" not found`);
+              if (!targetExists)
+                console.warn(`Target table "${rel.targetTable}" not found`);
+              return sourceExists && targetExists;
+            });
+
+            // Prepare data for D3
+            const nodes = data.tables.map((d) => ({ ...d }));
+            const links = validRelationships.map((d) => ({
+              ...d,
+              source: d.sourceTable,
+              target: d.targetTable,
+            }));
+
+            const simulation = d3
+              .forceSimulation(nodes)
+              .force(
+                "link",
+                d3.forceLink(links).id((d) => d.name)
+              )
+              .force("charge", d3.forceManyBody().strength(-300))
+              .force("center", d3.forceCenter(width / 2, height / 2));
+
+            const link = svg
+              .append("g")
+              .selectAll("line")
+              .data(links)
+              .enter()
+              .append("line")
+              .attr("class", "link");
+
+            const node = svg
+              .append("g")
+              .selectAll("circle")
+              .data(nodes)
+              .enter()
+              .append("circle")
+              .attr("class", "node")
+              .attr("r", 5)
+              .call(
+                d3
+                  .drag()
+                  .on("start", dragstarted)
+                  .on("drag", dragged)
+                  .on("end", dragended)
+              );
+
+            const text = svg
+              .append("g")
+              .selectAll("text")
+              .data(nodes)
+              .enter()
+              .append("text")
+              .attr("dx", 12)
+              .attr("dy", ".35em")
+              .text((d) => d.name);
+
+            simulation.on("tick", () => {
+              link
+                .attr("x1", (d) => d.source.x)
+                .attr("y1", (d) => d.source.y)
+                .attr("x2", (d) => d.target.x)
+                .attr("y2", (d) => d.target.y);
+
+              node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+              text.attr("x", (d) => d.x).attr("y", (d) => d.y);
+            });
+
+            function dragstarted(event, d) {
+              if (!event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+              d.fx = event.x;
+              d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+              if (!event.active) simulation.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading schema data:", error);
+            document.getElementById("error").textContent =
+              "Error loading schema data: " + error.message;
+          });
+      });
+    </script>
+  </body>
+</html>

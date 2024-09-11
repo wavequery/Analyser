@@ -8,10 +8,12 @@
     "db-schema-finder": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "copy-public": "cp -R src/public dist/",
+    "build": "tsc -p tsconfig.json && npm run copy-public",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "start": "node dist/cli.js",
+    "serve": "node dist/server.js",
     "test": "jest"
   },
   "keywords": [
@@ -22,16 +24,21 @@
   "author": "amin@wavequery.com",
   "license": "MIT",
   "dependencies": {
+    "open": "^8.4.0",
     "commander": "^8.3.0",
     "pg": "^8.7.1",
     "mysql2": "^2.3.3",
     "sqlite": "^4.1.1",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "express": "^4.17.1",
+    "d3": "^7.8.5"
   },
   "devDependencies": {
     "@types/node": "^16.11.12",
     "@types/pg": "^8.6.3",
     "@types/sqlite3": "^3.1.8",
+    "@types/express": "^4.17.13",
+    "@types/d3": "^7.4.0",
     "typescript": "^4.5.4",
     "jest": "^27.4.5",
     "@types/jest": "^27.0.3",
