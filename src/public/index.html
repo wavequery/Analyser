@@ -45,6 +45,30 @@
         pointer-events: none;
         opacity: 0;
       }
+      #sidebar {
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        width: 300px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: 90vh;
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 5px;
+      }
     </style>
   </head>
   <body>
@@ -57,10 +81,49 @@
     </div>
     <div id="schema-viz"></div>
     <div id="tooltip"></div>
+    <div id="sidebar">
+      <h3>Add Relationship</h3>
+      <form id="addRelationshipForm">
+        <div class="form-group">
+          <label for="sourceTable">Source Table</label>
+          <select id="sourceTable" required></select>
+        </div>
+        <div class="form-group">
+          <label for="sourceColumn">Source Column</label>
+          <input type="text" id="sourceColumn" required />
+        </div>
+        <div class="form-group">
+          <label for="targetTable">Target Table</label>
+          <select id="targetTable" required></select>
+        </div>
+        <div class="form-group">
+          <label for="targetColumn">Target Column</label>
+          <input type="text" id="targetColumn" required />
+        </div>
+        <button type="submit">Add Relationship</button>
+      </form>
+
+      <h3>Add Annotation</h3>
+      <form id="addAnnotationForm">
+        <div class="form-group">
+          <label for="annotationTable">Table</label>
+          <select id="annotationTable" required></select>
+        </div>
+        <div class="form-group">
+          <label for="annotationText">Annotation</label>
+          <input type="text" id="annotationText" required />
+        </div>
+        <button type="submit">Add Annotation</button>
+      </form>
+
+      <button id="downloadJson">Download JSON</button>
+    </div>
     <script>
+      let schemaData;
       document.addEventListener("DOMContentLoaded", function () {
         d3.json("/schema")
           .then((data) => {
+            schemaData = data;
             console.log("Received data:", data);
 
             if (
@@ -235,6 +298,73 @@
                 d.name.toLowerCase().includes(searchTerm) ? "bold" : "normal"
               );
             });
+
+            // Sidebar functionality
+            const tableSelects = document.querySelectorAll(
+              "#sourceTable, #targetTable, #annotationTable"
+            );
+            tableSelects.forEach((select) => {
+              data.tables.forEach((table) => {
+                const option = document.createElement("option");
+                option.value = table.name;
+                option.textContent = table.name;
+                select.appendChild(option);
+              });
+            });
+
+            // Add relationship form submission
+            document
+              .getElementById("addRelationshipForm")
+              .addEventListener("submit", function (e) {
+                e.preventDefault();
+                const newRelationship = {
+                  sourceTable: document.getElementById("sourceTable").value,
+                  sourceColumn: document.getElementById("sourceColumn").value,
+                  targetTable: document.getElementById("targetTable").value,
+                  targetColumn: document.getElementById("targetColumn").value,
+                };
+                schemaData.relationships.push(newRelationship);
+                updateVisualization();
+              });
+
+            // Add annotation form submission
+            document
+              .getElementById("addAnnotationForm")
+              .addEventListener("submit", function (e) {
+                e.preventDefault();
+                const tableName =
+                  document.getElementById("annotationTable").value;
+                const annotationText =
+                  document.getElementById("annotationText").value;
+                const table = schemaData.tables.find(
+                  (t) => t.name === tableName
+                );
+                if (table) {
+                  if (!table.annotations) table.annotations = [];
+                  table.annotations.push(annotationText);
+                  updateVisualization();
+                }
+              });
+
+            // Download JSON button
+            document
+              .getElementById("downloadJson")
+              .addEventListener("click", function () {
+                const dataStr =
+                  "data:text/json;charset=utf-8," +
+                  encodeURIComponent(JSON.stringify(schemaData, null, 2));
+                const downloadAnchorNode = document.createElement("a");
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "schema.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+              });
+
+            function updateVisualization() {
+              // Re-run the visualization with the updated schemaData
+              // This function would need to be implemented to refresh the D3 visualization
+            }
           })
           .catch((error) => {
             console.error("Error loading schema data:", error);
