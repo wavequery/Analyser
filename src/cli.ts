@@ -5,7 +5,7 @@ import path from "path";
 import open from "open";
 import { fork, ChildProcess } from "child_process";
 
-import { analyzeDatabase } from "./index";
+import { analyzeDatabase } from "./analyzers/analyzeDatabase";
 
 import { PostgresConnector } from "./connectors/postgresConnector";
 import { MariaDBConnector } from "./connectors/mariadbConnector";

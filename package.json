@@ -4,6 +4,9 @@
   "description": "A tool to analyze database schemas and relationships",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "db-schema-finder": "./dist/cli.js"
   },
@@ -14,12 +17,19 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "start": "node dist/cli.js",
     "serve": "node dist/server.js",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "database",
     "schema",
-    "analyzer"
+    "analyzer",
+    "sqlite",
+    "postgres",
+    "analyze",
+    "relationships",
+    "sql",
+    "mysql"
   ],
   "author": "amin@wavequery.com",
   "license": "MIT",
@@ -43,5 +53,8 @@
     "jest": "^27.4.5",
     "@types/jest": "^27.0.3",
     "ts-jest": "^27.1.1"
+  },
+  "peerDependencies": {
+    "d3": "^7.0.0"
   }
 }
