@@ -17,6 +17,32 @@
       "primaryKeys": [
         "user_id",
         "role_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_role_mappings_pkey",
+          "columnName": "user_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_role_mappings_pkey",
+          "columnName": "role_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_role_mappings_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_role_mappings_user_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "user_role_mappings_role_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -55,6 +81,32 @@
       ],
       "primaryKeys": [
         "profile_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_profiles_pkey",
+          "columnName": "profile_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_profiles_user_id_key",
+          "columnName": "user_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_profiles_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_profiles_user_id_key",
+          "type": "UNIQUE"
+        },
+        {
+          "name": "user_profiles_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -74,6 +126,32 @@
       "primaryKeys": [
         "product_id",
         "category_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_categories_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        },
+        {
+          "name": "product_categories_pkey",
+          "columnName": "category_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_categories_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "product_categories_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "product_categories_category_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -102,6 +180,23 @@
       ],
       "primaryKeys": [
         "image_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_images_pkey",
+          "columnName": "image_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_images_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "product_images_product_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -126,6 +221,32 @@
       "primaryKeys": [
         "product_id",
         "attribute_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_attribute_values_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        },
+        {
+          "name": "product_attribute_values_pkey",
+          "columnName": "attribute_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_attribute_values_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "product_attribute_values_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "product_attribute_values_attribute_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -164,6 +285,27 @@
       ],
       "primaryKeys": [
         "transaction_id"
+      ],
+      "indexes": [
+        {
+          "name": "inventory_transactions_pkey",
+          "columnName": "transaction_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "inventory_transactions_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "inventory_transactions_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "inventory_transactions_supplier_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -197,6 +339,27 @@
       ],
       "primaryKeys": [
         "order_item_id"
+      ],
+      "indexes": [
+        {
+          "name": "order_items_pkey",
+          "columnName": "order_item_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "order_items_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "order_items_order_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "order_items_product_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -235,6 +398,27 @@
       ],
       "primaryKeys": [
         "payment_id"
+      ],
+      "indexes": [
+        {
+          "name": "payments_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payments_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "payments_order_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payments_payment_method_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -278,6 +462,31 @@
       ],
       "primaryKeys": [
         "shipment_id"
+      ],
+      "indexes": [
+        {
+          "name": "shipments_pkey",
+          "columnName": "shipment_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "shipments_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "shipments_order_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "shipments_shipping_method_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "shipments_address_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -316,6 +525,31 @@
       ],
       "primaryKeys": [
         "review_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_reviews_pkey",
+          "columnName": "review_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_reviews_rating_check",
+          "type": "CHECK"
+        },
+        {
+          "name": "product_reviews_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "product_reviews_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "product_reviews_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -340,6 +574,32 @@
       "primaryKeys": [
         "wishlist_id",
         "product_id"
+      ],
+      "indexes": [
+        {
+          "name": "wishlist_items_pkey",
+          "columnName": "wishlist_id",
+          "isUnique": true
+        },
+        {
+          "name": "wishlist_items_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "wishlist_items_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "wishlist_items_wishlist_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "wishlist_items_product_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -359,6 +619,32 @@
       "primaryKeys": [
         "order_id",
         "coupon_id"
+      ],
+      "indexes": [
+        {
+          "name": "order_coupons_pkey",
+          "columnName": "order_id",
+          "isUnique": true
+        },
+        {
+          "name": "order_coupons_pkey",
+          "columnName": "coupon_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "order_coupons_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "order_coupons_order_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "order_coupons_coupon_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -392,6 +678,27 @@
       ],
       "primaryKeys": [
         "response_id"
+      ],
+      "indexes": [
+        {
+          "name": "ticket_responses_pkey",
+          "columnName": "response_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ticket_responses_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "ticket_responses_ticket_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "ticket_responses_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -425,6 +732,28 @@
       ],
       "primaryKeys": [
         "metadata_id"
+      ],
+      "indexes": [
+        {
+          "name": "seo_metadata_pkey",
+          "columnName": "metadata_id",
+          "isUnique": true
+        },
+        {
+          "name": "seo_metadata_page_url_key",
+          "columnName": "page_url",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "seo_metadata_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "seo_metadata_page_url_key",
+          "type": "UNIQUE"
+        }
       ]
     },
     {
@@ -458,6 +787,23 @@
       ],
       "primaryKeys": [
         "view_id"
+      ],
+      "indexes": [
+        {
+          "name": "page_views_pkey",
+          "columnName": "view_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "page_views_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "page_views_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -476,6 +822,28 @@
       ],
       "primaryKeys": [
         "role_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_roles_pkey",
+          "columnName": "role_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_roles_role_name_key",
+          "columnName": "role_name",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_roles_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_roles_role_name_key",
+          "type": "UNIQUE"
+        }
       ]
     },
     {
@@ -504,6 +872,23 @@
       ],
       "primaryKeys": [
         "category_id"
+      ],
+      "indexes": [
+        {
+          "name": "categories_pkey",
+          "columnName": "category_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "categories_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "categories_parent_category_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -522,6 +907,19 @@
       ],
       "primaryKeys": [
         "attribute_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_attributes_pkey",
+          "columnName": "attribute_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_attributes_pkey",
+          "type": "PRIMARY KEY"
+        }
       ]
     },
     {
@@ -555,6 +953,19 @@
       ],
       "primaryKeys": [
         "supplier_id"
+      ],
+      "indexes": [
+        {
+          "name": "suppliers_pkey",
+          "columnName": "supplier_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "suppliers_pkey",
+          "type": "PRIMARY KEY"
+        }
       ]
     },
     {
@@ -573,6 +984,19 @@
       ],
       "primaryKeys": [
         "payment_method_id"
+      ],
+      "indexes": [
+        {
+          "name": "payment_methods_pkey",
+          "columnName": "payment_method_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_methods_pkey",
+          "type": "PRIMARY KEY"
+        }
       ]
     },
     {
@@ -596,6 +1020,19 @@
       ],
       "primaryKeys": [
         "shipping_method_id"
+      ],
+      "indexes": [
+        {
+          "name": "shipping_methods_pkey",
+          "columnName": "shipping_method_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "shipping_methods_pkey",
+          "type": "PRIMARY KEY"
+        }
       ]
     },
     {
@@ -649,6 +1086,23 @@
       ],
       "primaryKeys": [
         "address_id"
+      ],
+      "indexes": [
+        {
+          "name": "addresses_pkey",
+          "columnName": "address_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "addresses_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "addresses_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -677,6 +1131,23 @@
       ],
       "primaryKeys": [
         "wishlist_id"
+      ],
+      "indexes": [
+        {
+          "name": "wishlists_pkey",
+          "columnName": "wishlist_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "wishlists_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "wishlists_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -720,6 +1191,19 @@
       ],
       "primaryKeys": [
         "product_id"
+      ],
+      "indexes": [
+        {
+          "name": "products_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "products_pkey",
+          "type": "PRIMARY KEY"
+        }
       ]
     },
     {
@@ -753,6 +1237,23 @@
       ],
       "primaryKeys": [
         "order_id"
+      ],
+      "indexes": [
+        {
+          "name": "orders_pkey",
+          "columnName": "order_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "orders_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "orders_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -796,6 +1297,28 @@
       ],
       "primaryKeys": [
         "coupon_id"
+      ],
+      "indexes": [
+        {
+          "name": "coupons_pkey",
+          "columnName": "coupon_id",
+          "isUnique": true
+        },
+        {
+          "name": "coupons_code_key",
+          "columnName": "code",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "coupons_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "coupons_code_key",
+          "type": "UNIQUE"
+        }
       ]
     },
     {
@@ -839,6 +1362,23 @@
       ],
       "primaryKeys": [
         "ticket_id"
+      ],
+      "indexes": [
+        {
+          "name": "support_tickets_pkey",
+          "columnName": "ticket_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "support_tickets_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "support_tickets_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
       ]
     },
     {
@@ -877,6 +1417,37 @@
       ],
       "primaryKeys": [
         "user_id"
+      ],
+      "indexes": [
+        {
+          "name": "users_pkey",
+          "columnName": "user_id",
+          "isUnique": true
+        },
+        {
+          "name": "users_username_key",
+          "columnName": "username",
+          "isUnique": true
+        },
+        {
+          "name": "users_email_key",
+          "columnName": "email",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "users_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "users_username_key",
+          "type": "UNIQUE"
+        },
+        {
+          "name": "users_email_key",
+          "type": "UNIQUE"
+        }
       ]
     }
   ],
@@ -1072,5 +1643,12 @@
     [
       "categories"
     ]
-  ]
+  ],
+  "junctionTables": [
+    "user_role_mappings",
+    "product_categories",
+    "order_coupons"
+  ],
+  "storedProcedures": [],
+  "views": []
 }

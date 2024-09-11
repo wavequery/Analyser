@@ -69,6 +69,9 @@
         width: 100%;
         padding: 5px;
       }
+      #additionalInfo {
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -82,6 +85,12 @@
     <div id="schema-viz"></div>
     <div id="tooltip"></div>
     <div id="sidebar">
+      <div id="additionalInfo">
+        <h3>Additional Information</h3>
+        <div id="junctionTables"></div>
+        <div id="storedProcedures"></div>
+        <div id="views"></div>
+      </div>
       <h3>Add Relationship</h3>
       <form id="addRelationshipForm">
         <div class="form-group">
@@ -125,6 +134,8 @@
           .then((data) => {
             schemaData = data;
             console.log("Received data:", data);
+
+            populateAdditionalInfo(data);
 
             if (
               !data ||
@@ -299,7 +310,61 @@
               );
             });
 
-            // Sidebar functionality
+            // _____ Sidebar functionality _____
+
+            // Populate additional information
+
+            function populateAdditionalInfo(data) {
+              // Junction Tables
+              const junctionTablesDiv =
+                document.getElementById("junctionTables");
+              junctionTablesDiv.innerHTML = "<h4>Junction Tables</h4>";
+              if (data.junctionTables && data.junctionTables.length > 0) {
+                const ul = document.createElement("ul");
+                data.junctionTables.forEach((table) => {
+                  const li = document.createElement("li");
+                  li.textContent = table;
+                  ul.appendChild(li);
+                });
+                junctionTablesDiv.appendChild(ul);
+              } else {
+                junctionTablesDiv.innerHTML +=
+                  "<p>No junction tables detected.</p>";
+              }
+
+              // Stored Procedures
+              const storedProceduresDiv =
+                document.getElementById("storedProcedures");
+              storedProceduresDiv.innerHTML = "<h4>Stored Procedures</h4>";
+              if (data.storedProcedures && data.storedProcedures.length > 0) {
+                const ul = document.createElement("ul");
+                data.storedProcedures.forEach((proc) => {
+                  const li = document.createElement("li");
+                  li.textContent = proc.name;
+                  ul.appendChild(li);
+                });
+                storedProceduresDiv.appendChild(ul);
+              } else {
+                storedProceduresDiv.innerHTML +=
+                  "<p>No stored procedures found.</p>";
+              }
+
+              // Views
+              const viewsDiv = document.getElementById("views");
+              viewsDiv.innerHTML = "<h4>Views</h4>";
+              if (data.views && data.views.length > 0) {
+                const ul = document.createElement("ul");
+                data.views.forEach((view) => {
+                  const li = document.createElement("li");
+                  li.textContent = view.name;
+                  ul.appendChild(li);
+                });
+                viewsDiv.appendChild(ul);
+              } else {
+                viewsDiv.innerHTML += "<p>No views found.</p>";
+              }
+            }
+
             const tableSelects = document.querySelectorAll(
               "#sourceTable, #targetTable, #annotationTable"
             );
