@@ -56,10 +56,6 @@ Time Complexity: O(N), where N is the number of tables.
 
 ## Testing Strategy
 
-1. Unit Tests: Implement unit tests for individual components (connectors, analyzers, utilities).
-2. Integration Tests: Create integration tests that verify the entire analysis process with test databases.
-3. Performance Tests: Develop tests to ensure performance doesn't degrade with larger schemas.
-4. Cross-Database Tests: Ensure consistent behavior across different supported database systems.
 
 ## Contribution Guidelines
 

@@ -1,6 +1,6 @@
 // src/index.ts
 
-export { analyzeDatabase } from './analyzers/analyzeDatabase';
+export { analyzeDatabase } from './analyzers/databaseAnalyzer';
 export { DatabaseConnector } from './connectors/baseConnector';
 export { PostgresConnector } from './connectors/postgresConnector';
 export { MariaDBConnector } from './connectors/mariadbConnector';
