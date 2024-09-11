@@ -6,29 +6,34 @@ import { RelationshipAnalyzer } from "./analyzers/relationshipAnalyzer";
 import { topologicalSort } from "./utils/topologicalSort";
 import { exportToJson } from "./utils/jsonExporter";
 import { identifyCircularDependencies } from "./utils/dependencyAnalyzer";
+import { Logger } from "./utils/logger";
 
-export async function analyzeDatabase(
-  connector: DatabaseConnector
-): Promise<DatabaseConnector> {
-  console.log("Starting database analysis...");
+export async function analyzeDatabase({
+  connector,
+  logger,
+}: {
+  connector: DatabaseConnector;
+  logger: Logger;
+}): Promise<DatabaseConnector> {
+  logger.log("Starting database analysis...");
   try {
-    console.log("Connecting to database...");
+    logger.log("Connecting to database...");
     await connector.connect();
 
     console.log("Analyzing schema...");
     const schemaAnalyzer = new SchemaAnalyzer(connector);
     const tables = await schemaAnalyzer.getTables();
-    console.log(`Found ${tables.length} tables.`);
+    logger.log(`Found ${tables.length} tables.`);
 
-    console.log("Analyzing relationships...");
+    logger.log("Analyzing relationships...");
     const relationshipAnalyzer = new RelationshipAnalyzer(connector);
     const relationships = await relationshipAnalyzer.getRelationships(tables);
-    console.log(`Found ${relationships.length} relationships.`);
+    logger.log(`Found ${relationships.length} relationships.`);
 
-    console.log("Performing topological sort...");
+    logger.log("Performing topological sort...");
     const sortedTables = topologicalSort(tables, relationships);
 
-    console.log("Identifying circular dependencies...");
+    logger.log("Identifying circular dependencies...");
     const circularDependencies = identifyCircularDependencies(
       tables,
       relationships
@@ -41,14 +46,13 @@ export async function analyzeDatabase(
     };
 
     console.log("Exporting data to JSON...");
-    await exportToJson(schemaData, "database-schema.json");
+    // TODO: The name should get more dynamic
+    await exportToJson(schemaData, "database-schema.json", logger);
 
     console.log("Database analysis completed successfully.");
     return connector;
   } catch (error) {
-    console.error("Error during schema analysis:", error);
+    logger.error("Error during schema analysis:", error);
     throw error;
   }
 }
-
-console.log("index.ts module loaded");

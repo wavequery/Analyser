@@ -9,6 +9,21 @@
     <style>
       body {
         font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #controls {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      #schema-viz {
+        width: 100vw;
+        height: 100vh;
       }
       .node {
         cursor: pointer;
@@ -18,30 +33,35 @@
         stroke-opacity: 0.6;
         stroke-width: 1px;
       }
-      #error {
-        color: red;
+      .node text {
+        font-size: 10px;
       }
-      #debug {
-        white-space: pre-wrap;
+      #tooltip {
+        position: absolute;
+        background: white;
+        padding: 5px;
+        border-radius: 3px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+        opacity: 0;
       }
     </style>
   </head>
   <body>
-    <h1>Database Schema Visualization</h1>
-    <div id="error"></div>
+    <div id="controls">
+      <h2>Database Schema Visualization</h2>
+      <button id="zoomIn">+</button>
+      <button id="zoomOut">-</button>
+      <button id="resetZoom">Reset</button>
+      <input type="text" id="search" placeholder="Search tables..." />
+    </div>
     <div id="schema-viz"></div>
-    <h2>Debug Information:</h2>
-    <div id="debug"></div>
+    <div id="tooltip"></div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         d3.json("/schema")
           .then((data) => {
             console.log("Received data:", data);
-            document.getElementById("debug").textContent = JSON.stringify(
-              data,
-              null,
-              2
-            );
 
             if (
               !data ||
@@ -51,14 +71,25 @@
               throw new Error("Invalid data structure");
             }
 
-            const width = 960;
-            const height = 600;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
 
             const svg = d3
               .select("#schema-viz")
               .append("svg")
               .attr("width", width)
               .attr("height", height);
+
+            const g = svg.append("g");
+
+            const zoom = d3
+              .zoom()
+              .scaleExtent([0.1, 4])
+              .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+              });
+
+            svg.call(zoom);
 
             // Create a map of table names to table objects for quick lookup
             const tableMap = new Map(
@@ -88,12 +119,15 @@
               .forceSimulation(nodes)
               .force(
                 "link",
-                d3.forceLink(links).id((d) => d.name)
+                d3
+                  .forceLink(links)
+                  .id((d) => d.name)
+                  .distance(100)
               )
               .force("charge", d3.forceManyBody().strength(-300))
               .force("center", d3.forceCenter(width / 2, height / 2));
 
-            const link = svg
+            const link = g
               .append("g")
               .selectAll("line")
               .data(links)
@@ -101,7 +135,7 @@
               .append("line")
               .attr("class", "link");
 
-            const node = svg
+            const node = g
               .append("g")
               .selectAll("circle")
               .data(nodes)
@@ -117,15 +151,17 @@
                   .on("end", dragended)
               );
 
-            const text = svg
+            const text = g
               .append("g")
               .selectAll("text")
               .data(nodes)
               .enter()
               .append("text")
-              .attr("dx", 12)
+              .attr("dx", 8)
               .attr("dy", ".35em")
               .text((d) => d.name);
+
+            node.on("mouseover", showTooltip).on("mouseout", hideTooltip);
 
             simulation.on("tick", () => {
               link
@@ -155,10 +191,54 @@
               d.fx = null;
               d.fy = null;
             }
+
+            function showTooltip(event, d) {
+              const tooltip = d3.select("#tooltip");
+              tooltip.transition().duration(200).style("opacity", 0.9);
+              tooltip
+                .html(
+                  `<strong>${d.name}</strong><br/>Columns: ${
+                    d.columns.length
+                  }<br/>Primary Keys: ${d.primaryKeys.join(", ")}`
+                )
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 28 + "px");
+            }
+
+            function hideTooltip() {
+              d3.select("#tooltip")
+                .transition()
+                .duration(500)
+                .style("opacity", 0);
+            }
+
+            // Zoom controls
+            d3.select("#zoomIn").on("click", () => {
+              svg.transition().call(zoom.scaleBy, 1.2);
+            });
+
+            d3.select("#zoomOut").on("click", () => {
+              svg.transition().call(zoom.scaleBy, 0.8);
+            });
+
+            d3.select("#resetZoom").on("click", () => {
+              svg.transition().call(zoom.transform, d3.zoomIdentity);
+            });
+
+            // Search functionality
+            d3.select("#search").on("input", function () {
+              const searchTerm = this.value.toLowerCase();
+              node.attr("r", (d) =>
+                d.name.toLowerCase().includes(searchTerm) ? 8 : 5
+              );
+              text.attr("font-weight", (d) =>
+                d.name.toLowerCase().includes(searchTerm) ? "bold" : "normal"
+              );
+            });
           })
           .catch((error) => {
             console.error("Error loading schema data:", error);
-            document.getElementById("error").textContent =
+            document.getElementById("schema-viz").textContent =
               "Error loading schema data: " + error.message;
           });
       });
