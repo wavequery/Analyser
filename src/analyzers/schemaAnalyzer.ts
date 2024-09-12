@@ -2,12 +2,14 @@
 
 import { DatabaseConnector } from '../connectors/baseConnector';
 import { Table, Column } from '../schemas/tableSchema';
+import { logger } from '../utils/logger';
 
 export class SchemaAnalyzer {
   constructor(private connector: DatabaseConnector) {}
 
   async getTables(): Promise<Table[]> {
     const tableNames = await this.connector.getTables();
+    logger.log('Table names:', tableNames);
     const tables: Table[] = [];
 
     for (const tableName of tableNames) {

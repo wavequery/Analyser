@@ -73,6 +73,10 @@ export async function analyzeDatabase({
     return connector;
   } catch (error) {
     logger.error("Error during schema analysis:", error);
+    if (error instanceof Error) {
+      logger.error("Error message:", error.message);
+      logger.error("Stack trace:", error.stack);
+    }
     throw error;
   }
 }

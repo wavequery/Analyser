@@ -10,6 +10,7 @@ import { analyzeDatabase } from "./analyzers/databaseAnalyzer";
 import { PostgresConnector } from "./connectors/postgresConnector";
 import { MariaDBConnector } from "./connectors/mariadbConnector";
 import { SQLiteConnector } from "./connectors/sqliteConnector";
+import { MySQLConnector } from './connectors/mysqlConnector';
 import { DatabaseConnector } from "./connectors/baseConnector";
 
 import { logger } from "./utils/logger";
@@ -35,15 +36,27 @@ program
     logger.log("Options:", options);
     let connector: DatabaseConnector;
 
+
+    const connectorOptions = {
+      host: options.host,
+      port: parseInt(options.port),
+      user: options.user,
+      password: options.password,
+      database: options.database
+    };
+
     switch (options.type) {
       case "postgres":
-        connector = new PostgresConnector(options);
+        connector = new PostgresConnector(connectorOptions);
+        break;
+      case "mysql":
+        connector = new MySQLConnector(connectorOptions);
         break;
       case "mariadb":
-        connector = new MariaDBConnector(options);
+        connector = new MariaDBConnector(connectorOptions);
         break;
       case "sqlite":
-        connector = new SQLiteConnector(options);
+        connector = new SQLiteConnector(options.file);
         break;
       default:
         logger.error("Unsupported database type");
@@ -106,7 +119,7 @@ program
       logger.log("Disconnecting from database...");
       process.exit(0);
     }
-  
+
     await connector.disconnect();
   });
 
