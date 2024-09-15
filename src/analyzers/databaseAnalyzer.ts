@@ -12,9 +12,11 @@ import { Logger } from "../utils/logger";
 export async function analyzeDatabase({
   connector,
   logger,
+  outputPath = "database-schema.json",
 }: {
   connector: DatabaseConnector;
   logger: Logger;
+  outputPath: string;
 }): Promise<DatabaseConnector> {
   logger.log("Starting database analysis...");
   try {
@@ -65,9 +67,8 @@ export async function analyzeDatabase({
       views: views,
     };
 
-    console.log("Exporting data to JSON...");
-    // TODO: The name should get more dynamic
-    await exportToJson(schemaData, "database-schema.json", logger);
+    console.log(`Exporting data to JSON: ${outputPath}`);
+    await exportToJson(schemaData, outputPath, logger);
 
     console.log("Database analysis completed successfully.");
     return connector;

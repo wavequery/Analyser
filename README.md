@@ -1,10 +1,12 @@
-# DB Schema Finder
+# WaveQuery Database Analyzer
 
-DB Schema Finder is a powerful tool for analyzing and visualizing database schemas. It supports PostgreSQL, MariaDB, and SQLite databases, providing detailed information about tables, relationships, indexes, constraints, stored procedures, and views.
+WaveQuery Database Analyzer is a powerful tool for analyzing and visualizing database schemas. It supports MySQL, PostgreSQL, MariaDB, and SQLite databases, providing detailed information about tables, relationships, indexes, constraints, stored procedures, and views.
+
+![DEMO](./demo_v0.gif)
 
 ## Features
 
-- Support for PostgreSQL, MariaDB, and SQLite databases
+- Support for MySQL, PostgreSQL, MariaDB, and SQLite databases
 - Detailed schema analysis including tables, columns, relationships, indexes, and constraints
 - Visualization of database schema using D3.js
 - Detection of junction tables for many-to-many relationships
@@ -14,21 +16,9 @@ DB Schema Finder is a powerful tool for analyzing and visualizing database schem
 
 ## Installation
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/db-schema-finder.git
-   cd db-schema-finder
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Build the project:
-   ```
-   npm run build
-   ```
+```
+npm install @wavequery/analyser
+```
 
 ## Usage
 
@@ -37,7 +27,7 @@ DB Schema Finder is a powerful tool for analyzing and visualizing database schem
 To analyze a database and start the visualization server:
 
 ```
-node dist/cli.js -t <database_type> -h <host> -p <port> -u <username> -P <password> -d <database_name> -s
+npx @wavequery/analyser -t <database_type> -h <host> -p <port> -u <username> -P <password> -d <database_name> -s -o /path/to/somewhere/
 ```
 
 Options:
@@ -48,12 +38,13 @@ Options:
 - `-P, --password`: Database password
 - `-d, --database`: Database name
 - `-f, --file`: SQLite database file path (for SQLite only)
+- `-o, --output <path>`, Path to export the JSON file
 - `-s, --serve`: Start the visualization server after analysis
 - `--debug`: Enable debug logging
 
 Example:
 ```
-node dist/cli.js -t postgres -h localhost -p 5432 -u myuser -P mypassword -d mydb -s
+npx @wavequery/analyser -t postgres -h localhost -p 5432 -u myuser -P mypassword -d mydb -s
 ```
 
 After running the command, open a web browser and navigate to the URL provided in the console output to view the schema visualization.
@@ -88,8 +79,9 @@ runAnalysis();
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+This is a private package. For contribution guidelines, please contact the package maintainers.
 
 ## License
 
 This project is licensed under the MIT License.
+For licensing inquiries, please contact the package maintainers.

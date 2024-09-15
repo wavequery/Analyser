@@ -1,0 +1,11 @@
+src/
+tests/
+output/
+node_modules/
+.credentials/
+tsconfig.json
+tsconfig.cjs.json
+tsconfig.esm.json
+database-schema.json
+.gitignore
+.env

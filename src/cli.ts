@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import path from "path";
+import fs from "fs";
 import open from "open";
 import { fork, ChildProcess } from "child_process";
 
@@ -10,7 +11,7 @@ import { analyzeDatabase } from "./analyzers/databaseAnalyzer";
 import { PostgresConnector } from "./connectors/postgresConnector";
 import { MariaDBConnector } from "./connectors/mariadbConnector";
 import { SQLiteConnector } from "./connectors/sqliteConnector";
-import { MySQLConnector } from './connectors/mysqlConnector';
+import { MySQLConnector } from "./connectors/mysqlConnector";
 import { DatabaseConnector } from "./connectors/baseConnector";
 
 import { logger } from "./utils/logger";
@@ -28,6 +29,11 @@ program
   .option("-P, --password <password>", "Database password")
   .option("-f, --file <file>", "SQLite database file path")
   .option("-s, --serve", "Start the visualization server after analysis")
+  .option(
+    "-o, --output <path>",
+    "Path to export the JSON file",
+    "database-schema.json"
+  )
   .option("--debug", "Enable debug logging", false)
   .action(async (options) => {
     logger.setDebugMode(options.debug);
@@ -36,13 +42,12 @@ program
     logger.log("Options:", options);
     let connector: DatabaseConnector;
 
-
     const connectorOptions = {
       host: options.host,
       port: parseInt(options.port),
       user: options.user,
       password: options.password,
-      database: options.database
+      database: options.database,
     };
 
     switch (options.type) {
@@ -63,8 +68,13 @@ program
         process.exit(1);
     }
 
+    let outputPath = options.output;
+    if (fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory()) {
+      outputPath = path.join(outputPath, "database-schema.json");
+    }
+
     try {
-      connector = await analyzeDatabase({ connector, logger });
+      connector = await analyzeDatabase({ connector, logger, outputPath });
       logger.log("Database analysis completed successfully.");
     } catch (error) {
       logger.error("Failed to analyze database:", error);
@@ -81,7 +91,11 @@ program
 
       try {
         const server: ChildProcess = fork(serverPath, [], {
-          env: { ...process.env, DEBUG: options.debug ? "true" : "false" },
+          env: {
+            ...process.env,
+            DEBUG: options.debug ? "true" : "false",
+            SCHEMA_FILE_PATH: outputPath,
+          },
         });
 
         server.on("message", (message: any) => {

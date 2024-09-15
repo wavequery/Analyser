@@ -9,12 +9,15 @@ console.log("Server script started");
 
 const app = express();
 
+const schemaFilePath = process.env.SCHEMA_FILE_PATH || "database-schema.json";
+console.log(`Using schema file: ${schemaFilePath}`);
+
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/schema", async (req, res) => {
   try {
-    const schemaData = await fs.readFile("database-schema.json", "utf-8");
+    const schemaData = await fs.readFile(schemaFilePath, "utf-8");
     const parsedData = JSON.parse(schemaData);
     console.log("Sending schema data:", parsedData);
     res.json(parsedData);

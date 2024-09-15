@@ -1,7 +1,7 @@
 {
-  "name": "db-schema-finder",
+  "name": "@wavequery/analyser",
   "version": "0.0.1",
-  "description": "A tool to analyze database schemas and relationships",
+  "description": "Database analyser and visualiser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -29,8 +29,12 @@
     "analyze",
     "relationships",
     "sql",
+    "d3",
+    "mariadb",
+    "analysis",
     "mysql"
   ],
+  "private": false,
   "author": "amin@wavequery.com",
   "license": "MIT",
   "dependencies": {
