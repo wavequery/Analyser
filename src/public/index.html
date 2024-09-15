@@ -3,47 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Database Schema Visualization</title>
+    <title>Enhanced Database Schema Visualization</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <link rel="icon" href="data:," />
     <style>
       body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
+        background-color: #f0f0f0;
       }
       #controls {
         position: fixed;
         top: 10px;
         left: 10px;
         background: white;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
       }
       #schema-viz {
         width: 100vw;
         height: 100vh;
+        background-color: #ffffff;
       }
       .node {
         cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .node:hover {
+        stroke: #000;
+        stroke-width: 2px;
       }
       .link {
         stroke: #999;
         stroke-opacity: 0.6;
         stroke-width: 1px;
+        transition: all 0.3s ease;
       }
       .node text {
-        font-size: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        transition: all 0.3s ease;
       }
       #tooltip {
         position: absolute;
         background: white;
-        padding: 5px;
-        border-radius: 3px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         pointer-events: none;
         opacity: 0;
+        transition: opacity 0.3s ease;
+        max-width: 300px;
       }
       #sidebar {
         position: fixed;
@@ -51,26 +65,100 @@
         top: 10px;
         width: 300px;
         background: white;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
-        max-height: 90vh;
+        max-height: calc(100vh - 40px);
+        z-index: 1000;
       }
       .form-group {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
       .form-group label {
         display: block;
         margin-bottom: 5px;
+        font-weight: bold;
       }
       .form-group input,
       .form-group select {
         width: 100%;
-        padding: 5px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
       }
       #additionalInfo {
         margin-top: 20px;
+      }
+      button {
+        background-color: #000000;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #search {
+        width: 200px;
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .hidden {
+        opacity: 0.1;
+        pointer-events: none;
+      }
+      .node.highlight {
+        stroke: #0077ff;
+        stroke-width: 3px;
+      }
+      .link.highlight {
+        stroke: #bb4e27;
+        stroke-opacity: 1;
+        stroke-width: 2px;
+      }
+      .node.matched {
+        stroke: #ff4500;
+        stroke-width: 3px;
+        fill: #ff7f50;
+      }
+      .link.matched {
+        stroke: #ff4500;
+        stroke-opacity: 1;
+        stroke-width: 2px;
+      }
+      .labels text.matched {
+        fill: #ff4500;
+        font-weight: bold;
+      }
+      .node.connected-first {
+        stroke: #4169e1;
+        stroke-width: 2px;
+        fill: #6495ed;
+      }
+      .link.connected-first {
+        stroke: #4169e1;
+        stroke-opacity: 0.8;
+        stroke-width: 1.5px;
+      }
+      .labels text.connected-first {
+        fill: #4169e1;
+        font-weight: bold;
+      }
+      .node.connected,
+      .link.connected,
+      .labels text.connected {
+        opacity: 0.5;
+      }
+      .node.unmatched,
+      .link.unmatched,
+      .labels text.unmatched {
+        opacity: 0.1;
       }
     </style>
   </head>
@@ -81,6 +169,7 @@
       <button id="zoomOut">-</button>
       <button id="resetZoom">Reset</button>
       <input type="text" id="search" placeholder="Search tables..." />
+      <button id="clearSearch">Clear Search</button>
     </div>
     <div id="schema-viz"></div>
     <div id="tooltip"></div>
@@ -129,6 +218,12 @@
     </div>
     <script>
       let schemaData;
+      let simulation;
+      let link, node, text, hull;
+      let width, height;
+      let svg, g;
+      let zoom;
+
       document.addEventListener("DOMContentLoaded", function () {
         d3.json("/schema")
           .then((data) => {
@@ -145,291 +240,7 @@
               throw new Error("Invalid data structure");
             }
 
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-
-            const svg = d3
-              .select("#schema-viz")
-              .append("svg")
-              .attr("width", width)
-              .attr("height", height);
-
-            const g = svg.append("g");
-
-            const zoom = d3
-              .zoom()
-              .scaleExtent([0.1, 4])
-              .on("zoom", (event) => {
-                g.attr("transform", event.transform);
-              });
-
-            svg.call(zoom);
-
-            // Create a map of table names to table objects for quick lookup
-            const tableMap = new Map(
-              data.tables.map((table) => [table.name, table])
-            );
-
-            // Process relationships to ensure all referenced tables exist
-            const validRelationships = data.relationships.filter((rel) => {
-              const sourceExists = tableMap.has(rel.sourceTable);
-              const targetExists = tableMap.has(rel.targetTable);
-              if (!sourceExists)
-                console.warn(`Source table "${rel.sourceTable}" not found`);
-              if (!targetExists)
-                console.warn(`Target table "${rel.targetTable}" not found`);
-              return sourceExists && targetExists;
-            });
-
-            // Prepare data for D3
-            const nodes = data.tables.map((d) => ({ ...d }));
-            const links = validRelationships.map((d) => ({
-              ...d,
-              source: d.sourceTable,
-              target: d.targetTable,
-            }));
-
-            const simulation = d3
-              .forceSimulation(nodes)
-              .force(
-                "link",
-                d3
-                  .forceLink(links)
-                  .id((d) => d.name)
-                  .distance(100)
-              )
-              .force("charge", d3.forceManyBody().strength(-300))
-              .force("center", d3.forceCenter(width / 2, height / 2));
-
-            const link = g
-              .append("g")
-              .selectAll("line")
-              .data(links)
-              .enter()
-              .append("line")
-              .attr("class", "link");
-
-            const node = g
-              .append("g")
-              .selectAll("circle")
-              .data(nodes)
-              .enter()
-              .append("circle")
-              .attr("class", "node")
-              .attr("r", 5)
-              .call(
-                d3
-                  .drag()
-                  .on("start", dragstarted)
-                  .on("drag", dragged)
-                  .on("end", dragended)
-              );
-
-            const text = g
-              .append("g")
-              .selectAll("text")
-              .data(nodes)
-              .enter()
-              .append("text")
-              .attr("dx", 8)
-              .attr("dy", ".35em")
-              .text((d) => d.name);
-
-            node.on("mouseover", showTooltip).on("mouseout", hideTooltip);
-
-            simulation.on("tick", () => {
-              link
-                .attr("x1", (d) => d.source.x)
-                .attr("y1", (d) => d.source.y)
-                .attr("x2", (d) => d.target.x)
-                .attr("y2", (d) => d.target.y);
-
-              node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-
-              text.attr("x", (d) => d.x).attr("y", (d) => d.y);
-            });
-
-            function dragstarted(event, d) {
-              if (!event.active) simulation.alphaTarget(0.3).restart();
-              d.fx = d.x;
-              d.fy = d.y;
-            }
-
-            function dragged(event, d) {
-              d.fx = event.x;
-              d.fy = event.y;
-            }
-
-            function dragended(event, d) {
-              if (!event.active) simulation.alphaTarget(0);
-              d.fx = null;
-              d.fy = null;
-            }
-
-            function showTooltip(event, d) {
-              const tooltip = d3.select("#tooltip");
-              tooltip.transition().duration(200).style("opacity", 0.9);
-              tooltip
-                .html(
-                  `<strong>${d.name}</strong><br/>Columns: ${
-                    d.columns.length
-                  }<br/>Primary Keys: ${d.primaryKeys.join(", ")}`
-                )
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY - 28 + "px");
-            }
-
-            function hideTooltip() {
-              d3.select("#tooltip")
-                .transition()
-                .duration(500)
-                .style("opacity", 0);
-            }
-
-            // Zoom controls
-            d3.select("#zoomIn").on("click", () => {
-              svg.transition().call(zoom.scaleBy, 1.2);
-            });
-
-            d3.select("#zoomOut").on("click", () => {
-              svg.transition().call(zoom.scaleBy, 0.8);
-            });
-
-            d3.select("#resetZoom").on("click", () => {
-              svg.transition().call(zoom.transform, d3.zoomIdentity);
-            });
-
-            // Search functionality
-            d3.select("#search").on("input", function () {
-              const searchTerm = this.value.toLowerCase();
-              node.attr("r", (d) =>
-                d.name.toLowerCase().includes(searchTerm) ? 8 : 5
-              );
-              text.attr("font-weight", (d) =>
-                d.name.toLowerCase().includes(searchTerm) ? "bold" : "normal"
-              );
-            });
-
-            // _____ Sidebar functionality _____
-
-            // Populate additional information
-
-            function populateAdditionalInfo(data) {
-              // Junction Tables
-              const junctionTablesDiv =
-                document.getElementById("junctionTables");
-              junctionTablesDiv.innerHTML = "<h4>Junction Tables</h4>";
-              if (data.junctionTables && data.junctionTables.length > 0) {
-                const ul = document.createElement("ul");
-                data.junctionTables.forEach((table) => {
-                  const li = document.createElement("li");
-                  li.textContent = table;
-                  ul.appendChild(li);
-                });
-                junctionTablesDiv.appendChild(ul);
-              } else {
-                junctionTablesDiv.innerHTML +=
-                  "<p>No junction tables detected.</p>";
-              }
-
-              // Stored Procedures
-              const storedProceduresDiv =
-                document.getElementById("storedProcedures");
-              storedProceduresDiv.innerHTML = "<h4>Stored Procedures</h4>";
-              if (data.storedProcedures && data.storedProcedures.length > 0) {
-                const ul = document.createElement("ul");
-                data.storedProcedures.forEach((proc) => {
-                  const li = document.createElement("li");
-                  li.textContent = proc.name;
-                  ul.appendChild(li);
-                });
-                storedProceduresDiv.appendChild(ul);
-              } else {
-                storedProceduresDiv.innerHTML +=
-                  "<p>No stored procedures found.</p>";
-              }
-
-              // Views
-              const viewsDiv = document.getElementById("views");
-              viewsDiv.innerHTML = "<h4>Views</h4>";
-              if (data.views && data.views.length > 0) {
-                const ul = document.createElement("ul");
-                data.views.forEach((view) => {
-                  const li = document.createElement("li");
-                  li.textContent = view.name;
-                  ul.appendChild(li);
-                });
-                viewsDiv.appendChild(ul);
-              } else {
-                viewsDiv.innerHTML += "<p>No views found.</p>";
-              }
-            }
-
-            const tableSelects = document.querySelectorAll(
-              "#sourceTable, #targetTable, #annotationTable"
-            );
-            tableSelects.forEach((select) => {
-              data.tables.forEach((table) => {
-                const option = document.createElement("option");
-                option.value = table.name;
-                option.textContent = table.name;
-                select.appendChild(option);
-              });
-            });
-
-            // Add relationship form submission
-            document
-              .getElementById("addRelationshipForm")
-              .addEventListener("submit", function (e) {
-                e.preventDefault();
-                const newRelationship = {
-                  sourceTable: document.getElementById("sourceTable").value,
-                  sourceColumn: document.getElementById("sourceColumn").value,
-                  targetTable: document.getElementById("targetTable").value,
-                  targetColumn: document.getElementById("targetColumn").value,
-                };
-                schemaData.relationships.push(newRelationship);
-                updateVisualization();
-              });
-
-            // Add annotation form submission
-            document
-              .getElementById("addAnnotationForm")
-              .addEventListener("submit", function (e) {
-                e.preventDefault();
-                const tableName =
-                  document.getElementById("annotationTable").value;
-                const annotationText =
-                  document.getElementById("annotationText").value;
-                const table = schemaData.tables.find(
-                  (t) => t.name === tableName
-                );
-                if (table) {
-                  if (!table.annotations) table.annotations = [];
-                  table.annotations.push(annotationText);
-                  updateVisualization();
-                }
-              });
-
-            // Download JSON button
-            document
-              .getElementById("downloadJson")
-              .addEventListener("click", function () {
-                const dataStr =
-                  "data:text/json;charset=utf-8," +
-                  encodeURIComponent(JSON.stringify(schemaData, null, 2));
-                const downloadAnchorNode = document.createElement("a");
-                downloadAnchorNode.setAttribute("href", dataStr);
-                downloadAnchorNode.setAttribute("download", "schema.json");
-                document.body.appendChild(downloadAnchorNode);
-                downloadAnchorNode.click();
-                downloadAnchorNode.remove();
-              });
-
-            function updateVisualization() {
-              // Re-run the visualization with the updated schemaData
-              // This function would need to be implemented to refresh the D3 visualization
-            }
+            initializeVisualization();
           })
           .catch((error) => {
             console.error("Error loading schema data:", error);
@@ -437,6 +248,366 @@
               "Error loading schema data: " + error.message;
           });
       });
+
+      function validateData(data) {
+        return (
+          data &&
+          Array.isArray(data.tables) &&
+          Array.isArray(data.relationships)
+        );
+      }
+
+      function initializeVisualization() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        svg = d3
+          .select("#schema-viz")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        g = svg.append("g");
+
+        zoom = d3
+          .zoom()
+          .scaleExtent([0.1, 4])
+          .on("zoom", (event) => {
+            g.attr("transform", event.transform);
+          });
+
+        svg.call(zoom);
+
+        const nodes = schemaData.tables.map((d) => ({ ...d }));
+        const links = createLinks(schemaData.relationships, nodes);
+
+        simulation = d3
+          .forceSimulation(nodes)
+          .force(
+            "link",
+            d3
+              .forceLink(links)
+              .id((d) => d.name)
+              .distance(100)
+          )
+          .force("charge", d3.forceManyBody().strength(-500))
+          .force("center", d3.forceCenter(width / 2, height / 2))
+          .force("collide", d3.forceCollide().radius(50))
+          .alphaDecay(0.02);
+
+        renderVisualization(nodes, links);
+        setupEventListeners();
+      }
+
+      function createLinks(relationships, nodes) {
+        const nodeMap = new Map(nodes.map((node) => [node.name, node]));
+        return relationships
+          .map((rel) => ({
+            source: nodeMap.get(rel.sourceTable),
+            target: nodeMap.get(rel.targetTable),
+            ...rel,
+          }))
+          .filter((link) => link.source && link.target);
+      }
+
+      function renderVisualization(nodes, links) {
+        const link = g
+          .append("g")
+          .attr("class", "links")
+          .selectAll("line")
+          .data(links)
+          .enter()
+          .append("line")
+          .attr("class", "link");
+
+        const node = g
+          .append("g")
+          .attr("class", "nodes")
+          .selectAll("circle")
+          .data(nodes)
+          .enter()
+          .append("circle")
+          .attr("class", "node")
+          .attr("r", 5)
+          .call(
+            d3
+              .drag()
+              .on("start", dragstarted)
+              .on("drag", dragged)
+              .on("end", dragended)
+          );
+
+        const text = g
+          .append("g")
+          .attr("class", "labels")
+          .selectAll("text")
+          .data(nodes)
+          .enter()
+          .append("text")
+          .attr("dx", 8)
+          .attr("dy", ".35em")
+          .text((d) => d.name);
+
+        node.on("mouseover", showTooltip).on("mouseout", hideTooltip);
+
+        simulation.on("tick", () => {
+          link
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+
+          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+          text.attr("x", (d) => d.x).attr("y", (d) => d.y);
+        });
+      }
+
+      function setupEventListeners() {
+        d3.select("#zoomIn").on("click", () => {
+          svg.transition().call(zoom.scaleBy, 1.2);
+        });
+
+        d3.select("#zoomOut").on("click", () => {
+          svg.transition().call(zoom.scaleBy, 0.8);
+        });
+
+        d3.select("#resetZoom").on("click", () => {
+          svg.transition().call(zoom.transform, d3.zoomIdentity);
+        });
+
+        d3.select("#search").on("input", handleSearch);
+        d3.select("#clearSearch").on("click", clearSearch);
+      }
+
+      function handleSearch() {
+        const searchTerm = this.value.toLowerCase();
+        const nodes = d3.selectAll(".node");
+        const links = d3.selectAll(".link");
+        const labels = d3.selectAll(".labels text");
+
+        if (searchTerm === "") {
+          nodes
+            .classed("matched", false)
+            .classed("connected-first", false)
+            .classed("connected", false)
+            .classed("unmatched", false);
+          links
+            .classed("matched", false)
+            .classed("connected-first", false)
+            .classed("connected", false)
+            .classed("unmatched", false);
+          labels
+            .classed("matched", false)
+            .classed("connected-first", false)
+            .classed("connected", false)
+            .classed("unmatched", false);
+        } else {
+          const matchedNodes = new Set();
+          const connectedFirstNodes = new Set();
+          const connectedNodes = new Set();
+
+          nodes.each(function (d) {
+            const isMatch = d.name.toLowerCase().includes(searchTerm);
+            if (isMatch) {
+              matchedNodes.add(d.name);
+            }
+          });
+
+          // Find first layer of connected nodes
+          matchedNodes.forEach((nodeName) => {
+            findConnectedNodes(nodeName, connectedFirstNodes);
+          });
+
+          // Find second layer of connected nodes
+          connectedFirstNodes.forEach((nodeName) => {
+            if (!matchedNodes.has(nodeName)) {
+              findConnectedNodes(nodeName, connectedNodes);
+            }
+          });
+
+          nodes
+            .classed("matched", (d) => matchedNodes.has(d.name))
+            .classed(
+              "connected-first",
+              (d) =>
+                !matchedNodes.has(d.name) && connectedFirstNodes.has(d.name)
+            )
+            .classed(
+              "connected",
+              (d) =>
+                !matchedNodes.has(d.name) &&
+                !connectedFirstNodes.has(d.name) &&
+                connectedNodes.has(d.name)
+            )
+            .classed(
+              "unmatched",
+              (d) =>
+                !matchedNodes.has(d.name) &&
+                !connectedFirstNodes.has(d.name) &&
+                !connectedNodes.has(d.name)
+            );
+
+          links
+            .classed(
+              "matched",
+              (d) =>
+                matchedNodes.has(d.source.name) &&
+                matchedNodes.has(d.target.name)
+            )
+            .classed(
+              "connected-first",
+              (d) =>
+                (matchedNodes.has(d.source.name) ||
+                  matchedNodes.has(d.target.name)) &&
+                (connectedFirstNodes.has(d.source.name) ||
+                  connectedFirstNodes.has(d.target.name))
+            )
+            .classed(
+              "connected",
+              (d) =>
+                connectedFirstNodes.has(d.source.name) ||
+                connectedFirstNodes.has(d.target.name) ||
+                connectedNodes.has(d.source.name) ||
+                connectedNodes.has(d.target.name)
+            )
+            .classed(
+              "unmatched",
+              (d) =>
+                !matchedNodes.has(d.source.name) &&
+                !matchedNodes.has(d.target.name) &&
+                !connectedFirstNodes.has(d.source.name) &&
+                !connectedFirstNodes.has(d.target.name) &&
+                !connectedNodes.has(d.source.name) &&
+                !connectedNodes.has(d.target.name)
+            );
+
+          labels
+            .classed("matched", (d) => matchedNodes.has(d.name))
+            .classed(
+              "connected-first",
+              (d) =>
+                !matchedNodes.has(d.name) && connectedFirstNodes.has(d.name)
+            )
+            .classed(
+              "connected",
+              (d) =>
+                !matchedNodes.has(d.name) &&
+                !connectedFirstNodes.has(d.name) &&
+                connectedNodes.has(d.name)
+            )
+            .classed(
+              "unmatched",
+              (d) =>
+                !matchedNodes.has(d.name) &&
+                !connectedFirstNodes.has(d.name) &&
+                !connectedNodes.has(d.name)
+            );
+        }
+      }
+
+      function clearSearch() {
+        d3.select("#search").property("value", "");
+        d3.selectAll(".node, .link, .labels text")
+          .classed("matched", false)
+          .classed("connected-first", false)
+          .classed("connected", false)
+          .classed("unmatched", false);
+      }
+
+      function findConnectedNodes(nodeName, matchedNodes) {
+        schemaData.relationships.forEach((rel) => {
+          if (rel.sourceTable === nodeName) {
+            matchedNodes.add(rel.targetTable);
+          } else if (rel.targetTable === nodeName) {
+            matchedNodes.add(rel.sourceTable);
+          }
+        });
+      }
+
+      function showTooltip(event, d) {
+        const tooltip = d3.select("#tooltip");
+        tooltip.transition().duration(200).style("opacity", 0.9);
+        tooltip
+          .html(
+            `
+        <strong>${d.name}</strong><br/>
+        Columns: ${d.columns.length}<br/>
+        Primary Keys: ${d.primaryKeys.join(", ")}<br/>
+        ${d.annotations ? `Annotations: ${d.annotations.join(", ")}` : ""}
+    `
+          )
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
+      }
+
+      function hideTooltip() {
+        d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+      }
+
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      }
+
+      function populateAdditionalInfo(data) {
+        // Junction Tables
+        const junctionTablesDiv = document.getElementById("junctionTables");
+        junctionTablesDiv.innerHTML = "<h4>Junction Tables</h4>";
+        if (data.junctionTables && data.junctionTables.length > 0) {
+          const ul = document.createElement("ul");
+          data.junctionTables.forEach((table) => {
+            const li = document.createElement("li");
+            li.textContent = table;
+            ul.appendChild(li);
+          });
+          junctionTablesDiv.appendChild(ul);
+        } else {
+          junctionTablesDiv.innerHTML += "<p>No junction tables detected.</p>";
+        }
+
+        // Stored Procedures
+        const storedProceduresDiv = document.getElementById("storedProcedures");
+        storedProceduresDiv.innerHTML = "<h4>Stored Procedures</h4>";
+        if (data.storedProcedures && data.storedProcedures.length > 0) {
+          const ul = document.createElement("ul");
+          data.storedProcedures.forEach((proc) => {
+            const li = document.createElement("li");
+            li.textContent = proc.name;
+            ul.appendChild(li);
+          });
+          storedProceduresDiv.appendChild(ul);
+        } else {
+          storedProceduresDiv.innerHTML += "<p>No stored procedures found.</p>";
+        }
+
+        // Views
+        const viewsDiv = document.getElementById("views");
+        viewsDiv.innerHTML = "<h4>Views</h4>";
+        if (data.views && data.views.length > 0) {
+          const ul = document.createElement("ul");
+          data.views.forEach((view) => {
+            const li = document.createElement("li");
+            li.textContent = view.name;
+            ul.appendChild(li);
+          });
+          viewsDiv.appendChild(ul);
+        } else {
+          viewsDiv.innerHTML += "<p>No views found.</p>";
+        }
+      }
     </script>
   </body>
 </html>
