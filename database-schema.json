@@ -1,7 +1,7 @@
 {
   "tables": [
     {
-      "name": "user_role_mappings",
+      "name": "user_roles",
       "columns": [
         {
           "name": "user_id",
@@ -22,36 +22,36 @@
       ],
       "indexes": [
         {
-          "name": "user_role_mappings_pkey",
+          "name": "user_roles_pkey",
           "columnName": "user_id",
           "isUnique": true
         },
         {
-          "name": "user_role_mappings_pkey",
+          "name": "user_roles_pkey",
           "columnName": "role_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "user_role_mappings_pkey",
+          "name": "user_roles_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "user_role_mappings_user_id_fkey",
+          "name": "user_roles_user_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "user_role_mappings_role_id_fkey",
+          "name": "user_roles_role_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "user_profiles",
+      "name": "user_addresses",
       "columns": [
         {
-          "name": "profile_id",
+          "name": "address_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
@@ -63,56 +63,65 @@
           "isPrimaryKey": false
         },
         {
-          "name": "first_name",
+          "name": "address_line1",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "address_line2",
           "type": "character varying",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "last_name",
+          "name": "city",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "state",
           "type": "character varying",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "phone_number",
+          "name": "postal_code",
           "type": "character varying",
-          "isNullable": true,
+          "isNullable": false,
           "isPrimaryKey": false
         },
         {
-          "name": "birth_date",
-          "type": "date",
+          "name": "country",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "is_default",
+          "type": "boolean",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "profile_id"
+        "address_id"
       ],
       "indexes": [
         {
-          "name": "user_profiles_pkey",
-          "columnName": "profile_id",
-          "isUnique": true
-        },
-        {
-          "name": "user_profiles_user_id_key",
-          "columnName": "user_id",
+          "name": "user_addresses_pkey",
+          "columnName": "address_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "user_profiles_pkey",
+          "name": "user_addresses_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "user_profiles_user_id_key",
-          "type": "UNIQUE"
-        },
-        {
-          "name": "user_profiles_user_id_fkey",
+          "name": "user_addresses_user_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
@@ -165,55 +174,6 @@
       ]
     },
     {
-      "name": "product_images",
-      "columns": [
-        {
-          "name": "image_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "image_url",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_primary",
-          "type": "boolean",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "image_id"
-      ],
-      "indexes": [
-        {
-          "name": "product_images_pkey",
-          "columnName": "image_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "product_images_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "product_images_product_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
       "name": "product_attribute_values",
       "columns": [
         {
@@ -230,7 +190,7 @@
         },
         {
           "name": "value",
-          "type": "character varying",
+          "type": "text",
           "isNullable": false,
           "isPrimaryKey": false
         }
@@ -267,6 +227,59 @@
       ]
     },
     {
+      "name": "variant_attribute_values",
+      "columns": [
+        {
+          "name": "variant_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "attribute_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "value",
+          "type": "text",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "variant_id",
+        "attribute_id"
+      ],
+      "indexes": [
+        {
+          "name": "variant_attribute_values_pkey",
+          "columnName": "variant_id",
+          "isUnique": true
+        },
+        {
+          "name": "variant_attribute_values_pkey",
+          "columnName": "attribute_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "variant_attribute_values_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "variant_attribute_values_variant_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "variant_attribute_values_attribute_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
       "name": "inventory_transactions",
       "columns": [
         {
@@ -282,6 +295,12 @@
           "isPrimaryKey": false
         },
         {
+          "name": "variant_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
           "name": "supplier_id",
           "type": "integer",
           "isNullable": true,
@@ -290,6 +309,12 @@
         {
           "name": "quantity",
           "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "unit_price",
+          "type": "numeric",
           "isNullable": false,
           "isPrimaryKey": false
         },
@@ -326,6 +351,10 @@
           "type": "FOREIGN KEY"
         },
         {
+          "name": "inventory_transactions_variant_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
           "name": "inventory_transactions_supplier_id_fkey",
           "type": "FOREIGN KEY"
         }
@@ -353,6 +382,12 @@
           "isPrimaryKey": false
         },
         {
+          "name": "variant_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
           "name": "quantity",
           "type": "integer",
           "isNullable": false,
@@ -373,6 +408,11 @@
           "name": "order_items_pkey",
           "columnName": "order_item_id",
           "isUnique": true
+        },
+        {
+          "name": "idx_order_items_order_id",
+          "columnName": "order_id",
+          "isUnique": false
         }
       ],
       "constraints": [
@@ -386,6 +426,59 @@
         },
         {
           "name": "order_items_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "order_items_variant_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "order_statuses",
+      "columns": [
+        {
+          "name": "status_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "status_id"
+      ],
+      "indexes": [
+        {
+          "name": "order_statuses_pkey",
+          "columnName": "status_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "order_statuses_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "order_statuses_order_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
@@ -418,15 +511,21 @@
           "isPrimaryKey": false
         },
         {
-          "name": "payment_date",
-          "type": "timestamp without time zone",
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "transaction_id",
+          "type": "character varying",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "status",
-          "type": "character varying",
-          "isNullable": false,
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
           "isPrimaryKey": false
         }
       ],
@@ -477,25 +576,19 @@
           "isPrimaryKey": false
         },
         {
-          "name": "address_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
           "name": "tracking_number",
           "type": "character varying",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "shipped_date",
+          "name": "shipped_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "estimated_delivery_date",
+          "name": "delivered_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
@@ -522,10 +615,6 @@
         },
         {
           "name": "shipments_shipping_method_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "shipments_address_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
@@ -554,17 +643,23 @@
         {
           "name": "rating",
           "type": "integer",
-          "isNullable": false,
+          "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "review_text",
+          "name": "title",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "content",
           "type": "text",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "review_date",
+          "name": "created_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
@@ -578,6 +673,11 @@
           "name": "product_reviews_pkey",
           "columnName": "review_id",
           "isUnique": true
+        },
+        {
+          "name": "idx_product_reviews_product_id",
+          "columnName": "product_id",
+          "isUnique": false
         }
       ],
       "constraints": [
@@ -700,10 +800,10 @@
       ]
     },
     {
-      "name": "ticket_responses",
+      "name": "ticket_messages",
       "columns": [
         {
-          "name": "response_id",
+          "name": "message_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
@@ -721,9 +821,9 @@
           "isPrimaryKey": false
         },
         {
-          "name": "response_text",
+          "name": "message",
           "type": "text",
-          "isNullable": true,
+          "isNullable": false,
           "isPrimaryKey": false
         },
         {
@@ -734,87 +834,27 @@
         }
       ],
       "primaryKeys": [
-        "response_id"
+        "message_id"
       ],
       "indexes": [
         {
-          "name": "ticket_responses_pkey",
-          "columnName": "response_id",
+          "name": "ticket_messages_pkey",
+          "columnName": "message_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "ticket_responses_pkey",
+          "name": "ticket_messages_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "ticket_responses_ticket_id_fkey",
+          "name": "ticket_messages_ticket_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "ticket_responses_user_id_fkey",
+          "name": "ticket_messages_user_id_fkey",
           "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "seo_metadata",
-      "columns": [
-        {
-          "name": "metadata_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "page_url",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "title",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "keywords",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "metadata_id"
-      ],
-      "indexes": [
-        {
-          "name": "seo_metadata_pkey",
-          "columnName": "metadata_id",
-          "isUnique": true
-        },
-        {
-          "name": "seo_metadata_page_url_key",
-          "columnName": "page_url",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "seo_metadata_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "seo_metadata_page_url_key",
-          "type": "UNIQUE"
         }
       ]
     },
@@ -828,26 +868,26 @@
           "isPrimaryKey": true
         },
         {
-          "name": "page_url",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
           "name": "user_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "view_date",
+          "name": "url",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "viewed_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
           "name": "ip_address",
-          "type": "character varying",
+          "type": "inet",
           "isNullable": true,
           "isPrimaryKey": false
         }
@@ -860,6 +900,11 @@
           "name": "page_views_pkey",
           "columnName": "view_id",
           "isUnique": true
+        },
+        {
+          "name": "idx_page_views_user_id",
+          "columnName": "user_id",
+          "isUnique": false
         }
       ],
       "constraints": [
@@ -874,7 +919,154 @@
       ]
     },
     {
-      "name": "user_roles",
+      "name": "abandoned_cart_items",
+      "columns": [
+        {
+          "name": "cart_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "variant_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "quantity",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "cart_id",
+        "product_id",
+        "variant_id"
+      ],
+      "indexes": [
+        {
+          "name": "abandoned_cart_items_pkey",
+          "columnName": "cart_id",
+          "isUnique": true
+        },
+        {
+          "name": "abandoned_cart_items_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        },
+        {
+          "name": "abandoned_cart_items_pkey",
+          "columnName": "variant_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "abandoned_cart_items_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "abandoned_cart_items_cart_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "abandoned_cart_items_product_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "abandoned_cart_items_variant_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "cms_pages",
+      "columns": [
+        {
+          "name": "page_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "slug",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "meta_title",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "meta_description",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "page_id"
+      ],
+      "indexes": [
+        {
+          "name": "cms_pages_pkey",
+          "columnName": "page_id",
+          "isUnique": true
+        },
+        {
+          "name": "cms_pages_slug_key",
+          "columnName": "slug",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "cms_pages_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "cms_pages_slug_key",
+          "type": "UNIQUE"
+        }
+      ]
+    },
+    {
+      "name": "roles",
       "columns": [
         {
           "name": "role_id",
@@ -894,23 +1086,23 @@
       ],
       "indexes": [
         {
-          "name": "user_roles_pkey",
+          "name": "roles_pkey",
           "columnName": "role_id",
           "isUnique": true
         },
         {
-          "name": "user_roles_role_name_key",
+          "name": "roles_role_name_key",
           "columnName": "role_name",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "user_roles_pkey",
+          "name": "roles_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "user_roles_role_name_key",
+          "name": "roles_role_name_key",
           "type": "UNIQUE"
         }
       ]
@@ -937,6 +1129,12 @@
           "isPrimaryKey": false
         },
         {
+          "name": "slug",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
           "name": "description",
           "type": "text",
           "isNullable": true,
@@ -951,12 +1149,21 @@
           "name": "categories_pkey",
           "columnName": "category_id",
           "isUnique": true
+        },
+        {
+          "name": "categories_slug_key",
+          "columnName": "slug",
+          "isUnique": true
         }
       ],
       "constraints": [
         {
           "name": "categories_pkey",
           "type": "PRIMARY KEY"
+        },
+        {
+          "name": "categories_slug_key",
+          "type": "UNIQUE"
         },
         {
           "name": "categories_parent_category_id_fkey",
@@ -975,6 +1182,12 @@
         },
         {
           "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "type",
           "type": "character varying",
           "isNullable": false,
           "isPrimaryKey": false
@@ -1062,6 +1275,12 @@
           "type": "character varying",
           "isNullable": false,
           "isPrimaryKey": false
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1101,6 +1320,12 @@
           "type": "numeric",
           "isNullable": false,
           "isPrimaryKey": false
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1117,85 +1342,6 @@
         {
           "name": "shipping_methods_pkey",
           "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "addresses",
-      "columns": [
-        {
-          "name": "address_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "address_line1",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "address_line2",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "city",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "state",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "postal_code",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "country",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_default",
-          "type": "boolean",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "address_id"
-      ],
-      "indexes": [
-        {
-          "name": "addresses_pkey",
-          "columnName": "address_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "addresses_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "addresses_user_id_fkey",
-          "type": "FOREIGN KEY"
         }
       ]
     },
@@ -1249,124 +1395,6 @@
       ]
     },
     {
-      "name": "products",
-      "columns": [
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "price",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "stock_quantity",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "updated_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "product_id"
-      ],
-      "indexes": [
-        {
-          "name": "products_pkey",
-          "columnName": "product_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "products_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "orders",
-      "columns": [
-        {
-          "name": "order_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "order_date",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "total_amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "status",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "order_id"
-      ],
-      "indexes": [
-        {
-          "name": "orders_pkey",
-          "columnName": "order_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "orders_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "orders_user_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
       "name": "coupons",
       "columns": [
         {
@@ -1382,6 +1410,12 @@
           "isPrimaryKey": false
         },
         {
+          "name": "description",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
           "name": "discount_type",
           "type": "character varying",
           "isNullable": false,
@@ -1394,20 +1428,32 @@
           "isPrimaryKey": false
         },
         {
+          "name": "min_purchase_amount",
+          "type": "numeric",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
           "name": "start_date",
-          "type": "timestamp without time zone",
+          "type": "date",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
           "name": "end_date",
-          "type": "timestamp without time zone",
+          "type": "date",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
           "name": "usage_limit",
           "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
           "isNullable": true,
           "isPrimaryKey": false
         }
@@ -1449,6 +1495,12 @@
         },
         {
           "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "order_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
@@ -1502,6 +1554,278 @@
         {
           "name": "support_tickets_user_id_fkey",
           "type": "FOREIGN KEY"
+        },
+        {
+          "name": "support_tickets_order_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "abandoned_carts",
+      "columns": [
+        {
+          "name": "cart_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "cart_id"
+      ],
+      "indexes": [
+        {
+          "name": "abandoned_carts_pkey",
+          "columnName": "cart_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "abandoned_carts_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "abandoned_carts_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "product_variants",
+      "columns": [
+        {
+          "name": "variant_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "sku",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "stock_quantity",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "variant_id"
+      ],
+      "indexes": [
+        {
+          "name": "product_variants_pkey",
+          "columnName": "variant_id",
+          "isUnique": true
+        },
+        {
+          "name": "product_variants_sku_key",
+          "columnName": "sku",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "product_variants_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "product_variants_sku_key",
+          "type": "UNIQUE"
+        },
+        {
+          "name": "product_variants_product_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "total_amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "order_id"
+      ],
+      "indexes": [
+        {
+          "name": "orders_pkey",
+          "columnName": "order_id",
+          "isUnique": true
+        },
+        {
+          "name": "idx_orders_user_id",
+          "columnName": "user_id",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "orders_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "orders_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "sku",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "cost",
+          "type": "numeric",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "stock_quantity",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "product_id"
+      ],
+      "indexes": [
+        {
+          "name": "products_pkey",
+          "columnName": "product_id",
+          "isUnique": true
+        },
+        {
+          "name": "products_sku_key",
+          "columnName": "sku",
+          "isUnique": true
+        },
+        {
+          "name": "idx_products_name",
+          "columnName": "name",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "products_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "products_sku_key",
+          "type": "UNIQUE"
         }
       ]
     },
@@ -1515,12 +1839,6 @@
           "isPrimaryKey": true
         },
         {
-          "name": "username",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
           "name": "email",
           "type": "character varying",
           "isNullable": false,
@@ -1530,6 +1848,18 @@
           "name": "password_hash",
           "type": "character varying",
           "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "first_name",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "last_name",
+          "type": "character varying",
+          "isNullable": true,
           "isPrimaryKey": false
         },
         {
@@ -1555,11 +1885,6 @@
           "isUnique": true
         },
         {
-          "name": "users_username_key",
-          "columnName": "username",
-          "isUnique": true
-        },
-        {
           "name": "users_email_key",
           "columnName": "email",
           "isUnique": true
@@ -1571,10 +1896,6 @@
           "type": "PRIMARY KEY"
         },
         {
-          "name": "users_username_key",
-          "type": "UNIQUE"
-        },
-        {
           "name": "users_email_key",
           "type": "UNIQUE"
         }
@@ -1583,21 +1904,21 @@
   ],
   "relationships": [
     {
-      "sourceTable": "user_role_mappings",
+      "sourceTable": "user_roles",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
       "isInferred": false
     },
     {
-      "sourceTable": "user_role_mappings",
+      "sourceTable": "user_roles",
       "sourceColumn": "role_id",
-      "targetTable": "user_roles",
+      "targetTable": "roles",
       "targetColumn": "role_id",
       "isInferred": false
     },
     {
-      "sourceTable": "user_profiles",
+      "sourceTable": "user_addresses",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
@@ -1625,13 +1946,6 @@
       "isInferred": false
     },
     {
-      "sourceTable": "product_images",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
-    },
-    {
       "sourceTable": "product_attribute_values",
       "sourceColumn": "product_id",
       "targetTable": "products",
@@ -1646,10 +1960,38 @@
       "isInferred": false
     },
     {
+      "sourceTable": "product_variants",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "variant_attribute_values",
+      "sourceColumn": "variant_id",
+      "targetTable": "product_variants",
+      "targetColumn": "variant_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "variant_attribute_values",
+      "sourceColumn": "attribute_id",
+      "targetTable": "product_attributes",
+      "targetColumn": "attribute_id",
+      "isInferred": false
+    },
+    {
       "sourceTable": "inventory_transactions",
       "sourceColumn": "product_id",
       "targetTable": "products",
       "targetColumn": "product_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "inventory_transactions",
+      "sourceColumn": "variant_id",
+      "targetTable": "product_variants",
+      "targetColumn": "variant_id",
       "isInferred": false
     },
     {
@@ -1681,6 +2023,20 @@
       "isInferred": false
     },
     {
+      "sourceTable": "order_items",
+      "sourceColumn": "variant_id",
+      "targetTable": "product_variants",
+      "targetColumn": "variant_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "order_statuses",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id",
+      "isInferred": false
+    },
+    {
       "sourceTable": "payments",
       "sourceColumn": "order_id",
       "targetTable": "orders",
@@ -1695,13 +2051,6 @@
       "isInferred": false
     },
     {
-      "sourceTable": "addresses",
-      "sourceColumn": "user_id",
-      "targetTable": "users",
-      "targetColumn": "user_id",
-      "isInferred": false
-    },
-    {
       "sourceTable": "shipments",
       "sourceColumn": "order_id",
       "targetTable": "orders",
@@ -1713,13 +2062,6 @@
       "sourceColumn": "shipping_method_id",
       "targetTable": "shipping_methods",
       "targetColumn": "shipping_method_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "shipments",
-      "sourceColumn": "address_id",
-      "targetTable": "addresses",
-      "targetColumn": "address_id",
       "isInferred": false
     },
     {
@@ -1779,14 +2121,21 @@
       "isInferred": false
     },
     {
-      "sourceTable": "ticket_responses",
+      "sourceTable": "support_tickets",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "ticket_messages",
       "sourceColumn": "ticket_id",
       "targetTable": "support_tickets",
       "targetColumn": "ticket_id",
       "isInferred": false
     },
     {
-      "sourceTable": "ticket_responses",
+      "sourceTable": "ticket_messages",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
@@ -1800,10 +2149,45 @@
       "isInferred": false
     },
     {
+      "sourceTable": "abandoned_carts",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "abandoned_cart_items",
+      "sourceColumn": "cart_id",
+      "targetTable": "abandoned_carts",
+      "targetColumn": "cart_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "abandoned_cart_items",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "abandoned_cart_items",
+      "sourceColumn": "variant_id",
+      "targetTable": "product_variants",
+      "targetColumn": "variant_id",
+      "isInferred": false
+    },
+    {
       "sourceTable": "users",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "roles",
+      "sourceColumn": "role_id",
+      "targetTable": "roles",
+      "targetColumn": "role_id",
       "isInferred": true
     },
     {
@@ -1883,14 +2267,30 @@
     ]
   ],
   "junctionTables": [
-    "user_role_mappings",
+    "user_roles",
     "product_categories",
     "product_attribute_values",
+    "variant_attribute_values",
     "order_items",
+    "wishlists",
     "wishlist_items",
     "order_coupons",
-    "ticket_responses"
+    "abandoned_cart_items"
   ],
-  "storedProcedures": [],
-  "views": []
+  "storedProcedures": [
+    {
+      "name": "update_product_stock",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_product_stock()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n    UPDATE products\n    SET stock_quantity = stock_quantity - NEW.quantity\n    WHERE product_id = NEW.product_id;\n    RETURN NEW;\nEND;\n$function$\n"
+    }
+  ],
+  "views": [
+    {
+      "name": "popular_products",
+      "definition": " SELECT p.product_id,\n    p.name,\n    p.price,\n    count(oi.order_item_id) AS order_count\n   FROM (products p\n     LEFT JOIN order_items oi ON ((p.product_id = oi.product_id)))\n  GROUP BY p.product_id, p.name, p.price\n  ORDER BY (count(oi.order_item_id)) DESC;"
+    },
+    {
+      "name": "category_sales",
+      "definition": " SELECT c.category_id,\n    c.name,\n    sum(((oi.quantity)::numeric * oi.price)) AS total_sales\n   FROM (((categories c\n     JOIN product_categories pc ON ((c.category_id = pc.category_id)))\n     JOIN products p ON ((pc.product_id = p.product_id)))\n     JOIN order_items oi ON ((p.product_id = oi.product_id)))\n  GROUP BY c.category_id, c.name\n  ORDER BY (sum(((oi.quantity)::numeric * oi.price))) DESC;"
+    }
+  ]
 }

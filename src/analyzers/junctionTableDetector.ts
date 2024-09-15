@@ -1,5 +1,19 @@
 import { Table, Relationship } from "../schemas/tableSchema";
 
+function isLikelyMetadata(columnName: string): boolean {
+  const metadataPatterns = [
+    /^(created|updated|modified)(_at)?$/i,
+    /^(timestamp|date)$/i,
+    /^(quantity|amount|price|cost)$/i,
+    /^(status|type)$/i,
+  ];
+  return metadataPatterns.some((pattern) => pattern.test(columnName));
+}
+
+function isLikelyIdentifier(columnName: string): boolean {
+  return /id$/i.test(columnName) && columnName.toLowerCase() !== "id";
+}
+
 export function detectJunctionTables(
   tables: Table[],
   relationships: Relationship[]
@@ -7,20 +21,45 @@ export function detectJunctionTables(
   const junctionTables: string[] = [];
 
   tables.forEach((table) => {
-    // Check if the table has at least two foreign keys
+    // Get foreign keys for this table
     const foreignKeys = relationships.filter(
       (rel) => rel.sourceTable === table.name
     );
-    if (foreignKeys.length >= 2) {
-      // Check if the majority of columns are either part of a primary key or a foreign key
-      const keyColumns = table.columns.filter(
-        (col) =>
-          table.primaryKeys.includes(col.name) ||
-          foreignKeys.some((fk) => fk.sourceColumn === col.name)
-      );
 
-      if (keyColumns.length >= table.columns.length * 0.6) {
-        // At least 60% of columns are keys
+    // Check if the table has at least two foreign keys
+    if (foreignKeys.length >= 2) {
+      const totalColumns = table.columns.length;
+      const primaryKeyColumns = table.primaryKeys.length;
+      const foreignKeyColumns = new Set(
+        foreignKeys.map((fk) => fk.sourceColumn)
+      ).size;
+
+      // Count likely metadata columns
+      const metadataColumns = table.columns.filter(
+        (col) =>
+          !table.primaryKeys.includes(col.name) &&
+          !foreignKeys.some((fk) => fk.sourceColumn === col.name) &&
+          (isLikelyMetadata(col.name) || isLikelyIdentifier(col.name))
+      ).length;
+
+      // Calculate the ratio of foreign key columns to total columns
+      const foreignKeyRatio = foreignKeyColumns / totalColumns;
+
+      // Calculate the ratio of non-key, non-metadata columns
+      const nonKeyNonMetadataRatio =
+        (totalColumns -
+          primaryKeyColumns -
+          foreignKeyColumns -
+          metadataColumns) /
+        totalColumns;
+
+      // Determine if it's a junction table based on specific criteria
+      if (
+        foreignKeys.length >= 2 &&
+        foreignKeyRatio >= 0.5 &&
+        nonKeyNonMetadataRatio <= 0.2 &&
+        totalColumns <= 7
+      ) {
         junctionTables.push(table.name);
       }
     }
