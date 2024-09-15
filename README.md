@@ -2,7 +2,7 @@
 
 WaveQuery Database Analyzer is a powerful tool for analyzing and visualizing database schemas. It supports MySQL, PostgreSQL, MariaDB, and SQLite databases, providing detailed information about tables, relationships, indexes, constraints, stored procedures, and views.
 
-![DEMO](./demo_v0.gif)
+![DEMO](./assets/demo_v0.gif)
 
 ## Features
 
@@ -54,8 +54,8 @@ After running the command, open a web browser and navigate to the URL provided i
 You can also use DB Schema Finder as a library in your own projects. Here's a basic example:
 
 ```javascript
-import { analyzeDatabase } from 'db-schema-finder';
-import { PostgresConnector } from 'db-schema-finder/connectors';
+import { analyzeDatabase } from '@wavequery/analyser';
+import { PostgresConnector } from '@wavequery/analyser';
 
 async function runAnalysis() {
   const connector = new PostgresConnector({
