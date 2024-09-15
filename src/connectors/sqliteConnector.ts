@@ -49,11 +49,13 @@ export class SQLiteConnector implements DatabaseConnector {
       name: string;
       type: string;
       notnull: number;
+      pk: number;
     }>(sql, [tableName]);
     return result.map((row) => ({
       name: row.name,
       type: row.type,
       isNullable: row.notnull === 0,
+      isPrimaryKey: row.pk > 0,
     }));
   }
 

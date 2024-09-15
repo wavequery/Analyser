@@ -10,7 +10,6 @@ import {
   ProcedureInfo,
   ViewInfo,
 } from "./baseConnector";
-import { logger } from '../utils/logger';
 
 export class MySQLConnector implements DatabaseConnector {
   private pool: Pool;
@@ -40,26 +39,32 @@ export class MySQLConnector implements DatabaseConnector {
       AND table_type = 'BASE TABLE'
     `;
     const result = await this.query<{ table_name: string }>(sql);
-    const tableNames = result.map(row => row.table_name);
+    const tableNames = result.map((row) => row.table_name);
     return tableNames;
   }
 
   async getColumns(tableName: string): Promise<ColumnInfo[]> {
     const sql = `
-      SELECT column_name, data_type, is_nullable
-      FROM information_schema.columns
-      WHERE table_schema = DATABASE()
-      AND table_name = ?
+      SELECT 
+        COLUMN_NAME, 
+        DATA_TYPE, 
+        IS_NULLABLE,
+        COLUMN_KEY
+      FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = ?
     `;
     const result = await this.query<{
       COLUMN_NAME: string;
       DATA_TYPE: string;
       IS_NULLABLE: string;
+      COLUMN_KEY: string;
     }>(sql, [tableName]);
     return result.map((row) => ({
       name: row.COLUMN_NAME,
       type: row.DATA_TYPE,
       isNullable: row.IS_NULLABLE === "YES",
+      isPrimaryKey: row.COLUMN_KEY === "PRI",
     }));
   }
 

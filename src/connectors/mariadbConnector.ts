@@ -44,7 +44,11 @@ export class MariaDBConnector implements DatabaseConnector {
 
   async getColumns(tableName: string): Promise<ColumnInfo[]> {
     const sql = `
-      SELECT column_name, data_type, is_nullable
+      SELECT 
+        column_name, 
+        data_type, 
+        is_nullable,
+        column_key
       FROM information_schema.columns
       WHERE table_schema = DATABASE()
       AND table_name = ?
@@ -53,11 +57,14 @@ export class MariaDBConnector implements DatabaseConnector {
       COLUMN_NAME: string;
       DATA_TYPE: string;
       IS_NULLABLE: string;
+      COLUMN_KEY: string;
     }>(sql, [tableName]);
+
     return result.map((row) => ({
       name: row.COLUMN_NAME,
       type: row.DATA_TYPE,
       isNullable: row.IS_NULLABLE === "YES",
+      isPrimaryKey: row.COLUMN_KEY === "PRI",
     }));
   }
 

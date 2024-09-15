@@ -18,6 +18,7 @@ export interface ColumnInfo {
   name: string;
   type: string;
   isNullable: boolean;
+  isPrimaryKey: boolean;
 }
 
 export interface ForeignKeyInfo {

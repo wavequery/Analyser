@@ -10,6 +10,7 @@ export interface Table {
     name: string;
     type: string;
     isNullable: boolean;
+    isPrimaryKey: boolean;
   }
   
   export interface Relationship {
@@ -17,4 +18,5 @@ export interface Table {
     sourceColumn: string;
     targetTable: string;
     targetColumn: string;
+    isInferred: boolean;
   }

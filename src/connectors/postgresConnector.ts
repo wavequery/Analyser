@@ -1,7 +1,15 @@
 // src/connectors/postgresConnector.ts
 
 import { Pool, PoolConfig } from "pg";
-import { DatabaseConnector, ColumnInfo, ForeignKeyInfo, IndexInfo, ConstraintInfo, ProcedureInfo, ViewInfo} from "./baseConnector";
+import {
+  DatabaseConnector,
+  ColumnInfo,
+  ForeignKeyInfo,
+  IndexInfo,
+  ConstraintInfo,
+  ProcedureInfo,
+  ViewInfo,
+} from "./baseConnector";
 
 export class PostgresConnector implements DatabaseConnector {
   private pool: Pool;
@@ -36,20 +44,36 @@ export class PostgresConnector implements DatabaseConnector {
 
   async getColumns(tableName: string): Promise<ColumnInfo[]> {
     const sql = `
-      SELECT column_name, data_type, is_nullable
-      FROM information_schema.columns
-      WHERE table_schema = 'public'
-      AND table_name = $1
+      SELECT 
+        c.column_name, 
+        c.data_type, 
+        c.is_nullable,
+        CASE 
+          WHEN pk.constraint_name IS NOT NULL THEN true 
+          ELSE false 
+        END as is_primary_key
+      FROM information_schema.columns c
+      LEFT JOIN (
+        SELECT kcu.column_name, tc.constraint_name
+        FROM information_schema.table_constraints tc
+        JOIN information_schema.key_column_usage kcu
+          ON tc.constraint_name = kcu.constraint_name
+        WHERE tc.constraint_type = 'PRIMARY KEY'
+          AND tc.table_name = $1
+      ) pk ON c.column_name = pk.column_name
+      WHERE c.table_name = $1
     `;
     const result = await this.query<{
       column_name: string;
       data_type: string;
       is_nullable: string;
+      is_primary_key: boolean;
     }>(sql, [tableName]);
     return result.map((row) => ({
       name: row.column_name,
       type: row.data_type,
       isNullable: row.is_nullable === "YES",
+      isPrimaryKey: row.is_primary_key,
     }));
   }
 

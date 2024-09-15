@@ -6,12 +6,14 @@
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "role_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         }
       ],
       "primaryKeys": [
@@ -51,32 +53,38 @@
         {
           "name": "profile_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "first_name",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "last_name",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "phone_number",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "birth_date",
           "type": "date",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -115,12 +123,14 @@
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "category_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         }
       ],
       "primaryKeys": [
@@ -160,22 +170,26 @@
         {
           "name": "image_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "image_url",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "is_primary",
           "type": "boolean",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -205,17 +219,20 @@
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "attribute_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "value",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -255,32 +272,38 @@
         {
           "name": "transaction_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "supplier_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "quantity",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "transaction_type",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "transaction_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -314,27 +337,32 @@
         {
           "name": "order_item_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "order_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "quantity",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "price",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -368,32 +396,38 @@
         {
           "name": "payment_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "order_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "payment_method_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "amount",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "payment_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "status",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -427,37 +461,44 @@
         {
           "name": "shipment_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "order_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "shipping_method_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "address_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "tracking_number",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "shipped_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "estimated_delivery_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -495,32 +536,38 @@
         {
           "name": "review_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "rating",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "review_text",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "review_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -558,17 +605,20 @@
         {
           "name": "wishlist_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "added_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -608,12 +658,14 @@
         {
           "name": "order_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "coupon_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         }
       ],
       "primaryKeys": [
@@ -653,27 +705,32 @@
         {
           "name": "response_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "ticket_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "response_text",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "created_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -707,27 +764,32 @@
         {
           "name": "metadata_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "page_url",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "title",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "description",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "keywords",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -762,27 +824,32 @@
         {
           "name": "view_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "page_url",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "view_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "ip_address",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -812,12 +879,14 @@
         {
           "name": "role_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "role_name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -852,22 +921,26 @@
         {
           "name": "category_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "parent_category_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "description",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -897,12 +970,14 @@
         {
           "name": "attribute_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -928,27 +1003,32 @@
         {
           "name": "supplier_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "contact_person",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "email",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "phone",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -974,12 +1054,14 @@
         {
           "name": "payment_method_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1005,17 +1087,20 @@
         {
           "name": "shipping_method_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "price",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1041,47 +1126,56 @@
         {
           "name": "address_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "address_line1",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "address_line2",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "city",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "state",
           "type": "character varying",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "postal_code",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "country",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "is_default",
           "type": "boolean",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1111,22 +1205,26 @@
         {
           "name": "wishlist_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "created_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1156,37 +1254,44 @@
         {
           "name": "product_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "description",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "price",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "stock_quantity",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "created_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "updated_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1212,27 +1317,32 @@
         {
           "name": "order_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "order_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "total_amount",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "status",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1262,37 +1372,44 @@
         {
           "name": "coupon_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "code",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "discount_type",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "discount_value",
           "type": "numeric",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "start_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "end_date",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "usage_limit",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1327,37 +1444,44 @@
         {
           "name": "ticket_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "subject",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "description",
           "type": "text",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "status",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "created_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "updated_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1387,32 +1511,38 @@
         {
           "name": "user_id",
           "type": "integer",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "username",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "email",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "password_hash",
           "type": "character varying",
-          "isNullable": false
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "created_at",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         },
         {
           "name": "last_login",
           "type": "timestamp without time zone",
-          "isNullable": true
+          "isNullable": true,
+          "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
@@ -1456,187 +1586,295 @@
       "sourceTable": "user_role_mappings",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "user_role_mappings",
       "sourceColumn": "role_id",
       "targetTable": "user_roles",
-      "targetColumn": "role_id"
+      "targetColumn": "role_id",
+      "isInferred": false
     },
     {
       "sourceTable": "user_profiles",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "categories",
       "sourceColumn": "parent_category_id",
       "targetTable": "categories",
-      "targetColumn": "category_id"
+      "targetColumn": "category_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_categories",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_categories",
       "sourceColumn": "category_id",
       "targetTable": "categories",
-      "targetColumn": "category_id"
+      "targetColumn": "category_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_images",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_attribute_values",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_attribute_values",
       "sourceColumn": "attribute_id",
       "targetTable": "product_attributes",
-      "targetColumn": "attribute_id"
+      "targetColumn": "attribute_id",
+      "isInferred": false
     },
     {
       "sourceTable": "inventory_transactions",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "inventory_transactions",
       "sourceColumn": "supplier_id",
       "targetTable": "suppliers",
-      "targetColumn": "supplier_id"
+      "targetColumn": "supplier_id",
+      "isInferred": false
     },
     {
       "sourceTable": "orders",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "order_items",
       "sourceColumn": "order_id",
       "targetTable": "orders",
-      "targetColumn": "order_id"
+      "targetColumn": "order_id",
+      "isInferred": false
     },
     {
       "sourceTable": "order_items",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "payments",
       "sourceColumn": "order_id",
       "targetTable": "orders",
-      "targetColumn": "order_id"
+      "targetColumn": "order_id",
+      "isInferred": false
     },
     {
       "sourceTable": "payments",
       "sourceColumn": "payment_method_id",
       "targetTable": "payment_methods",
-      "targetColumn": "payment_method_id"
+      "targetColumn": "payment_method_id",
+      "isInferred": false
     },
     {
       "sourceTable": "addresses",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "shipments",
       "sourceColumn": "order_id",
       "targetTable": "orders",
-      "targetColumn": "order_id"
+      "targetColumn": "order_id",
+      "isInferred": false
     },
     {
       "sourceTable": "shipments",
       "sourceColumn": "shipping_method_id",
       "targetTable": "shipping_methods",
-      "targetColumn": "shipping_method_id"
+      "targetColumn": "shipping_method_id",
+      "isInferred": false
     },
     {
       "sourceTable": "shipments",
       "sourceColumn": "address_id",
       "targetTable": "addresses",
-      "targetColumn": "address_id"
+      "targetColumn": "address_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_reviews",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "product_reviews",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "wishlists",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "wishlist_items",
       "sourceColumn": "wishlist_id",
       "targetTable": "wishlists",
-      "targetColumn": "wishlist_id"
+      "targetColumn": "wishlist_id",
+      "isInferred": false
     },
     {
       "sourceTable": "wishlist_items",
       "sourceColumn": "product_id",
       "targetTable": "products",
-      "targetColumn": "product_id"
+      "targetColumn": "product_id",
+      "isInferred": false
     },
     {
       "sourceTable": "order_coupons",
       "sourceColumn": "order_id",
       "targetTable": "orders",
-      "targetColumn": "order_id"
+      "targetColumn": "order_id",
+      "isInferred": false
     },
     {
       "sourceTable": "order_coupons",
       "sourceColumn": "coupon_id",
       "targetTable": "coupons",
-      "targetColumn": "coupon_id"
+      "targetColumn": "coupon_id",
+      "isInferred": false
     },
     {
       "sourceTable": "support_tickets",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "ticket_responses",
       "sourceColumn": "ticket_id",
       "targetTable": "support_tickets",
-      "targetColumn": "ticket_id"
+      "targetColumn": "ticket_id",
+      "isInferred": false
     },
     {
       "sourceTable": "ticket_responses",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
     },
     {
       "sourceTable": "page_views",
       "sourceColumn": "user_id",
       "targetTable": "users",
-      "targetColumn": "user_id"
+      "targetColumn": "user_id",
+      "isInferred": false
+    },
+    {
+      "sourceTable": "users",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "products",
+      "sourceColumn": "product_id",
+      "targetTable": "products",
+      "targetColumn": "product_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "suppliers",
+      "sourceColumn": "supplier_id",
+      "targetTable": "suppliers",
+      "targetColumn": "supplier_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "orders",
+      "sourceColumn": "order_id",
+      "targetTable": "orders",
+      "targetColumn": "order_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "order_items",
+      "sourceColumn": "order_item_id",
+      "targetTable": "order_items",
+      "targetColumn": "order_item_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "payments",
+      "sourceColumn": "payment_id",
+      "targetTable": "payments",
+      "targetColumn": "payment_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "payment_methods",
+      "sourceColumn": "payment_method_id",
+      "targetTable": "payment_methods",
+      "targetColumn": "payment_method_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "shipments",
+      "sourceColumn": "shipment_id",
+      "targetTable": "shipments",
+      "targetColumn": "shipment_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "shipping_methods",
+      "sourceColumn": "shipping_method_id",
+      "targetTable": "shipping_methods",
+      "targetColumn": "shipping_method_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "wishlists",
+      "sourceColumn": "wishlist_id",
+      "targetTable": "wishlists",
+      "targetColumn": "wishlist_id",
+      "isInferred": true
+    },
+    {
+      "sourceTable": "coupons",
+      "sourceColumn": "coupon_id",
+      "targetTable": "coupons",
+      "targetColumn": "coupon_id",
+      "isInferred": true
     }
   ],
   "circularDependencies": [
@@ -1647,7 +1885,11 @@
   "junctionTables": [
     "user_role_mappings",
     "product_categories",
-    "order_coupons"
+    "product_attribute_values",
+    "order_items",
+    "wishlist_items",
+    "order_coupons",
+    "ticket_responses"
   ],
   "storedProcedures": [],
   "views": []

@@ -1,11 +1,22 @@
 // src/utils/dependencyAnalyzer.ts
 
-import { Table, Relationship } from '../schemas/tableSchema';
+import { Table, Relationship } from "../schemas/tableSchema";
 
-export function identifyCircularDependencies(tables: Table[], relationships: Relationship[]): string[][] {
+export function identifyCircularDependencies(
+  tables: Table[],
+  relationships: Relationship[]
+): string[][] {
   const graph: Map<string, string[]> = new Map();
-  tables.forEach(table => graph.set(table.name, []));
-  relationships.forEach(rel => graph.get(rel.sourceTable)!.push(rel.targetTable));
+  tables.forEach((table) => graph.set(table.name, []));
+
+  // Only use explicit relationships for circular dependency detection
+  relationships
+    .filter((rel) => !rel.isInferred)
+    .forEach((rel) => {
+      if (graph.has(rel.sourceTable)) {
+        graph.get(rel.sourceTable)!.push(rel.targetTable);
+      }
+    });
 
   const cycles: string[][] = [];
   const visited: Set<string> = new Set();
@@ -28,7 +39,7 @@ export function identifyCircularDependencies(tables: Table[], relationships: Rel
     recursionStack.delete(node);
   }
 
-  tables.forEach(table => {
+  tables.forEach((table) => {
     if (!visited.has(table.name)) {
       dfs(table.name);
     }
