@@ -1,6 +1,6 @@
 // src/connectors/bigQueryConnector.ts
 
-import { BigQuery, Dataset, Table } from "@google-cloud/bigquery";
+import { BigQuery, Table } from "@google-cloud/bigquery";
 import {
   DatabaseConnector,
   ColumnInfo,
@@ -27,17 +27,11 @@ export class BigQueryConnector implements DatabaseConnector {
     return rows as T[];
   }
 
-  async getTables(): Promise<string[]> {
-    const [datasets] = await this.bigQueryClient.getDatasets();
-    const allTables: string[] = [];
-
-    for (const dataset of datasets) {
-      const [tables] = await dataset.getTables();
-      const datasetTables = tables.map((table) => `${dataset.id}.${table.id}`);
-      allTables.push(...datasetTables);
-    }
-
-    return allTables;
+  async getTables<T = { datasetId: string }>(arg: T): Promise<Table[]> {
+    const { datasetId } = arg as { datasetId: string };
+    const dataset = this.bigQueryClient.dataset(datasetId);
+    const [tables] = await dataset.getTables();
+    return tables;
   }
 
   async getColumns(tableName: string): Promise<ColumnInfo[]> {
@@ -45,12 +39,14 @@ export class BigQueryConnector implements DatabaseConnector {
     const table = this.bigQueryClient.dataset(dataset).table(tableId);
     const [metadata] = await table.getMetadata();
 
-    return metadata.schema.fields.map((field: { name: any; type: any; mode: string; }) => ({
-      name: field.name,
-      type: field.type,
-      isNullable: field.mode !== "REQUIRED",
-      isPrimaryKey: false, // BigQuery doesn't have primary keys
-    }));
+    return metadata.schema.fields.map(
+      (field: { name: any; type: any; mode: string }) => ({
+        name: field.name,
+        type: field.type,
+        isNullable: field.mode !== "REQUIRED",
+        isPrimaryKey: false, // BigQuery doesn't have primary keys
+      })
+    );
   }
 
   async getPrimaryKeys(tableName: string): Promise<string[]> {

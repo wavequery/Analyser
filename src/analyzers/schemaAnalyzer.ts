@@ -8,7 +8,7 @@ export class SchemaAnalyzer {
   constructor(private connector: DatabaseConnector) {}
 
   async getTables(): Promise<Table[]> {
-    const tableNames = await this.connector.getTables();
+    const tableNames = await this.connector.getTables({}) as string[];
     logger.log("Table names received in SchemaAnalyzer:", tableNames);
     const tables: Table[] = [];
 

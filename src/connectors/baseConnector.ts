@@ -1,10 +1,12 @@
 // src/connectors/baseConnector.ts
 
+import { Table } from "@google-cloud/bigquery";
+
 export interface DatabaseConnector {
   connect(): Promise<void>;
   disconnect(): Promise<void>;
   query<T = any>(sql: string, params?: any[]): Promise<T[]>;
-  getTables(): Promise<string[]>;
+  getTables<T = any>(arg: T): Promise<string[] | Table[]>;
   getColumns(tableName: string): Promise<ColumnInfo[]>;
   getPrimaryKeys(tableName: string): Promise<string[]>;
   getForeignKeys(tableName: string): Promise<ForeignKeyInfo[]>;

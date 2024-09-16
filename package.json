@@ -1,6 +1,6 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "description": "Database analyser and visualiser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
