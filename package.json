@@ -38,6 +38,7 @@
   "author": "amin@wavequery.com",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/bigquery": "^7.9.0",
     "commander": "^8.3.0",
     "d3": "^7.8.5",
     "express": "^4.17.1",
