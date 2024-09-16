@@ -1,5 +1,3 @@
-// src/analyzers/relationshipAnalyzer.ts
-
 import { DatabaseConnector } from "../connectors/baseConnector";
 import { Table, Relationship, Column } from "../schemas/tableSchema";
 import { logger } from "../utils/logger";
@@ -32,17 +30,12 @@ export class RelationshipAnalyzer {
     // Infer additional relationships based on column names
     for (const sourceTable of tables) {
       for (const column of sourceTable.columns) {
-        if (this.isPotentialForeignKey(column)) {
-          const potentialTargetTable = this.getPotentialTargetTable(
-            column.name,
-            tables
-          );
-          if (potentialTargetTable) {
-            const potentialTargetColumn = this.findPotentialTargetColumn(
-              potentialTargetTable,
-              column
-            );
+        if (this.isPotentialForeignKey(column) || this.isNameMatch(column, tables)) {
+          const potentialTargetTable = this.getPotentialTargetTable(column.name, tables);
+          if (potentialTargetTable && potentialTargetTable.name !== sourceTable.name) {
+            const potentialTargetColumn = this.findPotentialTargetColumn(potentialTargetTable, column);
             if (potentialTargetColumn) {
+              const confidence = this.calculateConfidence(column.name, potentialTargetTable.name);
               // Check if this relationship already exists as an explicit one
               const existingRelationship = relationships.find(
                 (r) =>
@@ -58,6 +51,7 @@ export class RelationshipAnalyzer {
                   targetTable: potentialTargetTable.name,
                   targetColumn: potentialTargetColumn.name,
                   isInferred: true,
+                  confidence: confidence,
                 });
               }
             }
@@ -71,19 +65,20 @@ export class RelationshipAnalyzer {
 
   private isPotentialForeignKey(column: Column): boolean {
     const name = column.name.toLowerCase();
-    return (
-      name.endsWith("_id") || name.endsWith("id") || name.startsWith("id_")
+    return name.endsWith("_id") || name.endsWith("id") || name.startsWith("id_");
+  }
+
+  private isNameMatch(column: Column, tables: Table[]): boolean {
+    const name = column.name.toLowerCase();
+    return tables.some(table => 
+      name === table.name.toLowerCase() || 
+      name === table.name.toLowerCase().slice(0, -1) // singular form
     );
   }
 
-  private getPotentialTargetTable(
-    columnName: string,
-    tables: Table[]
-  ): Table | undefined {
+  private getPotentialTargetTable(columnName: string, tables: Table[]): Table | undefined {
     const potentialNames = this.getPotentialTableNames(columnName);
-    return tables.find((table) =>
-      potentialNames.includes(table.name.toLowerCase())
-    );
+    return tables.find((table) => potentialNames.includes(table.name.toLowerCase()));
   }
 
   private getPotentialTableNames(columnName: string): string[] {
@@ -100,15 +95,15 @@ export class RelationshipAnalyzer {
     } else if (name.startsWith("id_")) {
       potentialNames.push(name.slice(3)); // remove 'id_' prefix
       potentialNames.push(name.slice(3) + "s"); // plural form
+    } else {
+      potentialNames.push(name);
+      potentialNames.push(name + "s"); // plural form
     }
 
     return potentialNames;
   }
 
-  private findPotentialTargetColumn(
-    targetTable: Table,
-    sourceColumn: Column
-  ): Column | undefined {
+  private findPotentialTargetColumn(targetTable: Table, sourceColumn: Column): Column | undefined {
     // First, check for primary keys
     if (targetTable.primaryKeys && targetTable.primaryKeys.length > 0) {
       const primaryKeyColumn = targetTable.columns.find(
@@ -135,25 +130,22 @@ export class RelationshipAnalyzer {
     return undefined;
   }
 
-  // TODO: TO BE THOUGHT ABOUT
-  //
-  // private getPotentialTargetTable(
-  //   columnName: string,
-  //   tables: Table[]
-  // ): Table | undefined {
-  //   if (columnName.toLowerCase() === "id") return undefined; // 'id' is too generic to infer a relationship
+  private calculateConfidence(columnName: string, tableName: string): number {
+    const columnLower = columnName.toLowerCase();
+    const tableLower = tableName.toLowerCase();
 
-  //   const potentialTableName = columnName.toLowerCase().endsWith("_id")
-  //     ? columnName.slice(0, -3) // remove '_id' suffix
-  //     : columnName;
+    if (columnLower === tableLower + "_id" || columnLower === "id_" + tableLower) {
+      return 1; // Highest confidence for exact match with _id prefix/suffix
+    }
 
-  //   // TODO: What are the other scenarios we got to think about?
-  //   // We can do categories and category_id
-  //   return tables.find(
-  //     (table) =>
-  //       table.name.toLowerCase() === potentialTableName || // exact match
-  //       table.name.toLowerCase() === `${potentialTableName}s` || // plural form
-  //       potentialTableName === `${table.name.toLowerCase()}_id` // singular form of table name + '_id'
-  //   );
-  // }
+    if (columnLower === tableLower || columnLower === tableLower.slice(0, -1)) {
+      return 0.9; // High confidence for exact name match or singular form
+    }
+
+    if (columnLower.includes(tableLower) || tableLower.includes(columnLower)) {
+      return 0.7; // Medium confidence for partial matches
+    }
+
+    return 0.5; // Low confidence for other inferred relationships
+  }
 }

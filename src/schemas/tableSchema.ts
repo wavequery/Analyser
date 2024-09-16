@@ -19,4 +19,5 @@ export interface Table {
     targetTable: string;
     targetColumn: string;
     isInferred: boolean;
+    confidence?: number;
   }

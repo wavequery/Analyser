@@ -129,7 +129,7 @@ export class BigQueryConnector implements DatabaseConnector {
     const [metadata] = await table.getMetadata();
     return {
       id: metadata.id,
-      name: metadata.name,
+      name: table.id,
       creationTime: metadata.creationTime,
       lastModifiedTime: metadata.lastModifiedTime,
       numBytes: metadata.numBytes,
