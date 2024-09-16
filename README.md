@@ -1,8 +1,8 @@
-# WaveQuery Database Analyzer
+# WaveQuery Database Analyser
 
-WaveQuery Database Analyzer is a powerful tool for analyzing and visualizing database schemas. It supports MySQL, PostgreSQL, MariaDB, and SQLite databases, providing detailed information about tables, relationships, indexes, constraints, stored procedures, and views.
+WaveQuery Database Analyser is a powerful tool for analyzing and visualizing database schemas. It supports MySQL, PostgreSQL, MariaDB, and SQLite databases, providing detailed information about tables, relationships, indexes, constraints, stored procedures, and views.
 
-![DEMO](./assets/demo_v0.gif)
+![DEMO](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzVpM2xkc2NudnB5ZzE0eXlucHB2dTAwM3VwcjZ6eW92YzU0dXMyNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FK1avllDK14VPt9RnY/giphy.gif)
 
 ## Features
 

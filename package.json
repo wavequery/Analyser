@@ -1,12 +1,11 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.1",
+  "version": "0.0.22",
   "description": "Database analyser and visualiser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "assets"
+    "dist"
   ],
   "bin": {
     "db-schema-finder": "./dist/cli.js"
@@ -24,7 +23,7 @@
   "keywords": [
     "database",
     "schema",
-    "analyzer",
+    "analyser",
     "sqlite",
     "postgres",
     "analyze",

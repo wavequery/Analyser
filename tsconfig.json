@@ -6,6 +6,10 @@
     "declaration": true,
     "outDir": "./dist",
     "strict": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
