@@ -34,9 +34,14 @@ export class BigQueryConnector implements DatabaseConnector {
     return tables;
   }
 
-  async getColumns(tableName: string): Promise<ColumnInfo[]> {
-    const [dataset, tableId] = tableName.split(".");
-    const table = this.bigQueryClient.dataset(dataset).table(tableId);
+  async getColumns({
+    tableId,
+    datasetId,
+  }: {
+    tableId: string;
+    datasetId: string;
+  }): Promise<ColumnInfo[]> {
+    const table = this.bigQueryClient.dataset(datasetId).table(tableId);
     const [metadata] = await table.getMetadata();
 
     return metadata.schema.fields.map(
@@ -101,19 +106,30 @@ export class BigQueryConnector implements DatabaseConnector {
     return datasets.map((dataset) => dataset.id || "");
   }
 
-  async getTableSchema(tableName: string): Promise<any> {
-    const [dataset, tableId] = tableName.split(".");
-    const table = this.bigQueryClient.dataset(dataset).table(tableId);
+  async getTableSchema({
+    tableId,
+    datasetId,
+  }: {
+    tableId: string;
+    datasetId: string;
+  }): Promise<any> {
+    const table = this.bigQueryClient.dataset(datasetId).table(tableId);
     const [metadata] = await table.getMetadata();
     return metadata.schema;
   }
 
-  async getTableInfo(tableName: string): Promise<any> {
-    const [dataset, tableId] = tableName.split(".");
-    const table = this.bigQueryClient.dataset(dataset).table(tableId);
+  async getTableInfo({
+    tableId,
+    datasetId,
+  }: {
+    tableId: string;
+    datasetId: string;
+  }): Promise<any> {
+    const table = this.bigQueryClient.dataset(datasetId).table(tableId);
     const [metadata] = await table.getMetadata();
     return {
       id: metadata.id,
+      name: metadata.name,
       creationTime: metadata.creationTime,
       lastModifiedTime: metadata.lastModifiedTime,
       numBytes: metadata.numBytes,

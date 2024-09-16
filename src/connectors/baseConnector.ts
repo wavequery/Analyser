@@ -7,7 +7,7 @@ export interface DatabaseConnector {
   disconnect(): Promise<void>;
   query<T = any>(sql: string, params?: any[]): Promise<T[]>;
   getTables<T = any>(arg: T): Promise<string[] | Table[]>;
-  getColumns(tableName: string): Promise<ColumnInfo[]>;
+  getColumns(tableName: string | {datasetId: string, tableId: string}): Promise<ColumnInfo[]>;
   getPrimaryKeys(tableName: string): Promise<string[]>;
   getForeignKeys(tableName: string): Promise<ForeignKeyInfo[]>;
   getIndexes(tableName: string): Promise<IndexInfo[]>;
