@@ -18,7 +18,7 @@
     "start": "node dist/cli.js",
     "serve": "node dist/server.js",
     "test": "jest",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
     "database",
