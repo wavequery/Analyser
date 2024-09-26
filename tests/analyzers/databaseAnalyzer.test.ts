@@ -1,12 +1,13 @@
-// import { analyzeDatabase } from "../../src/index";
-// import { DatabaseConnector } from "../../src/connectors/baseConnector";
-// import { Logger } from "../../src/utils/logger";
-// import { jest } from "@jest/globals";
+import { analyzeDatabase } from "../../src/index";
+import { DatabaseConnector } from "../../src/connectors/baseConnector";
+import { Logger } from "../../src/utils/logger";
+import { jest } from "@jest/globals";
 
-// describe("DatabaseAnalyzer", () => {
+describe("DatabaseAnalyzer", () => {
+    it("should analyze database successfully", async () => {});
 //   let mockConnector: jest.Mocked<DatabaseConnector>;
-//   let mockLogger: jest.Mocked<Logger>;
-
+//   let
+  
 //   beforeEach(() => {
 //     mockConnector = {
 //       connect: jest.fn(),
@@ -66,5 +67,5 @@
 //     expect(mockLogger.error).toHaveBeenCalledWith(
 //       expect.stringContaining("Error during schema analysis")
 //     );
-//   });
-// });
+//  });
+});

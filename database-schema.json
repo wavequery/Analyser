@@ -1,7 +1,7 @@
 {
   "tables": [
     {
-      "name": "user_roles",
+      "name": "user_role_mappings",
       "columns": [
         {
           "name": "user_id",
@@ -22,463 +22,407 @@
       ],
       "indexes": [
         {
-          "name": "user_roles_pkey",
+          "name": "user_role_mappings_pkey",
           "columnName": "user_id",
           "isUnique": true
         },
         {
-          "name": "user_roles_pkey",
+          "name": "user_role_mappings_pkey",
           "columnName": "role_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "user_roles_pkey",
+          "name": "user_role_mappings_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "user_roles_user_id_fkey",
+          "name": "user_role_mappings_user_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "user_roles_role_id_fkey",
+          "name": "user_role_mappings_role_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "user_addresses",
+      "name": "artist_label_contracts",
       "columns": [
         {
-          "name": "address_id",
+          "name": "contract_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "user_id",
+          "name": "artist_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "address_line1",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "address_line2",
-          "type": "character varying",
+          "name": "label_id",
+          "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "city",
-          "type": "character varying",
+          "name": "start_date",
+          "type": "date",
           "isNullable": false,
           "isPrimaryKey": false
         },
         {
-          "name": "state",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "postal_code",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "country",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_default",
-          "type": "boolean",
+          "name": "end_date",
+          "type": "date",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "address_id"
+        "contract_id"
       ],
       "indexes": [
         {
-          "name": "user_addresses_pkey",
-          "columnName": "address_id",
+          "name": "artist_label_contracts_pkey",
+          "columnName": "contract_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "user_addresses_pkey",
+          "name": "artist_label_contracts_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "user_addresses_user_id_fkey",
+          "name": "artist_label_contracts_artist_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "artist_label_contracts_label_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "product_categories",
+      "name": "track_artists",
       "columns": [
         {
-          "name": "product_id",
+          "name": "track_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "category_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "product_id",
-        "category_id"
-      ],
-      "indexes": [
-        {
-          "name": "product_categories_pkey",
-          "columnName": "product_id",
-          "isUnique": true
-        },
-        {
-          "name": "product_categories_pkey",
-          "columnName": "category_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "product_categories_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "product_categories_product_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "product_categories_category_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "product_attribute_values",
-      "columns": [
-        {
-          "name": "product_id",
+          "name": "artist_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "attribute_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "value",
-          "type": "text",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "product_id",
-        "attribute_id"
-      ],
-      "indexes": [
-        {
-          "name": "product_attribute_values_pkey",
-          "columnName": "product_id",
-          "isUnique": true
-        },
-        {
-          "name": "product_attribute_values_pkey",
-          "columnName": "attribute_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "product_attribute_values_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "product_attribute_values_product_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "product_attribute_values_attribute_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "variant_attribute_values",
-      "columns": [
-        {
-          "name": "variant_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "attribute_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "value",
-          "type": "text",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "variant_id",
-        "attribute_id"
-      ],
-      "indexes": [
-        {
-          "name": "variant_attribute_values_pkey",
-          "columnName": "variant_id",
-          "isUnique": true
-        },
-        {
-          "name": "variant_attribute_values_pkey",
-          "columnName": "attribute_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "variant_attribute_values_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "variant_attribute_values_variant_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "variant_attribute_values_attribute_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "inventory_transactions",
-      "columns": [
-        {
-          "name": "transaction_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "variant_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "supplier_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "quantity",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "unit_price",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "transaction_type",
+          "name": "role",
           "type": "character varying",
           "isNullable": false,
-          "isPrimaryKey": false
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "track_id",
+        "artist_id",
+        "role"
+      ],
+      "indexes": [
+        {
+          "name": "track_artists_pkey",
+          "columnName": "track_id",
+          "isUnique": true
         },
         {
-          "name": "transaction_date",
+          "name": "track_artists_pkey",
+          "columnName": "artist_id",
+          "isUnique": true
+        },
+        {
+          "name": "track_artists_pkey",
+          "columnName": "role",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "track_artists_role_check",
+          "type": "CHECK"
+        },
+        {
+          "name": "track_artists_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "track_artists_track_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "track_artists_artist_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "track_genres",
+      "columns": [
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "genre_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "track_id",
+        "genre_id"
+      ],
+      "indexes": [
+        {
+          "name": "track_genres_pkey",
+          "columnName": "track_id",
+          "isUnique": true
+        },
+        {
+          "name": "track_genres_pkey",
+          "columnName": "genre_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "track_genres_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "track_genres_track_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "track_genres_genre_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "track_moods",
+      "columns": [
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "mood_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "track_id",
+        "mood_id"
+      ],
+      "indexes": [
+        {
+          "name": "track_moods_pkey",
+          "columnName": "track_id",
+          "isUnique": true
+        },
+        {
+          "name": "track_moods_pkey",
+          "columnName": "mood_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "track_moods_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "track_moods_track_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "track_moods_mood_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "playlist_tracks",
+      "columns": [
+        {
+          "name": "playlist_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "added_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "transaction_id"
+        "playlist_id",
+        "track_id"
       ],
       "indexes": [
         {
-          "name": "inventory_transactions_pkey",
-          "columnName": "transaction_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "inventory_transactions_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "inventory_transactions_product_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "inventory_transactions_variant_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "inventory_transactions_supplier_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "order_items",
-      "columns": [
-        {
-          "name": "order_item_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "order_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "variant_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "quantity",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "price",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "order_item_id"
-      ],
-      "indexes": [
-        {
-          "name": "order_items_pkey",
-          "columnName": "order_item_id",
+          "name": "playlist_tracks_pkey",
+          "columnName": "playlist_id",
           "isUnique": true
         },
         {
-          "name": "idx_order_items_order_id",
-          "columnName": "order_id",
+          "name": "playlist_tracks_pkey",
+          "columnName": "track_id",
+          "isUnique": true
+        },
+        {
+          "name": "idx_playlist_tracks_playlist_id",
+          "columnName": "playlist_id",
           "isUnique": false
         }
       ],
       "constraints": [
         {
-          "name": "order_items_pkey",
+          "name": "playlist_tracks_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "order_items_order_id_fkey",
+          "name": "playlist_tracks_playlist_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "order_items_product_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "order_items_variant_id_fkey",
+          "name": "playlist_tracks_track_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "order_statuses",
+      "name": "user_saved_tracks",
       "columns": [
         {
-          "name": "status_id",
+          "name": "user_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "order_id",
+          "name": "track_id",
           "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "status",
-          "type": "character varying",
           "isNullable": false,
-          "isPrimaryKey": false
+          "isPrimaryKey": true
         },
         {
-          "name": "created_at",
+          "name": "saved_at",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "status_id"
+        "user_id",
+        "track_id"
       ],
       "indexes": [
         {
-          "name": "order_statuses_pkey",
-          "columnName": "status_id",
+          "name": "user_saved_tracks_pkey",
+          "columnName": "user_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_saved_tracks_pkey",
+          "columnName": "track_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "order_statuses_pkey",
+          "name": "user_saved_tracks_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "order_statuses_order_id_fkey",
+          "name": "user_saved_tracks_user_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "user_saved_tracks_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "user_saved_albums",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "album_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "saved_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "user_id",
+        "album_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_saved_albums_pkey",
+          "columnName": "user_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_saved_albums_pkey",
+          "columnName": "album_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_saved_albums_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_saved_albums_user_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "user_saved_albums_album_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
@@ -493,13 +437,13 @@
           "isPrimaryKey": true
         },
         {
-          "name": "order_id",
+          "name": "user_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "payment_method_id",
+          "name": "subscription_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
@@ -511,19 +455,7 @@
           "isPrimaryKey": false
         },
         {
-          "name": "status",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "transaction_id",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
+          "name": "payment_date",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
@@ -545,94 +477,23 @@
           "type": "PRIMARY KEY"
         },
         {
-          "name": "payments_order_id_fkey",
+          "name": "payments_user_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "payments_payment_method_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "shipments",
-      "columns": [
-        {
-          "name": "shipment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "order_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "shipping_method_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "tracking_number",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "shipped_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "delivered_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "shipment_id"
-      ],
-      "indexes": [
-        {
-          "name": "shipments_pkey",
-          "columnName": "shipment_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "shipments_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "shipments_order_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "shipments_shipping_method_id_fkey",
+          "name": "payments_subscription_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "product_reviews",
+      "name": "listening_history",
       "columns": [
         {
-          "name": "review_id",
+          "name": "history_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
         },
         {
           "name": "user_id",
@@ -641,178 +502,67 @@
           "isPrimaryKey": false
         },
         {
-          "name": "rating",
+          "name": "track_id",
           "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "title",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "content",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
+          "name": "listened_at",
           "type": "timestamp without time zone",
           "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "integer",
+          "isNullable": false,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "review_id"
+        "history_id"
       ],
       "indexes": [
         {
-          "name": "product_reviews_pkey",
-          "columnName": "review_id",
+          "name": "listening_history_pkey",
+          "columnName": "history_id",
           "isUnique": true
         },
         {
-          "name": "idx_product_reviews_product_id",
-          "columnName": "product_id",
+          "name": "idx_listening_history_user_id",
+          "columnName": "user_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_listening_history_track_id",
+          "columnName": "track_id",
           "isUnique": false
         }
       ],
       "constraints": [
         {
-          "name": "product_reviews_rating_check",
-          "type": "CHECK"
-        },
-        {
-          "name": "product_reviews_pkey",
+          "name": "listening_history_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "product_reviews_product_id_fkey",
+          "name": "listening_history_user_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "product_reviews_user_id_fkey",
+          "name": "listening_history_track_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "wishlist_items",
+      "name": "user_recommendations",
       "columns": [
         {
-          "name": "wishlist_id",
+          "name": "recommendation_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "added_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "wishlist_id",
-        "product_id"
-      ],
-      "indexes": [
-        {
-          "name": "wishlist_items_pkey",
-          "columnName": "wishlist_id",
-          "isUnique": true
-        },
-        {
-          "name": "wishlist_items_pkey",
-          "columnName": "product_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "wishlist_items_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "wishlist_items_wishlist_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "wishlist_items_product_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "order_coupons",
-      "columns": [
-        {
-          "name": "order_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "coupon_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "order_id",
-        "coupon_id"
-      ],
-      "indexes": [
-        {
-          "name": "order_coupons_pkey",
-          "columnName": "order_id",
-          "isUnique": true
-        },
-        {
-          "name": "order_coupons_pkey",
-          "columnName": "coupon_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "order_coupons_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "order_coupons_order_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "order_coupons_coupon_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "ticket_messages",
-      "columns": [
-        {
-          "name": "message_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "ticket_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
         },
         {
           "name": "user_id",
@@ -821,8 +571,14 @@
           "isPrimaryKey": false
         },
         {
-          "name": "message",
-          "type": "text",
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "recommendation_strength",
+          "type": "double precision",
           "isNullable": false,
           "isPrimaryKey": false
         },
@@ -834,195 +590,112 @@
         }
       ],
       "primaryKeys": [
-        "message_id"
+        "recommendation_id"
       ],
       "indexes": [
         {
-          "name": "ticket_messages_pkey",
-          "columnName": "message_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "ticket_messages_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "ticket_messages_ticket_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "ticket_messages_user_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "page_views",
-      "columns": [
-        {
-          "name": "view_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "url",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "viewed_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "ip_address",
-          "type": "inet",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "view_id"
-      ],
-      "indexes": [
-        {
-          "name": "page_views_pkey",
-          "columnName": "view_id",
+          "name": "user_recommendations_pkey",
+          "columnName": "recommendation_id",
           "isUnique": true
         },
         {
-          "name": "idx_page_views_user_id",
+          "name": "idx_user_recommendations_user_id",
           "columnName": "user_id",
           "isUnique": false
         }
       ],
       "constraints": [
         {
-          "name": "page_views_pkey",
+          "name": "user_recommendations_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "page_views_user_id_fkey",
+          "name": "user_recommendations_user_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "user_recommendations_track_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "abandoned_cart_items",
+      "name": "user_followers",
       "columns": [
         {
-          "name": "cart_id",
+          "name": "follower_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "product_id",
+          "name": "followed_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "variant_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "quantity",
-          "type": "integer",
-          "isNullable": false,
+          "name": "followed_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "cart_id",
-        "product_id",
-        "variant_id"
+        "follower_id",
+        "followed_id"
       ],
       "indexes": [
         {
-          "name": "abandoned_cart_items_pkey",
-          "columnName": "cart_id",
+          "name": "user_followers_pkey",
+          "columnName": "follower_id",
           "isUnique": true
         },
         {
-          "name": "abandoned_cart_items_pkey",
-          "columnName": "product_id",
-          "isUnique": true
-        },
-        {
-          "name": "abandoned_cart_items_pkey",
-          "columnName": "variant_id",
+          "name": "user_followers_pkey",
+          "columnName": "followed_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "abandoned_cart_items_pkey",
+          "name": "user_followers_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "abandoned_cart_items_cart_id_fkey",
+          "name": "user_followers_follower_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "abandoned_cart_items_product_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "abandoned_cart_items_variant_id_fkey",
+          "name": "user_followers_followed_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "cms_pages",
+      "name": "user_activity",
       "columns": [
         {
-          "name": "page_id",
+          "name": "activity_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "title",
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "activity_type",
           "type": "character varying",
           "isNullable": false,
           "isPrimaryKey": false
         },
         {
-          "name": "slug",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "content",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "meta_title",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "meta_description",
-          "type": "text",
+          "name": "activity_data",
+          "type": "jsonb",
           "isNullable": true,
           "isPrimaryKey": false
         },
@@ -1031,42 +704,591 @@
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "activity_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_activity_pkey",
+          "columnName": "activity_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_activity_pkey",
+          "type": "PRIMARY KEY"
         },
         {
-          "name": "updated_at",
+          "name": "user_activity_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "lyrics",
+      "columns": [
+        {
+          "name": "lyric_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "language",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "lyric_id"
+      ],
+      "indexes": [
+        {
+          "name": "lyrics_pkey",
+          "columnName": "lyric_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "lyrics_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "lyrics_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "copyrights",
+      "columns": [
+        {
+          "name": "copyright_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "copyright_text",
+          "type": "text",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "copyright_type",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "copyright_id"
+      ],
+      "indexes": [
+        {
+          "name": "copyrights_pkey",
+          "columnName": "copyright_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "copyrights_copyright_type_check",
+          "type": "CHECK"
+        },
+        {
+          "name": "copyrights_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "copyrights_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "radio_tracks",
+      "columns": [
+        {
+          "name": "station_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "weight",
+          "type": "double precision",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "station_id",
+        "track_id"
+      ],
+      "indexes": [
+        {
+          "name": "radio_tracks_pkey",
+          "columnName": "station_id",
+          "isUnique": true
+        },
+        {
+          "name": "radio_tracks_pkey",
+          "columnName": "track_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "radio_tracks_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "radio_tracks_station_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "radio_tracks_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "podcast_episodes",
+      "columns": [
+        {
+          "name": "episode_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "podcast_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "release_date",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "page_id"
+        "episode_id"
       ],
       "indexes": [
         {
-          "name": "cms_pages_pkey",
-          "columnName": "page_id",
-          "isUnique": true
-        },
-        {
-          "name": "cms_pages_slug_key",
-          "columnName": "slug",
+          "name": "podcast_episodes_pkey",
+          "columnName": "episode_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "cms_pages_pkey",
+          "name": "podcast_episodes_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "cms_pages_slug_key",
-          "type": "UNIQUE"
+          "name": "podcast_episodes_podcast_id_fkey",
+          "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "roles",
+      "name": "user_podcast_subscriptions",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "podcast_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "subscribed_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "user_id",
+        "podcast_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_podcast_subscriptions_pkey",
+          "columnName": "user_id",
+          "isUnique": true
+        },
+        {
+          "name": "user_podcast_subscriptions_pkey",
+          "columnName": "podcast_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_podcast_subscriptions_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_podcast_subscriptions_user_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "user_podcast_subscriptions_podcast_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "daily_track_stats",
+      "columns": [
+        {
+          "name": "stat_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "play_count",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "unique_listeners",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "stat_id"
+      ],
+      "indexes": [
+        {
+          "name": "daily_track_stats_pkey",
+          "columnName": "stat_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "daily_track_stats_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "daily_track_stats_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "user_retention",
+      "columns": [
+        {
+          "name": "retention_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "retention_date",
+          "type": "date",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "days_active",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "retention_id"
+      ],
+      "indexes": [
+        {
+          "name": "user_retention_pkey",
+          "columnName": "retention_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_retention_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "user_retention_user_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "reported_content",
+      "columns": [
+        {
+          "name": "report_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "reporter_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "content_type",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "content_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "report_id"
+      ],
+      "indexes": [
+        {
+          "name": "reported_content_pkey",
+          "columnName": "report_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "reported_content_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "reported_content_reporter_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "artist_stats",
+      "columns": [
+        {
+          "name": "stat_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "artist_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "total_plays",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "unique_listeners",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "follower_count",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "stat_id"
+      ],
+      "indexes": [
+        {
+          "name": "artist_stats_pkey",
+          "columnName": "stat_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "artist_stats_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "artist_stats_artist_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "ad_placements",
+      "columns": [
+        {
+          "name": "placement_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "campaign_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "plays",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "placement_id"
+      ],
+      "indexes": [
+        {
+          "name": "ad_placements_pkey",
+          "columnName": "placement_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ad_placements_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "ad_placements_campaign_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "ad_placements_track_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "user_roles",
       "columns": [
         {
           "name": "role_id",
@@ -1086,41 +1308,119 @@
       ],
       "indexes": [
         {
-          "name": "roles_pkey",
+          "name": "user_roles_pkey",
           "columnName": "role_id",
           "isUnique": true
         },
         {
-          "name": "roles_role_name_key",
+          "name": "user_roles_role_name_key",
           "columnName": "role_name",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "roles_pkey",
+          "name": "user_roles_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "roles_role_name_key",
+          "name": "user_roles_role_name_key",
           "type": "UNIQUE"
         }
       ]
     },
     {
-      "name": "categories",
+      "name": "genres",
       "columns": [
         {
-          "name": "category_id",
+          "name": "genre_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
         },
         {
-          "name": "parent_category_id",
-          "type": "integer",
-          "isNullable": true,
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
           "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "genre_id"
+      ],
+      "indexes": [
+        {
+          "name": "genres_pkey",
+          "columnName": "genre_id",
+          "isUnique": true
+        },
+        {
+          "name": "genres_name_key",
+          "columnName": "name",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "genres_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "genres_name_key",
+          "type": "UNIQUE"
+        }
+      ]
+    },
+    {
+      "name": "moods",
+      "columns": [
+        {
+          "name": "mood_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "mood_id"
+      ],
+      "indexes": [
+        {
+          "name": "moods_pkey",
+          "columnName": "mood_id",
+          "isUnique": true
+        },
+        {
+          "name": "moods_name_key",
+          "columnName": "name",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "moods_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "moods_name_key",
+          "type": "UNIQUE"
+        }
+      ]
+    },
+    {
+      "name": "playlists",
+      "columns": [
+        {
+          "name": "playlist_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
           "name": "name",
@@ -1129,227 +1429,50 @@
           "isPrimaryKey": false
         },
         {
-          "name": "slug",
-          "type": "character varying",
-          "isNullable": false,
+          "name": "user_id",
+          "type": "integer",
+          "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "description",
-          "type": "text",
+          "name": "is_public",
+          "type": "boolean",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "category_id"
+        "playlist_id"
       ],
       "indexes": [
         {
-          "name": "categories_pkey",
-          "columnName": "category_id",
-          "isUnique": true
-        },
-        {
-          "name": "categories_slug_key",
-          "columnName": "slug",
+          "name": "playlists_pkey",
+          "columnName": "playlist_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "categories_pkey",
+          "name": "playlists_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "categories_slug_key",
-          "type": "UNIQUE"
-        },
-        {
-          "name": "categories_parent_category_id_fkey",
+          "name": "playlists_user_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "product_attributes",
+      "name": "user_subscriptions",
       "columns": [
         {
-          "name": "attribute_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "type",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "attribute_id"
-      ],
-      "indexes": [
-        {
-          "name": "product_attributes_pkey",
-          "columnName": "attribute_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "product_attributes_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "suppliers",
-      "columns": [
-        {
-          "name": "supplier_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "contact_person",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "email",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "phone",
-          "type": "character varying",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "supplier_id"
-      ],
-      "indexes": [
-        {
-          "name": "suppliers_pkey",
-          "columnName": "supplier_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "suppliers_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_methods",
-      "columns": [
-        {
-          "name": "payment_method_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_active",
-          "type": "boolean",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "payment_method_id"
-      ],
-      "indexes": [
-        {
-          "name": "payment_methods_pkey",
-          "columnName": "payment_method_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_methods_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "shipping_methods",
-      "columns": [
-        {
-          "name": "shipping_method_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "price",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_active",
-          "type": "boolean",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "shipping_method_id"
-      ],
-      "indexes": [
-        {
-          "name": "shipping_methods_pkey",
-          "columnName": "shipping_method_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "shipping_methods_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "wishlists",
-      "columns": [
-        {
-          "name": "wishlist_id",
+          "name": "subscription_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
@@ -1361,399 +1484,57 @@
           "isPrimaryKey": false
         },
         {
-          "name": "name",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "wishlist_id"
-      ],
-      "indexes": [
-        {
-          "name": "wishlists_pkey",
-          "columnName": "wishlist_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "wishlists_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "wishlists_user_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "coupons",
-      "columns": [
-        {
-          "name": "coupon_id",
+          "name": "plan_id",
           "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "code",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "discount_type",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "discount_value",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "min_purchase_amount",
-          "type": "numeric",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
           "name": "start_date",
           "type": "date",
-          "isNullable": true,
+          "isNullable": false,
           "isPrimaryKey": false
         },
         {
           "name": "end_date",
           "type": "date",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "usage_limit",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "is_active",
-          "type": "boolean",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "coupon_id"
-      ],
-      "indexes": [
-        {
-          "name": "coupons_pkey",
-          "columnName": "coupon_id",
-          "isUnique": true
-        },
-        {
-          "name": "coupons_code_key",
-          "columnName": "code",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "coupons_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "coupons_code_key",
-          "type": "UNIQUE"
-        }
-      ]
-    },
-    {
-      "name": "support_tickets",
-      "columns": [
-        {
-          "name": "ticket_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "order_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "subject",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "status",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "updated_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "ticket_id"
-      ],
-      "indexes": [
-        {
-          "name": "support_tickets_pkey",
-          "columnName": "ticket_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "support_tickets_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "support_tickets_user_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "support_tickets_order_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "abandoned_carts",
-      "columns": [
-        {
-          "name": "cart_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "updated_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "cart_id"
-      ],
-      "indexes": [
-        {
-          "name": "abandoned_carts_pkey",
-          "columnName": "cart_id",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "abandoned_carts_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "abandoned_carts_user_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "product_variants",
-      "columns": [
-        {
-          "name": "variant_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "sku",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "price",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "stock_quantity",
-          "type": "integer",
           "isNullable": false,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "variant_id"
+        "subscription_id"
       ],
       "indexes": [
         {
-          "name": "product_variants_pkey",
-          "columnName": "variant_id",
-          "isUnique": true
-        },
-        {
-          "name": "product_variants_sku_key",
-          "columnName": "sku",
+          "name": "user_subscriptions_pkey",
+          "columnName": "subscription_id",
           "isUnique": true
         }
       ],
       "constraints": [
         {
-          "name": "product_variants_pkey",
+          "name": "user_subscriptions_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "product_variants_sku_key",
-          "type": "UNIQUE"
+          "name": "user_subscriptions_user_id_fkey",
+          "type": "FOREIGN KEY"
         },
         {
-          "name": "product_variants_product_id_fkey",
+          "name": "user_subscriptions_plan_id_fkey",
           "type": "FOREIGN KEY"
         }
       ]
     },
     {
-      "name": "orders",
+      "name": "radio_stations",
       "columns": [
         {
-          "name": "order_id",
+          "name": "station_id",
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
-        },
-        {
-          "name": "user_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "status",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "total_amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "updated_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "order_id"
-      ],
-      "indexes": [
-        {
-          "name": "orders_pkey",
-          "columnName": "order_id",
-          "isUnique": true
-        },
-        {
-          "name": "idx_orders_user_id",
-          "columnName": "user_id",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "orders_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "orders_user_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "products",
-      "columns": [
-        {
-          "name": "product_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "sku",
-          "type": "character varying",
-          "isNullable": false,
-          "isPrimaryKey": false
         },
         {
           "name": "name",
@@ -1768,21 +1549,54 @@
           "isPrimaryKey": false
         },
         {
-          "name": "price",
-          "type": "numeric",
-          "isNullable": false,
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "isNullable": true,
           "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "station_id"
+      ],
+      "indexes": [
+        {
+          "name": "radio_stations_pkey",
+          "columnName": "station_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "radio_stations_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "podcasts",
+      "columns": [
+        {
+          "name": "podcast_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
         },
         {
-          "name": "cost",
-          "type": "numeric",
+          "name": "creator_id",
+          "type": "integer",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "stock_quantity",
-          "type": "integer",
+          "name": "title",
+          "type": "character varying",
           "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true,
           "isPrimaryKey": false
         },
         {
@@ -1790,42 +1604,380 @@
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "podcast_id"
+      ],
+      "indexes": [
+        {
+          "name": "podcasts_pkey",
+          "columnName": "podcast_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "podcasts_pkey",
+          "type": "PRIMARY KEY"
         },
         {
-          "name": "updated_at",
-          "type": "timestamp without time zone",
+          "name": "podcasts_creator_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "ad_campaigns",
+      "columns": [
+        {
+          "name": "campaign_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "advertiser_name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "start_date",
+          "type": "date",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "end_date",
+          "type": "date",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "budget",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "campaign_id"
+      ],
+      "indexes": [
+        {
+          "name": "ad_campaigns_pkey",
+          "columnName": "campaign_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ad_campaigns_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "tracks",
+      "columns": [
+        {
+          "name": "track_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "album_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "track_number",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "is_explicit",
+          "type": "boolean",
           "isNullable": true,
           "isPrimaryKey": false
         }
       ],
       "primaryKeys": [
-        "product_id"
+        "track_id"
       ],
       "indexes": [
         {
-          "name": "products_pkey",
-          "columnName": "product_id",
+          "name": "tracks_pkey",
+          "columnName": "track_id",
           "isUnique": true
         },
         {
-          "name": "products_sku_key",
-          "columnName": "sku",
-          "isUnique": true
-        },
-        {
-          "name": "idx_products_name",
-          "columnName": "name",
+          "name": "idx_tracks_album_id",
+          "columnName": "album_id",
           "isUnique": false
         }
       ],
       "constraints": [
         {
-          "name": "products_pkey",
+          "name": "tracks_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "products_sku_key",
-          "type": "UNIQUE"
+          "name": "tracks_album_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "subscription_plans",
+      "columns": [
+        {
+          "name": "plan_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "duration_days",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "plan_id"
+      ],
+      "indexes": [
+        {
+          "name": "subscription_plans_pkey",
+          "columnName": "plan_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "subscription_plans_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "podcast_creators",
+      "columns": [
+        {
+          "name": "creator_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "bio",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "creator_id"
+      ],
+      "indexes": [
+        {
+          "name": "podcast_creators_pkey",
+          "columnName": "creator_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "podcast_creators_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "albums",
+      "columns": [
+        {
+          "name": "album_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "artist_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "label_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "release_date",
+          "type": "date",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "album_type",
+          "type": "character varying",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "album_id"
+      ],
+      "indexes": [
+        {
+          "name": "albums_pkey",
+          "columnName": "album_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "albums_album_type_check",
+          "type": "CHECK"
+        },
+        {
+          "name": "albums_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "albums_artist_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "albums_label_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "artists",
+      "columns": [
+        {
+          "name": "artist_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "bio",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "formed_year",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "artist_id"
+      ],
+      "indexes": [
+        {
+          "name": "artists_pkey",
+          "columnName": "artist_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "artists_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "labels",
+      "columns": [
+        {
+          "name": "label_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "founded_year",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "label_id"
+      ],
+      "indexes": [
+        {
+          "name": "labels_pkey",
+          "columnName": "label_id",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "labels_pkey",
+          "type": "PRIMARY KEY"
         }
       ]
     },
@@ -1837,6 +1989,12 @@
           "type": "integer",
           "isNullable": false,
           "isPrimaryKey": true
+        },
+        {
+          "name": "username",
+          "type": "character varying",
+          "isNullable": false,
+          "isPrimaryKey": false
         },
         {
           "name": "email",
@@ -1851,25 +2009,19 @@
           "isPrimaryKey": false
         },
         {
-          "name": "first_name",
-          "type": "character varying",
+          "name": "date_of_birth",
+          "type": "date",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
-          "name": "last_name",
+          "name": "country",
           "type": "character varying",
           "isNullable": true,
           "isPrimaryKey": false
         },
         {
           "name": "created_at",
-          "type": "timestamp without time zone",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "last_login",
           "type": "timestamp without time zone",
           "isNullable": true,
           "isPrimaryKey": false
@@ -1885,6 +2037,11 @@
           "isUnique": true
         },
         {
+          "name": "users_username_key",
+          "columnName": "username",
+          "isUnique": true
+        },
+        {
           "name": "users_email_key",
           "columnName": "email",
           "isUnique": true
@@ -1896,6 +2053,10 @@
           "type": "PRIMARY KEY"
         },
         {
+          "name": "users_username_key",
+          "type": "UNIQUE"
+        },
+        {
           "name": "users_email_key",
           "type": "UNIQUE"
         }
@@ -1904,308 +2065,397 @@
   ],
   "relationships": [
     {
-      "sourceTable": "user_roles",
+      "sourceTable": "user_role_mappings",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "user_roles",
+      "sourceTable": "user_role_mappings",
       "sourceColumn": "role_id",
-      "targetTable": "roles",
+      "targetTable": "user_roles",
       "targetColumn": "role_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "user_addresses",
+      "sourceTable": "artist_label_contracts",
+      "sourceColumn": "artist_id",
+      "targetTable": "artists",
+      "targetColumn": "artist_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "artist_label_contracts",
+      "sourceColumn": "label_id",
+      "targetTable": "labels",
+      "targetColumn": "label_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "albums",
+      "sourceColumn": "artist_id",
+      "targetTable": "artists",
+      "targetColumn": "artist_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "albums",
+      "sourceColumn": "label_id",
+      "targetTable": "labels",
+      "targetColumn": "label_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "tracks",
+      "sourceColumn": "album_id",
+      "targetTable": "albums",
+      "targetColumn": "album_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_artists",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_artists",
+      "sourceColumn": "artist_id",
+      "targetTable": "artists",
+      "targetColumn": "artist_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_genres",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_genres",
+      "sourceColumn": "genre_id",
+      "targetTable": "genres",
+      "targetColumn": "genre_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_moods",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "track_moods",
+      "sourceColumn": "mood_id",
+      "targetTable": "moods",
+      "targetColumn": "mood_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "playlists",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "categories",
-      "sourceColumn": "parent_category_id",
-      "targetTable": "categories",
-      "targetColumn": "category_id",
-      "isInferred": false
+      "sourceTable": "playlist_tracks",
+      "sourceColumn": "playlist_id",
+      "targetTable": "playlists",
+      "targetColumn": "playlist_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "product_categories",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
+      "sourceTable": "playlist_tracks",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "product_categories",
-      "sourceColumn": "category_id",
-      "targetTable": "categories",
-      "targetColumn": "category_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "product_attribute_values",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "product_attribute_values",
-      "sourceColumn": "attribute_id",
-      "targetTable": "product_attributes",
-      "targetColumn": "attribute_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "product_variants",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "variant_attribute_values",
-      "sourceColumn": "variant_id",
-      "targetTable": "product_variants",
-      "targetColumn": "variant_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "variant_attribute_values",
-      "sourceColumn": "attribute_id",
-      "targetTable": "product_attributes",
-      "targetColumn": "attribute_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "inventory_transactions",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "inventory_transactions",
-      "sourceColumn": "variant_id",
-      "targetTable": "product_variants",
-      "targetColumn": "variant_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "inventory_transactions",
-      "sourceColumn": "supplier_id",
-      "targetTable": "suppliers",
-      "targetColumn": "supplier_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "orders",
+      "sourceTable": "user_saved_tracks",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_items",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
+      "sourceTable": "user_saved_tracks",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_items",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
+      "sourceTable": "user_saved_albums",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_items",
-      "sourceColumn": "variant_id",
-      "targetTable": "product_variants",
-      "targetColumn": "variant_id",
-      "isInferred": false
+      "sourceTable": "user_saved_albums",
+      "sourceColumn": "album_id",
+      "targetTable": "albums",
+      "targetColumn": "album_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_statuses",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
+      "sourceTable": "user_subscriptions",
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "user_subscriptions",
+      "sourceColumn": "plan_id",
+      "targetTable": "subscription_plans",
+      "targetColumn": "plan_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
       "sourceTable": "payments",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
+      "sourceColumn": "user_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
       "sourceTable": "payments",
-      "sourceColumn": "payment_method_id",
-      "targetTable": "payment_methods",
-      "targetColumn": "payment_method_id",
-      "isInferred": false
+      "sourceColumn": "subscription_id",
+      "targetTable": "user_subscriptions",
+      "targetColumn": "subscription_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "shipments",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "shipments",
-      "sourceColumn": "shipping_method_id",
-      "targetTable": "shipping_methods",
-      "targetColumn": "shipping_method_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "product_reviews",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "product_reviews",
+      "sourceTable": "listening_history",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "wishlists",
+      "sourceTable": "listening_history",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "user_recommendations",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "wishlist_items",
-      "sourceColumn": "wishlist_id",
-      "targetTable": "wishlists",
-      "targetColumn": "wishlist_id",
-      "isInferred": false
+      "sourceTable": "user_recommendations",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "wishlist_items",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
+      "sourceTable": "user_followers",
+      "sourceColumn": "follower_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_coupons",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
+      "sourceTable": "user_followers",
+      "sourceColumn": "followed_id",
+      "targetTable": "users",
+      "targetColumn": "user_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "order_coupons",
-      "sourceColumn": "coupon_id",
-      "targetTable": "coupons",
-      "targetColumn": "coupon_id",
-      "isInferred": false
-    },
-    {
-      "sourceTable": "support_tickets",
+      "sourceTable": "user_activity",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "support_tickets",
-      "sourceColumn": "order_id",
-      "targetTable": "orders",
-      "targetColumn": "order_id",
-      "isInferred": false
+      "sourceTable": "lyrics",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "ticket_messages",
-      "sourceColumn": "ticket_id",
-      "targetTable": "support_tickets",
-      "targetColumn": "ticket_id",
-      "isInferred": false
+      "sourceTable": "copyrights",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "ticket_messages",
+      "sourceTable": "radio_tracks",
+      "sourceColumn": "station_id",
+      "targetTable": "radio_stations",
+      "targetColumn": "station_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "radio_tracks",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "podcasts",
+      "sourceColumn": "creator_id",
+      "targetTable": "podcast_creators",
+      "targetColumn": "creator_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "podcast_episodes",
+      "sourceColumn": "podcast_id",
+      "targetTable": "podcasts",
+      "targetColumn": "podcast_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "user_podcast_subscriptions",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "page_views",
+      "sourceTable": "user_podcast_subscriptions",
+      "sourceColumn": "podcast_id",
+      "targetTable": "podcasts",
+      "targetColumn": "podcast_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "daily_track_stats",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
+    },
+    {
+      "sourceTable": "user_retention",
       "sourceColumn": "user_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "abandoned_carts",
-      "sourceColumn": "user_id",
+      "sourceTable": "reported_content",
+      "sourceColumn": "reporter_id",
       "targetTable": "users",
       "targetColumn": "user_id",
-      "isInferred": false
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "abandoned_cart_items",
-      "sourceColumn": "cart_id",
-      "targetTable": "abandoned_carts",
-      "targetColumn": "cart_id",
-      "isInferred": false
+      "sourceTable": "artist_stats",
+      "sourceColumn": "artist_id",
+      "targetTable": "artists",
+      "targetColumn": "artist_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "abandoned_cart_items",
-      "sourceColumn": "product_id",
-      "targetTable": "products",
-      "targetColumn": "product_id",
-      "isInferred": false
+      "sourceTable": "ad_placements",
+      "sourceColumn": "campaign_id",
+      "targetTable": "ad_campaigns",
+      "targetColumn": "campaign_id",
+      "isInferred": false,
+      "confidence": 1
     },
     {
-      "sourceTable": "abandoned_cart_items",
-      "sourceColumn": "variant_id",
-      "targetTable": "product_variants",
-      "targetColumn": "variant_id",
-      "isInferred": false
+      "sourceTable": "ad_placements",
+      "sourceColumn": "track_id",
+      "targetTable": "tracks",
+      "targetColumn": "track_id",
+      "isInferred": false,
+      "confidence": 1
     }
   ],
-  "circularDependencies": [
-    [
-      "categories"
-    ]
-  ],
+  "circularDependencies": [],
   "junctionTables": [
-    "user_roles",
-    "product_categories",
-    "product_attribute_values",
-    "variant_attribute_values",
-    "order_items",
-    "wishlist_items",
-    "order_coupons",
-    "abandoned_cart_items"
+    "user_role_mappings",
+    "track_artists",
+    "track_genres",
+    "track_moods",
+    "playlist_tracks",
+    "user_saved_tracks",
+    "user_saved_albums",
+    "user_followers",
+    "radio_tracks",
+    "user_podcast_subscriptions"
   ],
   "storedProcedures": [
     {
-      "name": "update_product_stock",
-      "definition": "CREATE OR REPLACE FUNCTION public.update_product_stock()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n    UPDATE products\n    SET stock_quantity = stock_quantity - NEW.quantity\n    WHERE product_id = NEW.product_id;\n    RETURN NEW;\nEND;\n$function$\n"
+      "name": "update_track_popularity",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_track_popularity()\n RETURNS void\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n  -- Update track popularity based on recent listening history\n  UPDATE tracks t\n  SET popularity = subquery.popularity\n  FROM (\n    SELECT track_id, COUNT(*) as popularity\n    FROM listening_history\n    WHERE listened_at >= CURRENT_DATE - INTERVAL '30 days'\n    GROUP BY track_id\n  ) AS subquery\n  WHERE t.track_id = subquery.track_id;\nEND;\n$function$\n"
+    },
+    {
+      "name": "get_user_recommendations",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_user_recommendations(user_id_param integer)\n RETURNS TABLE(track_id integer, title character varying, artist_name character varying)\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n  RETURN QUERY\n  SELECT t.track_id, t.title, a.name AS artist_name\n  FROM tracks t\n  JOIN track_artists ta ON t.track_id = ta.track_id\n  JOIN artists a ON ta.artist_id = a.artist_id\n  WHERE t.track_id IN (\n    SELECT track_id\n    FROM listening_history\n    WHERE user_id = user_id_param\n    GROUP BY track_id\n    ORDER BY COUNT(*) DESC\n    LIMIT 10\n  );\nEND;\n$function$\n"
     }
   ],
   "views": [
     {
-      "name": "popular_products",
-      "definition": " SELECT p.product_id,\n    p.name,\n    p.price,\n    count(oi.order_item_id) AS order_count\n   FROM (products p\n     LEFT JOIN order_items oi ON ((p.product_id = oi.product_id)))\n  GROUP BY p.product_id, p.name, p.price\n  ORDER BY (count(oi.order_item_id)) DESC;"
+      "name": "top_tracks_last_30_days",
+      "definition": " SELECT t.track_id,\n    t.title,\n    a.name AS artist_name,\n    count(*) AS play_count\n   FROM (((listening_history lh\n     JOIN tracks t ON ((lh.track_id = t.track_id)))\n     JOIN track_artists ta ON ((t.track_id = ta.track_id)))\n     JOIN artists a ON ((ta.artist_id = a.artist_id)))\n  WHERE (lh.listened_at >= (CURRENT_DATE - '30 days'::interval))\n  GROUP BY t.track_id, t.title, a.name\n  ORDER BY (count(*)) DESC\n LIMIT 100;"
     },
     {
-      "name": "category_sales",
-      "definition": " SELECT c.category_id,\n    c.name,\n    sum(((oi.quantity)::numeric * oi.price)) AS total_sales\n   FROM (((categories c\n     JOIN product_categories pc ON ((c.category_id = pc.category_id)))\n     JOIN products p ON ((pc.product_id = p.product_id)))\n     JOIN order_items oi ON ((p.product_id = oi.product_id)))\n  GROUP BY c.category_id, c.name\n  ORDER BY (sum(((oi.quantity)::numeric * oi.price))) DESC;"
+      "name": "user_playlist_counts",
+      "definition": " SELECT u.user_id,\n    u.username,\n    count(DISTINCT p.playlist_id) AS playlist_count\n   FROM (users u\n     LEFT JOIN playlists p ON ((u.user_id = p.user_id)))\n  GROUP BY u.user_id, u.username;"
     }
   ]
 }

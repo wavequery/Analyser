@@ -62,7 +62,10 @@ export class RelationshipAnalyzer {
             tables
           );
           for (const potentialTargetTable of potentialTargetTables) {
-            if (potentialTargetTable.name !== sourceTable.name) {
+            if (
+              potentialTargetTable.name !== sourceTable.name ||
+              this.isSelfReferencing(sourceColumn, sourceTable)
+            ) {
               const potentialTargetColumn = this.findPotentialTargetColumn(
                 potentialTargetTable,
                 sourceColumn
@@ -95,13 +98,21 @@ export class RelationshipAnalyzer {
     return relationships;
   }
 
+  private isArrayType(type: string): boolean {
+    return type.toLowerCase().startsWith("array<");
+  }
+
+  private isSelfReferencing(column: Column, table: Table): boolean {
+    return column.name.toLowerCase().includes(table.name.toLowerCase());
+  }
+
   private areTypesCompatible(
     sourceColumn: Column,
     targetColumn: Column
   ): boolean {
-    // This is a simple type compatibility check. You may need to expand this
-    // based on your specific database types and compatibility rules.
-    return sourceColumn.type.toLowerCase() === targetColumn.type.toLowerCase();
+    const sourceType = this.getBaseType(sourceColumn.type);
+    const targetType = this.getBaseType(targetColumn.type);
+    return sourceType === targetType;
   }
 
   private isPotentialForeignKey(column: Column): boolean {
@@ -113,7 +124,8 @@ export class RelationshipAnalyzer {
       name.endsWith("_key") ||
       name.endsWith("_code") ||
       name.endsWith("_num") ||
-      name.startsWith("fk_")
+      name.startsWith("fk_") ||
+      this.isArrayType(column.type)
     );
   }
 
@@ -190,6 +202,17 @@ export class RelationshipAnalyzer {
     return undefined;
   }
 
+  private getBaseType(type: string): string {
+    const lowerType = type.toLowerCase();
+    if (lowerType.startsWith("array<")) {
+      return this.getBaseType(lowerType.slice(6, -1));
+    }
+    if (lowerType.startsWith("struct<")) {
+      return "struct";
+    }
+    return lowerType;
+  }
+
   private calculateConfidence(
     sourceColumn: Column,
     sourceTable: Table,
@@ -246,9 +269,12 @@ export class RelationshipAnalyzer {
           );
 
           for (const targetTable of tables) {
-            if (targetTable.name !== sourceTable.name) {
+            if (
+              targetTable.name !== sourceTable.name ||
+              this.isSelfReferencing(sourceColumn, sourceTable)
+            ) {
               for (const targetColumn of targetTable.columns) {
-                if (targetColumn.type === sourceColumn.type) {
+                if (this.areTypesCompatible(sourceColumn, targetColumn)) {
                   const targetData = await this.getSampleData(
                     targetTable.name,
                     targetColumn.name,
@@ -260,7 +286,8 @@ export class RelationshipAnalyzer {
                     targetData
                   );
 
-                  if (matchPercentage > 0.5) {
+                  if (matchPercentage > 0.1) {
+                    // Lower threshold for partial matches
                     relationships.push({
                       sourceTable: sourceTable.name,
                       sourceColumn: sourceColumn.name,
@@ -289,7 +316,15 @@ export class RelationshipAnalyzer {
     try {
       const query = `SELECT DISTINCT ${columnName} FROM ${tableName} LIMIT ${sampleSize}`;
       const result = await this.connector.query(query);
-      return new Set(result.map((row) => row[columnName]?.toString() ?? ""));
+      return new Set(
+        result.flatMap((row) => {
+          const value = row[columnName];
+          if (Array.isArray(value)) {
+            return value.map((v) => v.toString());
+          }
+          return value?.toString() ?? "";
+        })
+      );
     } catch (error) {
       logger.error(
         `Error getting sample data for ${tableName}.${columnName}:`,
@@ -306,7 +341,7 @@ export class RelationshipAnalyzer {
     const intersection = new Set(
       [...sourceData].filter((x) => targetData.has(x))
     );
-    return intersection.size / sourceData.size;
+    return intersection.size / Math.min(sourceData.size, targetData.size);
   }
 
   private scoreAndDeduplicateRelationships(
@@ -328,7 +363,6 @@ export class RelationshipAnalyzer {
         uniqueRelationships.set(key, rel);
       }
     }
-
     return Array.from(uniqueRelationships.values()).sort(
       (a, b) => (b.confidence ?? 0) - (a.confidence ?? 0)
     );
