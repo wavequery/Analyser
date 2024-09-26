@@ -39,12 +39,14 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/bigquery": "^7.9.0",
+    "@types/pluralize": "^0.0.33",
     "commander": "^8.3.0",
     "d3": "^7.8.5",
     "express": "^4.17.1",
     "mysql2": "^3.11.2",
     "open": "^8.4.0",
     "pg": "^8.7.1",
+    "pluralize": "^8.0.0",
     "sqlite": "^4.1.1",
     "sqlite3": "^5.0.2"
   },

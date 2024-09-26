@@ -1,6 +1,7 @@
 import { DatabaseConnector } from "../connectors/baseConnector";
 import { Table, Relationship, Column } from "../schemas/tableSchema";
 import { logger } from "../utils/logger";
+import pluralize from "pluralize";
 
 export class RelationshipAnalyzer {
   constructor(private connector: DatabaseConnector) {}
@@ -9,6 +10,25 @@ export class RelationshipAnalyzer {
     const relationships: Relationship[] = [];
 
     // Get explicit foreign key relationships
+    relationships.push(...(await this.getExplicitForeignKeys(tables)));
+
+    // Infer additional relationships based on naming conventions
+    relationships.push(...this.getImplicitRelationships(tables));
+
+    // Perform data-driven relationship inference if tables have entities
+    if (tables.some((table) => table.columns.length > 0)) {
+      relationships.push(...(await this.getDataDrivenRelationships(tables)));
+    }
+
+    // Deduplicate and score relationships
+    return this.scoreAndDeduplicateRelationships(relationships);
+  }
+
+  private async getExplicitForeignKeys(
+    tables: Table[]
+  ): Promise<Relationship[]> {
+    const relationships: Relationship[] = [];
+
     for (const table of tables) {
       logger.log(`Fetching foreign keys for table: ${table.name}`);
       const foreignKeys = await this.connector.getForeignKeys(table.name);
@@ -22,32 +42,44 @@ export class RelationshipAnalyzer {
             targetTable: fk.referencedTable,
             targetColumn: fk.referencedColumn,
             isInferred: false,
+            confidence: 1,
           });
         }
       }
     }
 
-    // Infer additional relationships based on column names
+    return relationships;
+  }
+
+  private getImplicitRelationships(tables: Table[]): Relationship[] {
+    const relationships: Relationship[] = [];
+
     for (const sourceTable of tables) {
-      for (const column of sourceTable.columns) {
-        if (this.isPotentialForeignKey(column) || this.isNameMatch(column, tables)) {
-          const potentialTargetTable = this.getPotentialTargetTable(column.name, tables);
-          if (potentialTargetTable && potentialTargetTable.name !== sourceTable.name) {
-            const potentialTargetColumn = this.findPotentialTargetColumn(potentialTargetTable, column);
-            if (potentialTargetColumn) {
-              const confidence = this.calculateConfidence(column.name, potentialTargetTable.name);
-              // Check if this relationship already exists as an explicit one
-              const existingRelationship = relationships.find(
-                (r) =>
-                  r.sourceTable === sourceTable.name &&
-                  r.sourceColumn === column.name &&
-                  r.targetTable === potentialTargetTable.name &&
-                  r.targetColumn === potentialTargetColumn.name
+      for (const sourceColumn of sourceTable.columns) {
+        if (this.isPotentialForeignKey(sourceColumn)) {
+          const potentialTargetTables = this.getPotentialTargetTables(
+            sourceColumn.name,
+            tables
+          );
+          for (const potentialTargetTable of potentialTargetTables) {
+            if (potentialTargetTable.name !== sourceTable.name) {
+              const potentialTargetColumn = this.findPotentialTargetColumn(
+                potentialTargetTable,
+                sourceColumn
               );
-              if (!existingRelationship) {
+              if (
+                potentialTargetColumn &&
+                this.areTypesCompatible(sourceColumn, potentialTargetColumn)
+              ) {
+                const confidence = this.calculateConfidence(
+                  sourceColumn,
+                  sourceTable,
+                  potentialTargetTable,
+                  potentialTargetColumn
+                );
                 relationships.push({
                   sourceTable: sourceTable.name,
-                  sourceColumn: column.name,
+                  sourceColumn: sourceColumn.name,
                   targetTable: potentialTargetTable.name,
                   targetColumn: potentialTargetColumn.name,
                   isInferred: true,
@@ -63,47 +95,76 @@ export class RelationshipAnalyzer {
     return relationships;
   }
 
-  private isPotentialForeignKey(column: Column): boolean {
-    const name = column.name.toLowerCase();
-    return name.endsWith("_id") || name.endsWith("id") || name.startsWith("id_");
+  private areTypesCompatible(
+    sourceColumn: Column,
+    targetColumn: Column
+  ): boolean {
+    // This is a simple type compatibility check. You may need to expand this
+    // based on your specific database types and compatibility rules.
+    return sourceColumn.type.toLowerCase() === targetColumn.type.toLowerCase();
   }
 
-  private isNameMatch(column: Column, tables: Table[]): boolean {
+  private isPotentialForeignKey(column: Column): boolean {
     const name = column.name.toLowerCase();
-    return tables.some(table => 
-      name === table.name.toLowerCase() || 
-      name === table.name.toLowerCase().slice(0, -1) // singular form
+    return (
+      name.endsWith("_id") ||
+      name.endsWith("id") ||
+      name.startsWith("id_") ||
+      name.endsWith("_key") ||
+      name.endsWith("_code") ||
+      name.endsWith("_num") ||
+      name.startsWith("fk_")
     );
   }
 
-  private getPotentialTargetTable(columnName: string, tables: Table[]): Table | undefined {
+  private getPotentialTargetTables(
+    columnName: string,
+    tables: Table[]
+  ): Table[] {
     const potentialNames = this.getPotentialTableNames(columnName);
-    return tables.find((table) => potentialNames.includes(table.name.toLowerCase()));
+    return tables.filter((table) =>
+      potentialNames.includes(table.name.toLowerCase())
+    );
   }
 
   private getPotentialTableNames(columnName: string): string[] {
     const name = columnName.toLowerCase();
     if (name === "id") return []; // 'id' is too generic to infer a relationship
 
-    const potentialNames = [];
-    if (name.endsWith("_id")) {
-      potentialNames.push(name.slice(0, -3)); // remove '_id' suffix
-      potentialNames.push(name.slice(0, -3) + "s"); // plural form
-    } else if (name.endsWith("id")) {
-      potentialNames.push(name.slice(0, -2)); // remove 'id' suffix
-      potentialNames.push(name.slice(0, -2) + "s"); // plural form
-    } else if (name.startsWith("id_")) {
-      potentialNames.push(name.slice(3)); // remove 'id_' prefix
-      potentialNames.push(name.slice(3) + "s"); // plural form
-    } else {
-      potentialNames.push(name);
-      potentialNames.push(name + "s"); // plural form
+    const potentialNames = new Set<string>();
+    const suffixes = ["_id", "id", "_key", "_code", "_num"];
+    const prefixes = ["id_", "fk_"];
+
+    for (const suffix of suffixes) {
+      if (name.endsWith(suffix)) {
+        const baseName = name.slice(0, -suffix.length);
+        potentialNames.add(baseName);
+        potentialNames.add(pluralize(baseName));
+        break;
+      }
     }
 
-    return potentialNames;
+    for (const prefix of prefixes) {
+      if (name.startsWith(prefix)) {
+        const baseName = name.slice(prefix.length);
+        potentialNames.add(baseName);
+        potentialNames.add(pluralize(baseName));
+        break;
+      }
+    }
+
+    if (potentialNames.size === 0) {
+      potentialNames.add(name);
+      potentialNames.add(pluralize(name));
+    }
+
+    return Array.from(potentialNames);
   }
 
-  private findPotentialTargetColumn(targetTable: Table, sourceColumn: Column): Column | undefined {
+  private findPotentialTargetColumn(
+    targetTable: Table,
+    sourceColumn: Column
+  ): Column | undefined {
     // First, check for primary keys
     if (targetTable.primaryKeys && targetTable.primaryKeys.length > 0) {
       const primaryKeyColumn = targetTable.columns.find(
@@ -126,26 +187,150 @@ export class RelationshipAnalyzer {
     );
     if (idColumn) return idColumn;
 
-    // If no match found, return undefined
     return undefined;
   }
 
-  private calculateConfidence(columnName: string, tableName: string): number {
-    const columnLower = columnName.toLowerCase();
-    const tableLower = tableName.toLowerCase();
+  private calculateConfidence(
+    sourceColumn: Column,
+    sourceTable: Table,
+    targetTable: Table,
+    targetColumn: Column
+  ): number {
+    let confidence = 0.5;
 
-    if (columnLower === tableLower + "_id" || columnLower === "id_" + tableLower) {
-      return 1; // Highest confidence for exact match with _id prefix/suffix
+    if (sourceColumn.name.toLowerCase() === targetColumn.name.toLowerCase()) {
+      confidence += 0.3;
     }
 
-    if (columnLower === tableLower || columnLower === tableLower.slice(0, -1)) {
-      return 0.9; // High confidence for exact name match or singular form
+    if (
+      sourceColumn.name
+        .toLowerCase()
+        .includes(targetTable.name.toLowerCase()) ||
+      targetColumn.name.toLowerCase().includes(sourceTable.name.toLowerCase())
+    ) {
+      confidence += 0.2;
     }
 
-    if (columnLower.includes(tableLower) || tableLower.includes(columnLower)) {
-      return 0.7; // Medium confidence for partial matches
+    if (targetTable.primaryKeys?.includes(targetColumn.name)) {
+      confidence += 0.2;
     }
 
-    return 0.5; // Low confidence for other inferred relationships
+    if (sourceColumn.type === targetColumn.type) {
+      confidence += 0.1;
+    }
+
+    if (
+      sourceColumn.name.toLowerCase() ===
+        `${targetTable.name.toLowerCase()}_id` ||
+      sourceColumn.name.toLowerCase() === `id_${targetTable.name.toLowerCase()}`
+    ) {
+      confidence += 0.2;
+    }
+
+    return Math.min(confidence, 1);
+  }
+
+  private async getDataDrivenRelationships(
+    tables: Table[]
+  ): Promise<Relationship[]> {
+    const relationships: Relationship[] = [];
+    const sampleSize = 1000;
+
+    for (const sourceTable of tables) {
+      for (const sourceColumn of sourceTable.columns) {
+        if (this.isPotentialForeignKey(sourceColumn)) {
+          const sourceData = await this.getSampleData(
+            sourceTable.name,
+            sourceColumn.name,
+            sampleSize
+          );
+
+          for (const targetTable of tables) {
+            if (targetTable.name !== sourceTable.name) {
+              for (const targetColumn of targetTable.columns) {
+                if (targetColumn.type === sourceColumn.type) {
+                  const targetData = await this.getSampleData(
+                    targetTable.name,
+                    targetColumn.name,
+                    sampleSize
+                  );
+
+                  const matchPercentage = this.calculateMatchPercentage(
+                    sourceData,
+                    targetData
+                  );
+
+                  if (matchPercentage > 0.5) {
+                    relationships.push({
+                      sourceTable: sourceTable.name,
+                      sourceColumn: sourceColumn.name,
+                      targetTable: targetTable.name,
+                      targetColumn: targetColumn.name,
+                      isInferred: true,
+                      confidence: matchPercentage,
+                    });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return relationships;
+  }
+
+  private async getSampleData(
+    tableName: string,
+    columnName: string,
+    sampleSize: number
+  ): Promise<Set<string>> {
+    try {
+      const query = `SELECT DISTINCT ${columnName} FROM ${tableName} LIMIT ${sampleSize}`;
+      const result = await this.connector.query(query);
+      return new Set(result.map((row) => row[columnName]?.toString() ?? ""));
+    } catch (error) {
+      logger.error(
+        `Error getting sample data for ${tableName}.${columnName}:`,
+        error
+      );
+      return new Set();
+    }
+  }
+
+  private calculateMatchPercentage(
+    sourceData: Set<string>,
+    targetData: Set<string>
+  ): number {
+    const intersection = new Set(
+      [...sourceData].filter((x) => targetData.has(x))
+    );
+    return intersection.size / sourceData.size;
+  }
+
+  private scoreAndDeduplicateRelationships(
+    relationships: Relationship[]
+  ): Relationship[] {
+    const uniqueRelationships = new Map<string, Relationship>();
+
+    for (const rel of relationships) {
+      const key = `${rel.sourceTable}:${rel.sourceColumn}->${rel.targetTable}:${rel.targetColumn}`;
+      const existingRel = uniqueRelationships.get(key);
+
+      if (
+        !existingRel ||
+        (existingRel.isInferred && !rel.isInferred) ||
+        (existingRel.isInferred &&
+          rel.isInferred &&
+          (rel.confidence ?? 0) > (existingRel.confidence ?? 0))
+      ) {
+        uniqueRelationships.set(key, rel);
+      }
+    }
+
+    return Array.from(uniqueRelationships.values()).sort(
+      (a, b) => (b.confidence ?? 0) - (a.confidence ?? 0)
+    );
   }
 }
