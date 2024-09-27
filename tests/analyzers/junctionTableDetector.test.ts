@@ -1,5 +1,6 @@
 import { detectJunctionTables } from "../../src/analyzers/junctionTableDetector";
-import { Table, Relationship } from "../../src/schemas/tableSchema";
+import { Table } from "../../src/schemas/tableSchema";
+import { Relationship } from "../../src/schemas/relationshipSchema";
 
 describe("JunctionTableDetector", () => {
   it("should detect a simple junction table", () => {
@@ -27,17 +28,19 @@ describe("JunctionTableDetector", () => {
     const relationships: Relationship[] = [
       {
         sourceTable: "user_roles",
-        sourceColumn: "user_id",
+        sourceColumns: ["user_id"],
         targetTable: "users",
-        targetColumn: "id",
+        targetColumns: ["id"],
         isInferred: false,
+        confidence: 1
       },
       {
         sourceTable: "user_roles",
-        sourceColumn: "role_id",
+        sourceColumns: ["role_id"],
         targetTable: "roles",
-        targetColumn: "id",
+        targetColumns: ["id"],
         isInferred: false,
+        confidence: 1
       },
     ];
 
