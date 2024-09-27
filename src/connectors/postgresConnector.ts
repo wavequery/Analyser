@@ -115,6 +115,28 @@ export class PostgresConnector implements DatabaseConnector {
     }));
   }
 
+  async getUniqueKeys(tableName: string): Promise<string[]> {
+    const sql = `
+      SELECT a.attname as column_name
+      FROM pg_index i
+      JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
+      WHERE i.indrelid = $1::regclass
+        AND i.indisunique
+        AND NOT i.indisprimary
+    `;
+
+    try {
+      const result = await this.pool.query(sql, [tableName]);
+      return result.rows.map((row) => row.column_name);
+    } catch (error) {
+      console.error(
+        `Error fetching unique keys for table ${tableName}:`,
+        error
+      );
+      return [];
+    }
+  }
+
   async getIndexes(tableName: string): Promise<IndexInfo[]> {
     const sql = `
       SELECT

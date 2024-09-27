@@ -64,6 +64,10 @@ export class BigQueryConnector implements DatabaseConnector {
     return [];
   }
 
+  async getUniqueKeys(tableName: string): Promise<string[]> {
+    return [];
+  }
+
   async getIndexes(tableName: string): Promise<IndexInfo[]> {
     // BigQuery doesn't have traditional indexes
     return [];

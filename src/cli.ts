@@ -15,6 +15,10 @@ import { MySQLConnector } from "./connectors/mysqlConnector";
 import { DatabaseConnector } from "./connectors/baseConnector";
 
 import { logger } from "./utils/logger";
+import {
+  createSamplingStrategy,
+  SamplingStrategy,
+} from "./analyzers/samplingStrategy/samplingStrategy";
 
 const program = new Command();
 
@@ -68,13 +72,20 @@ program
         process.exit(1);
     }
 
+    const samplingStrategy = createSamplingStrategy(options.type);
+
     let outputPath = options.output;
     if (fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory()) {
       outputPath = path.join(outputPath, "database-schema.json");
     }
 
     try {
-      connector = await analyzeDatabase({ connector, logger, outputPath });
+      connector = await analyzeDatabase({
+        connector,
+        samplingStrategy,
+        logger,
+        outputPath,
+      });
       logger.log("Database analysis completed successfully.");
     } catch (error) {
       logger.error("Failed to analyze database:", error);

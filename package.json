@@ -1,6 +1,6 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "Database analyser and visualiser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -44,6 +44,7 @@
     "d3": "^7.8.5",
     "express": "^4.17.1",
     "mysql2": "^3.11.2",
+    "node-cache": "^5.1.2",
     "open": "^8.4.0",
     "pg": "^8.7.1",
     "pluralize": "^8.0.0",

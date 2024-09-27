@@ -14,6 +14,7 @@ export interface DatabaseConnector {
   getConstraints(tableName: string): Promise<ConstraintInfo[]>;
   getStoredProcedures(): Promise<ProcedureInfo[]>;
   getViews(): Promise<ViewInfo[]>;
+  getUniqueKeys(tableName: string): Promise<string[]>;
 }
 
 export interface ColumnInfo {

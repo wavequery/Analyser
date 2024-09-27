@@ -1,11 +1,13 @@
 // src/schemas/relationshipSchema.ts
 
 export interface Relationship {
-    sourceTable: string;
-    sourceColumn: string;
-    targetTable: string;
-    targetColumn: string;
-  }
+  sourceTable: string;
+  sourceColumns: string[];
+  targetTable: string;
+  targetColumns: string[];
+  isInferred: boolean;
+  confidence: number;
+}
   
   export interface RelationshipMap {
     [tableName: string]: TableRelationships;

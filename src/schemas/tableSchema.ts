@@ -13,11 +13,3 @@ export interface Table {
     isPrimaryKey: boolean;
   }
   
-  export interface Relationship {
-    sourceTable: string;
-    sourceColumn: string;
-    targetTable: string;
-    targetColumn: string;
-    isInferred: boolean;
-    confidence?: number;
-  }

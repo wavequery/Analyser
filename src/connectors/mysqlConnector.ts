@@ -103,6 +103,28 @@ export class MySQLConnector implements DatabaseConnector {
     }));
   }
 
+  async getUniqueKeys(tableName: string): Promise<string[]> {
+    const sql = `
+      SELECT DISTINCT COLUMN_NAME
+      FROM INFORMATION_SCHEMA.STATISTICS
+      WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = ?
+        AND NON_UNIQUE = 0
+        AND INDEX_NAME != 'PRIMARY'
+    `;
+
+    try {
+      const [rows] = await this.pool.query<any[]>(sql, [tableName]);
+      return rows.map((row) => row.COLUMN_NAME);
+    } catch (error) {
+      console.error(
+        `Error fetching unique keys for table ${tableName}:`,
+        error
+      );
+      return [];
+    }
+  }
+
   async getIndexes(tableName: string): Promise<IndexInfo[]> {
     const sql = `
       SELECT

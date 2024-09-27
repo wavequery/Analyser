@@ -1,6 +1,5 @@
-// src/utils/dependencyAnalyzer.ts
-
-import { Table, Relationship } from "../schemas/tableSchema";
+import { Table } from "../schemas/tableSchema";
+import { Relationship } from "../schemas/relationshipSchema";
 
 export function identifyCircularDependencies(
   tables: Table[],

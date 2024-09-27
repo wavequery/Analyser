@@ -59,6 +59,34 @@ export class SQLiteConnector implements DatabaseConnector {
     }));
   }
 
+
+  async getUniqueKeys(tableName: string): Promise<string[]> {
+    if (!this.db) {
+      throw new Error('Database connection not established');
+    }
+
+    const sql = `
+      PRAGMA index_list(${tableName});
+    `;
+    
+    try {
+      const indices = await this.db.all(sql);
+      const uniqueKeys: string[] = [];
+
+      for (const index of indices) {
+        if (index.unique === 1) {
+          const indexInfo = await this.db.all(`PRAGMA index_info(${index.name});`);
+          uniqueKeys.push(...indexInfo.map(info => info.name));
+        }
+      }
+
+      return uniqueKeys;
+    } catch (error) {
+      console.error(`Error fetching unique keys for table ${tableName}:`, error);
+      return [];
+    }
+  }
+
   async getPrimaryKeys(tableName: string): Promise<string[]> {
     const sql = `PRAGMA table_info(?)`;
     const result = await this.query<{ name: string; pk: number }>(sql, [

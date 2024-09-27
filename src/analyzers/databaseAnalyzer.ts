@@ -8,15 +8,22 @@ import { exportToJson } from "../utils/jsonExporter";
 import { identifyCircularDependencies } from "../utils/dependencyAnalyzer";
 import { detectJunctionTables } from "./junctionTableDetector";
 import { Logger } from "../utils/logger";
+import { SamplingStrategy } from "./samplingStrategy/samplingStrategy";
 
 export async function analyzeDatabase({
   connector,
   logger,
   outputPath = "database-schema.json",
+  samplingStrategy,
+  // batchSize = 100,
+  // workerPoolSize = 4,
 }: {
   connector: DatabaseConnector;
+  samplingStrategy: SamplingStrategy;
   logger: Logger;
   outputPath: string;
+  // batchSize?: number;
+  // workerPoolSize?: number;
 }): Promise<DatabaseConnector> {
   logger.log("Starting database analysis...");
   try {
@@ -27,9 +34,14 @@ export async function analyzeDatabase({
     const schemaAnalyzer = new SchemaAnalyzer(connector);
     const tables = await schemaAnalyzer.getTables();
     logger.log(`Found ${tables.length} tables.`);
-
+    
     logger.log("Analyzing relationships...");
-    const relationshipAnalyzer = new RelationshipAnalyzer(connector);
+    const relationshipAnalyzer = new RelationshipAnalyzer(
+      connector,
+      samplingStrategy
+      // batchSize,
+      // workerPoolSize,
+    );
     const relationships = await relationshipAnalyzer.getRelationships(tables);
     logger.log(`Found ${relationships.length} relationships.`);
 

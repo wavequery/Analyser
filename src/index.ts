@@ -12,4 +12,5 @@ export { RelationshipAnalyzer } from "./analyzers/relationshipAnalyzer";
 export { detectJunctionTables } from "./analyzers/junctionTableDetector";
 export { topologicalSort } from "./utils/topologicalSort";
 export { identifyCircularDependencies } from "./utils/dependencyAnalyzer";
-export { Relationship, Table, Column } from "./schemas/tableSchema";
+export { Table, Column } from "./schemas/tableSchema";
+export { Relationship } from "./schemas/relationshipSchema";

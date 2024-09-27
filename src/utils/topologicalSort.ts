@@ -1,8 +1,10 @@
-// src/utils/topologicalSort.ts
+import { Table } from "../schemas/tableSchema";
+import { Relationship } from "../schemas/relationshipSchema";
 
-import { Table, Relationship } from '../schemas/tableSchema';
-
-export function topologicalSort(tables: Table[], relationships: Relationship[]): Table[] {
+export function topologicalSort(
+  tables: Table[],
+  relationships: Relationship[]
+): Table[] {
   const graph: Map<string, Set<string>> = new Map();
   const inDegree: Map<string, number> = new Map();
 
@@ -14,7 +16,8 @@ export function topologicalSort(tables: Table[], relationships: Relationship[]):
 
   // Build the graph
   for (const rel of relationships) {
-    if (rel.sourceTable !== rel.targetTable) { // Ignore self-references
+    if (rel.sourceTable !== rel.targetTable) {
+      // Ignore self-references
       graph.get(rel.sourceTable)!.add(rel.targetTable);
       inDegree.set(rel.targetTable, (inDegree.get(rel.targetTable) || 0) + 1);
     }
@@ -51,5 +54,5 @@ export function topologicalSort(tables: Table[], relationships: Relationship[]):
   }
 
   // Return the sorted tables
-  return result.map(name => tables.find(t => t.name === name)!);
+  return result.map((name) => tables.find((t) => t.name === name)!);
 }

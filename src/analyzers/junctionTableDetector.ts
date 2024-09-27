@@ -1,4 +1,5 @@
-import { Table, Relationship } from "../schemas/tableSchema";
+import { Table } from "../schemas/tableSchema";
+import { Relationship } from "../schemas/relationshipSchema";
 
 function isLikelyMetadata(columnName: string): boolean {
   const metadataPatterns = [
@@ -31,14 +32,14 @@ export function detectJunctionTables(
       const totalColumns = table.columns.length;
       const primaryKeyColumns = table.primaryKeys.length;
       const foreignKeyColumns = new Set(
-        foreignKeys.map((fk) => fk.sourceColumn)
+        foreignKeys.flatMap((fk) => fk.sourceColumns)
       ).size;
 
       // Count likely metadata columns
       const metadataColumns = table.columns.filter(
         (col) =>
           !table.primaryKeys.includes(col.name) &&
-          !foreignKeys.some((fk) => fk.sourceColumn === col.name) &&
+          !foreignKeys.some((fk) => fk.sourceColumns.includes(col.name)) &&
           (isLikelyMetadata(col.name) || isLikelyIdentifier(col.name))
       ).length;
 
