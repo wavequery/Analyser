@@ -7,6 +7,7 @@ export interface Relationship {
   targetColumns: string[];
   isInferred: boolean;
   confidence: number;
+  type: "implicit" | "explicit" | "semantic";
 }
   
   export interface RelationshipMap {

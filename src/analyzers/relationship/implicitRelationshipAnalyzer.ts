@@ -47,6 +47,7 @@ export class ImplicitRelationshipAnalyzer {
                   targetColumns: [targetColumn.name],
                   isInferred: true,
                   confidence: confidence,
+                  type: 'implicit'
                 });
               }
             }

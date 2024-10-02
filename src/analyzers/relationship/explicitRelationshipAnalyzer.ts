@@ -28,6 +28,7 @@ export class ExplicitRelationshipAnalyzer {
                 targetColumns: [fk.referencedColumn],
                 isInferred: false,
                 confidence: 1,
+                type: "explicit"
               });
             }
           });

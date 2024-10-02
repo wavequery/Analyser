@@ -1,29 +1,32 @@
 import { DatabaseConnector } from "../connectors/baseConnector";
 import { Table } from "../schemas/tableSchema";
-import {Relationship} from "../schemas/relationshipSchema";
+import { Relationship } from "../schemas/relationshipSchema";
 import { SchemaConfig, defaultSchemaConfig } from "../schemas/schemaConfig";
 import { logger } from "../utils/logger";
 import { SamplingStrategy } from "./samplingStrategy/samplingStrategy";
 import { ExplicitRelationshipAnalyzer } from "./relationship/explicitRelationshipAnalyzer";
 import { ImplicitRelationshipAnalyzer } from "./relationship/implicitRelationshipAnalyzer";
+import { SemanticRelationshipAnalyzer } from "./relationship/semanticRelationshipAnalyzer";
 // import { DataDrivenRelationshipAnalyzer } from "./relationship/dataDrivenRelationshipAnalyzer";
 // import { TransitiveRelationshipDetector } from "./relationship/transitiveRelationshipDetector";
 
 export class RelationshipAnalyzer {
   private explicitAnalyzer: ExplicitRelationshipAnalyzer;
   private implicitAnalyzer: ImplicitRelationshipAnalyzer;
+  private semanticAnalyzer: SemanticRelationshipAnalyzer;
   // private dataDrivenAnalyzer: DataDrivenRelationshipAnalyzer;
   private config: SchemaConfig;
 
   constructor(
     private connector: DatabaseConnector,
-    private samplingStrategy: SamplingStrategy,
+    private samplingStrategy?: SamplingStrategy,
     config: Partial<SchemaConfig> = {}
   ) {
     this.config = { ...defaultSchemaConfig, ...config };
     this.explicitAnalyzer = new ExplicitRelationshipAnalyzer(connector);
     this.implicitAnalyzer = new ImplicitRelationshipAnalyzer(this.config);
-    
+    this.semanticAnalyzer = new SemanticRelationshipAnalyzer();
+
     //
     // ____ TODO: To be refined on the number of sampling ____
     //
@@ -41,16 +44,19 @@ export class RelationshipAnalyzer {
     const [
       explicitRelationships,
       implicitRelationships,
+      semanticAnalyzer,
       // dataDrivenRelationships,
     ] = await Promise.all([
       this.explicitAnalyzer.analyze(tables),
       this.implicitAnalyzer.analyze(tables),
+      this.semanticAnalyzer.analyze(tables),
       // this.dataDrivenAnalyzer.analyze(tables),
     ]);
 
     const allRelationships = [
       ...explicitRelationships,
       ...implicitRelationships,
+      ...semanticAnalyzer,
       // ...dataDrivenRelationships,
     ];
 
@@ -77,7 +83,9 @@ export class RelationshipAnalyzer {
     const uniqueRelationships = new Map<string, Relationship>();
 
     for (const rel of relationships) {
-      const key = `${rel.sourceTable}:${rel.sourceColumns.join(',')}->${rel.targetTable}:${rel.targetColumns.join(',')}`;
+      const key = `${rel.sourceTable}:${rel.sourceColumns.join(",")}->${
+        rel.targetTable
+      }:${rel.targetColumns.join(",")}`;
       const existingRel = uniqueRelationships.get(key);
 
       if (!existingRel) {
