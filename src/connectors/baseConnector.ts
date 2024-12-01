@@ -1,5 +1,3 @@
-// src/connectors/baseConnector.ts
-
 import { Table } from "@google-cloud/bigquery";
 
 export interface DatabaseConnector {

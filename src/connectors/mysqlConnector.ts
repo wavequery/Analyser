@@ -1,5 +1,3 @@
-// src/connectors/mysqlConnector.ts
-
 import { createPool, Pool, PoolOptions } from "mysql2/promise";
 import {
   DatabaseConnector,

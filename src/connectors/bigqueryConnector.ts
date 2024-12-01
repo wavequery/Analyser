@@ -1,5 +1,3 @@
-// src/connectors/bigQueryConnector.ts
-
 import { BigQuery, Table } from "@google-cloud/bigquery";
 import {
   DatabaseConnector,

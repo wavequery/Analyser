@@ -1,5 +1,3 @@
-// src/connectors/mariadbConnector.ts
-
 import { createPool, Pool, PoolOptions } from "mysql2/promise";
 import {
   DatabaseConnector,

@@ -1,5 +1,3 @@
-// src/connectors/sqliteConnector.ts
-
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
 import {
