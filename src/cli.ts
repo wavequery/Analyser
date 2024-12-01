@@ -80,7 +80,7 @@ program
     }
 
     try {
-      connector = await analyzeDatabase({
+      await analyzeDatabase({
         connector,
         samplingStrategy,
         logger,

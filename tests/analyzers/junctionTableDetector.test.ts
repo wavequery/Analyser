@@ -32,7 +32,8 @@ describe("JunctionTableDetector", () => {
         targetTable: "users",
         targetColumns: ["id"],
         isInferred: false,
-        confidence: 1
+        confidence: 1,
+        type: "implicit"
       },
       {
         sourceTable: "user_roles",
@@ -40,7 +41,8 @@ describe("JunctionTableDetector", () => {
         targetTable: "roles",
         targetColumns: ["id"],
         isInferred: false,
-        confidence: 1
+        confidence: 1,
+         type: "implicit"
       },
     ];
 

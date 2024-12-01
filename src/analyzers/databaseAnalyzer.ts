@@ -24,7 +24,7 @@ export async function analyzeDatabase({
   outputPath: string;
   // batchSize?: number;
   // workerPoolSize?: number;
-}): Promise<DatabaseConnector> {
+}) {
   logger.log("Starting database analysis...");
   try {
     logger.log("Connecting to database...");
@@ -83,7 +83,7 @@ export async function analyzeDatabase({
     await exportToJson(schemaData, outputPath, logger);
 
     console.log("Database analysis completed successfully.");
-    return connector;
+    return schemaData;
   } catch (error) {
     logger.error("Error during schema analysis:", error);
     if (error instanceof Error) {
