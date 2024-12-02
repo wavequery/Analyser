@@ -1,20 +1,58 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "Database analyser and visualiser",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "packageManager": "yarn@4.5.3",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": {
+        "types": "./dist/types/browser.d.ts",
+        "import": "./dist/esm/browser.js",
+        "require": "./dist/cjs/browser.js",
+        "default": "./dist/esm/browser.js"
+      },
+      "node": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": {
+        "types": "./dist/types/browser.d.ts",
+        "import": "./dist/esm/browser.js",
+        "require": "./dist/cjs/browser.js"
+      }
+    }
+  },
   "files": [
     "dist"
   ],
+  "browser": {
+    "@tensorflow/tfjs-node": "@tensorflow/tfjs",
+    "@google-cloud/bigquery": false,
+    "@mapbox/node-pre-gyp": false,
+    "aws-sdk": false,
+    "mock-aws-s3": false,
+    "mysql2": false,
+    "nock": false,
+    "pg": false,
+    "sqlite3": false
+  },
   "bin": {
     "db-schema-finder": "./dist/cli.js"
   },
   "scripts": {
-    "copy-public": "cp -R src/public dist/",
-    "build": "tsc -p tsconfig.json && npm run copy-public",
-    "build:esm": "tsc -p tsconfig.esm.json",
+    "clean": "rimraf dist",
+    "copy-public:esm": "cp -R src/public dist/esm",
+    "copy-public:cjs": "cp -R src/public dist/cjs",
+    "copy-public": "yarn copy-public:esm && yarn copy-public:cjs",
+    "build": "yarn clean && yarn build:types && yarn build:cjs && yarn build:esm && yarn copy-public",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "start": "node dist/cli.js",
     "serve": "node dist/server.js",
     "test": "jest",
@@ -37,13 +75,13 @@
     "sentence-encoder",
     "tfjs-node"
   ],
-  "private": false,
   "author": "amin@wavequery.com",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/bigquery": "^7.9.0",
     "@neondatabase/serverless": "^0.10.4",
     "@tensorflow-models/universal-sentence-encoder": "^1.3.3",
+    "@tensorflow/tfjs": "^4.21.0",
     "@tensorflow/tfjs-node": "^4.21.0",
     "@types/pluralize": "^0.0.33",
     "commander": "^8.3.0",
@@ -65,6 +103,7 @@
     "@types/pg": "^8.6.3",
     "@types/sqlite3": "^3.1.8",
     "jest": "^27.4.5",
+    "rimraf": "^6.0.1",
     "ts-jest": "^27.1.1",
     "typescript": "^4.5.4"
   },

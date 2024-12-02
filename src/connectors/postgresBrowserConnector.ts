@@ -1,11 +1,6 @@
 import { neon, neonConfig } from "@neondatabase/serverless";
 import type { NeonQueryFunction } from "@neondatabase/serverless";
 import { DatabaseConnector } from "./baseConnector";
-import fetch from 'node-fetch';
-
-if (!globalThis.fetch) {
-  (globalThis as any).fetch = fetch;
-}
 
 export interface PostgresConfig {
   host: string;
@@ -65,9 +60,10 @@ export interface ViewInfo {
   isMaterialized: boolean;
 }
 
-type SQL = any; // TODO: NeonQueryFunction<false, false>;
+type QueryResultRow = Record<string, unknown>;
+type SQL = NeonQueryFunction<false, false>;
 
-export class PostgresBrowserConnector implements DatabaseConnector {
+export class PostgresBrowserConnector {
   private sql: SQL;
   private config: PostgresConfig;
   private isConnected: boolean = false;
@@ -101,8 +97,8 @@ export class PostgresBrowserConnector implements DatabaseConnector {
     this.isConnected = false;
   }
 
-  async query<T = any>(sql: string, params?: any[]): Promise<T[]> {
-    const result = await this.sql(sql, params);
+  async query<T = QueryResultRow>(sql: string, params?: any[]): Promise<T[]> {
+    const result = await this.sql(sql, params) as unknown as T[];
     return result;
   }
 
@@ -115,28 +111,31 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   async getTables(): Promise<string[]> {
     this.checkConnection();
 
-    const result = await this.sql<{ table_name: string }>`
+    type TableResult = { table_name: string };
+    const result = (await this.sql`
       SELECT table_name
       FROM information_schema.tables
       WHERE table_schema = 'public'
       AND table_type = 'BASE TABLE'
       ORDER BY table_name
-    `;
+    `) as TableResult[];
 
-    return result.map((row: any) => row.table_name);
+    return result.map((row) => row.table_name);
   }
 
   async getColumns(tableName: string): Promise<ColumnInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type ColumnResult = {
       column_name: string;
       data_type: string;
       is_nullable: string;
       is_primary_key: boolean;
       column_default: string | null;
       description: string | null;
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT 
         c.column_name, 
         c.data_type,
@@ -158,9 +157,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
         AND pd.objsubid = c.ordinal_position
       WHERE c.table_name = ${tableName}
       ORDER BY c.ordinal_position
-    `;
+    `) as ColumnResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       name: row.column_name,
       type: row.data_type,
       isNullable: row.is_nullable === "YES",
@@ -185,13 +184,15 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   async getForeignKeys(tableName: string): Promise<ForeignKeyInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type ForeignKeyResult = {
       column_name: string;
       foreign_table_name: string;
       foreign_column_name: string;
       on_delete: string;
       on_update: string;
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT
         kcu.column_name,
         ccu.table_name AS foreign_table_name,
@@ -207,9 +208,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
         ON rc.constraint_name = tc.constraint_name
       WHERE tc.constraint_type = 'FOREIGN KEY'
         AND tc.table_name = ${tableName}
-    `;
+    `) as ForeignKeyResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       columnName: row.column_name,
       referencedTable: row.foreign_table_name,
       referencedColumn: row.foreign_column_name,
@@ -219,37 +220,36 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   }
 
   async getUniqueKeys(tableName: string): Promise<string[]> {
-    const sql = `
+    this.checkConnection();
+
+    type UniqueKeyResult = {
+      column_name: string;
+    };
+
+    const result = (await this.sql`
       SELECT a.attname as column_name
       FROM pg_index i
       JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
-      WHERE i.indrelid = $1::regclass
+      WHERE i.indrelid = ${tableName}::regclass
         AND i.indisunique
         AND NOT i.indisprimary
-    `;
+    `) as UniqueKeyResult[];
 
-    try {
-      const result = await this.query(sql, [tableName]);
-      return result.map((row) => row.column_name);
-    } catch (error) {
-      console.error(
-        `Error fetching unique keys for table ${tableName}:`,
-        error
-      );
-      return [];
-    }
+    return result.map((row) => row.column_name);
   }
 
   async getIndexes(tableName: string): Promise<IndexInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type IndexResult = {
       index_name: string;
       column_name: string;
       is_unique: boolean;
       index_type: string;
       is_primary: boolean;
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT
         i.relname AS index_name,
         a.attname AS column_name,
@@ -273,9 +273,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
       ORDER BY
         i.relname,
         a.attnum
-    `;
+    `) as IndexResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       name: row.index_name,
       columnName: row.column_name,
       isUnique: row.is_unique,
@@ -287,11 +287,13 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   async getConstraints(tableName: string): Promise<ConstraintInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type ConstraintResult = {
       constraint_name: string;
       constraint_type: string;
       definition: string;
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT
         con.conname AS constraint_name,
         CASE
@@ -306,9 +308,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
       INNER JOIN pg_class rel ON rel.oid = con.conrelid
       INNER JOIN pg_namespace nsp ON nsp.oid = con.connamespace
       WHERE rel.relname = ${tableName}
-    `;
+    `) as ConstraintResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       name: row.constraint_name,
       type: row.constraint_type as ConstraintInfo["type"],
       definition: row.definition,
@@ -318,11 +320,13 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   async getViews(): Promise<ViewInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type ViewResult = {
       view_name: string;
       definition: string;
       is_materialized: boolean;
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT 
         viewname AS view_name,
         definition,
@@ -337,9 +341,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
         true AS is_materialized
       FROM pg_matviews
       WHERE schemaname = 'public'
-    `;
+    `) as ViewResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       name: row.view_name,
       definition: row.definition,
       isMaterialized: row.is_materialized,
@@ -349,7 +353,7 @@ export class PostgresBrowserConnector implements DatabaseConnector {
   async getStoredProcedures(): Promise<ProcedureInfo[]> {
     this.checkConnection();
 
-    const result = await this.sql<{
+    type ProcedureResult = {
       proc_name: string;
       definition: string;
       language: string;
@@ -357,7 +361,9 @@ export class PostgresBrowserConnector implements DatabaseConnector {
       arg_names: string[];
       arg_types: string[];
       arg_modes: string[];
-    }>`
+    };
+
+    const result = (await this.sql`
       SELECT
         p.proname AS proc_name,
         pg_get_functiondef(p.oid) AS definition,
@@ -375,14 +381,14 @@ export class PostgresBrowserConnector implements DatabaseConnector {
       JOIN pg_language l ON p.prolang = l.oid
       JOIN pg_namespace n ON p.pronamespace = n.oid
       WHERE n.nspname = 'public'
-    `;
+    `) as ProcedureResult[];
 
-    return result.map((row: any) => ({
+    return result.map((row) => ({
       name: row.proc_name,
       definition: row.definition,
       language: row.language,
       returnType: row.return_type,
-      arguments: row.arg_names.map((name: string, i: number) => ({
+      arguments: row.arg_names.map((name, i) => ({
         name: name || `arg${i + 1}`,
         type: row.arg_types[i],
         mode: row.arg_modes[i] as

@@ -954,46 +954,7 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "organization_invite",
-      "sourceColumns": [
-        "organizationId"
-      ],
-      "targetTable": "organization",
-      "targetColumns": [
-        "id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "query",
-      "sourceColumns": [
-        "teamId"
-      ],
-      "targetTable": "organization",
-      "targetColumns": [
-        "id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
       "sourceTable": "query_slack_channel",
-      "sourceColumns": [
-        "queryAutomationId"
-      ],
-      "targetTable": "query_automation",
-      "targetColumns": [
-        "id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "query_email_config",
       "sourceColumns": [
         "queryAutomationId"
       ],
@@ -1019,9 +980,35 @@
       "type": "explicit"
     },
     {
+      "sourceTable": "query_email_config",
+      "sourceColumns": [
+        "queryAutomationId"
+      ],
+      "targetTable": "query_automation",
+      "targetColumns": [
+        "id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
       "sourceTable": "user",
       "sourceColumns": [
         "organizationId"
+      ],
+      "targetTable": "organization",
+      "targetColumns": [
+        "id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "query",
+      "sourceColumns": [
+        "teamId"
       ],
       "targetTable": "organization",
       "targetColumns": [
@@ -1050,6 +1037,19 @@
         "messengerId"
       ],
       "targetTable": "messenger",
+      "targetColumns": [
+        "id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "organization_invite",
+      "sourceColumns": [
+        "organizationId"
+      ],
+      "targetTable": "organization",
       "targetColumns": [
         "id"
       ],

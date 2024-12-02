@@ -1,10 +1,6 @@
 export { analyzeDatabase } from "./analyzers/databaseAnalyzer";
 export { DatabaseConnector } from "./connectors/baseConnector";
-export { PostgresConnector} from "./connectors/postgresConnector"; 
-export { MariaDBConnector } from "./connectors/mariadbConnector";
-export { MySQLConnector } from "./connectors/mysqlConnector";
-export { SQLiteConnector } from "./connectors/sqliteConnector";
-export { BigQueryConnector } from "./connectors/bigqueryConnector";
+export { PostgresBrowserConnector, PostgresConfig } from "./connectors/postgresBrowserConnector";
 export { SchemaAnalyzer } from "./analyzers/schemaAnalyzer";
 export { RelationshipAnalyzer } from "./analyzers/relationshipAnalyzer";
 export { detectJunctionTables } from "./analyzers/junctionTableDetector";

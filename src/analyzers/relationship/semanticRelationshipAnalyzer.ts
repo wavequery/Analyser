@@ -1,17 +1,24 @@
 import { Table, Column } from "../../schemas/tableSchema";
 import { Relationship } from "../../schemas/relationshipSchema";
 
-import * as tf from "@tensorflow/tfjs-node";
-import * as use from "@tensorflow-models/universal-sentence-encoder";
+import {
+  TensorFlowImports,
+  loadTensorFlowImports,
+} from "../../utils/tfjs-imports";
 
 class SemanticRelationshipAnalyzer {
-  private model!: use.UniversalSentenceEncoder;
+  private model: any;
+  private tfImports!: TensorFlowImports;
 
   constructor() {}
 
   async initialize() {
+    if (!this.tfImports) {
+      this.tfImports = await loadTensorFlowImports();
+    }
+
     if (!this.model) {
-      this.model = await use.load();
+      this.model = await this.tfImports.use.load();
     }
   }
 
@@ -46,24 +53,23 @@ class SemanticRelationshipAnalyzer {
     return relationships;
   }
 
-  private async getTableEmbeddings(tables: Table[]): Promise<tf.Tensor2D[]> {
-    if (!this.model) {
-      throw new Error("Model not initialized");
+  private async getTableEmbeddings(tables: Table[]): Promise<any[]> {
+    if (!this.model || !this.tfImports) {
+      throw new Error("Model or TensorFlow imports not initialized");
     }
     const tableDescriptions = tables.map(
       (table) =>
         `${table.name} ${table.columns.map((col) => col.name).join(" ")}`
     );
     const embeddingTensor = await this.model.embed(tableDescriptions);
-    return Array.from(tf.unstack(embeddingTensor)) as tf.Tensor2D[];
+    return Array.from(this.tfImports.tf.unstack(embeddingTensor));
   }
 
-  private calculateSimilarity(
-    embedding1: tf.Tensor2D,
-    embedding2: tf.Tensor2D
-  ): number {
-    const cosineSimilarity = tf.tidy(() => {
-      return tf.losses.cosineDistance(embedding1, embedding2, 0).dataSync()[0];
+  private calculateSimilarity(embedding1: any, embedding2: any): number {
+    const cosineSimilarity = this.tfImports.tf.tidy(() => {
+      return this.tfImports.tf.losses
+        .cosineDistance(embedding1, embedding2, 0)
+        .dataSync()[0];
     });
     return 1 - cosineSimilarity;
   }
