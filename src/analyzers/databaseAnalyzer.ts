@@ -1,5 +1,3 @@
-// src/index.ts
-
 import { DatabaseConnector } from "../connectors/baseConnector";
 import { SchemaAnalyzer } from "./schemaAnalyzer";
 import { RelationshipAnalyzer } from "./relationshipAnalyzer";
@@ -7,21 +5,24 @@ import { topologicalSort } from "../utils/topologicalSort";
 import { exportToJson } from "../utils/jsonExporter";
 import { identifyCircularDependencies } from "../utils/dependencyAnalyzer";
 import { detectJunctionTables } from "./junctionTableDetector";
-import { Logger } from "../utils/logger";
+import { Logger, logger } from "../utils/logger";
 import { SamplingStrategy } from "./samplingStrategy/samplingStrategy";
 
 export async function analyzeDatabase({
   connector,
-  logger,
+  logger: Logger = logger,
+  exportData = true,
   outputPath = "database-schema.json",
-  samplingStrategy,
-  // batchSize = 100,
-  // workerPoolSize = 4,
-}: {
+  samplingStrategy = undefined,
+}: 
+// batchSize = 100,
+// workerPoolSize = 4,
+{
   connector: DatabaseConnector;
-  samplingStrategy: SamplingStrategy;
-  logger: Logger;
-  outputPath: string;
+  samplingStrategy?: SamplingStrategy | undefined;
+  logger?: Logger | undefined;
+  outputPath?: string;
+  exportData: boolean | undefined;
   // batchSize?: number;
   // workerPoolSize?: number;
 }) {
@@ -34,7 +35,7 @@ export async function analyzeDatabase({
     const schemaAnalyzer = new SchemaAnalyzer(connector);
     const tables = await schemaAnalyzer.getTables();
     logger.log(`Found ${tables.length} tables.`);
-    
+
     logger.log("Analyzing relationships...");
     const relationshipAnalyzer = new RelationshipAnalyzer(
       connector,
@@ -79,9 +80,10 @@ export async function analyzeDatabase({
       views: views,
     };
 
-    console.log(`Exporting data to JSON: ${outputPath}`);
-    await exportToJson(schemaData, outputPath, logger);
-
+    if (exportData) {
+      console.log(`Exporting data to JSON: ${outputPath}`);
+      await exportToJson(schemaData, outputPath, logger);
+    }
     console.log("Database analysis completed successfully.");
     return schemaData;
   } catch (error) {

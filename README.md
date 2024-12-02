@@ -67,7 +67,7 @@ async function runAnalysis() {
   });
 
   try {
-    const result = await analyzeDatabase({connector});
+    const result = await analyzeDatabase({connector, exportData});
     console.log(JSON.stringify(result, null, 2));
   } catch (error) {
     console.error('Analysis failed:', error);

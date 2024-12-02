@@ -85,6 +85,7 @@ program
         samplingStrategy,
         logger,
         outputPath,
+        exportData: true
       });
       logger.log("Database analysis completed successfully.");
     } catch (error) {
