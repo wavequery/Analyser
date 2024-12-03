@@ -1,6 +1,6 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Database analyser and visualiser",
   "packageManager": "yarn@4.5.3",
   "main": "./dist/cjs/index.js",
@@ -31,9 +31,9 @@
     "dist"
   ],
   "browser": {
-    "@tensorflow/tfjs-node": "@tensorflow/tfjs",
     "@google-cloud/bigquery": false,
     "@mapbox/node-pre-gyp": false,
+    "@tensorflow/tfjs-node": "@tensorflow/tfjs",
     "aws-sdk": false,
     "mock-aws-s3": false,
     "mysql2": false,

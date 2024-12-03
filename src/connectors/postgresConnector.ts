@@ -198,23 +198,44 @@ export class PostgresConnector implements DatabaseConnector {
 
   async getStoredProcedures(): Promise<ProcedureInfo[]> {
     const sql = `
-      SELECT
+      SELECT 
         p.proname AS procedure_name,
-        pg_get_functiondef(p.oid) AS procedure_definition
-      FROM
-        pg_proc p
-        INNER JOIN pg_namespace n ON p.pronamespace = n.oid
-      WHERE
-        n.nspname = 'public'
+        pg_catalog.pg_get_function_result(p.oid) as result_type,
+        pg_catalog.pg_get_function_arguments(p.oid) as argument_data_types,
+        CASE 
+          WHEN p.prokind = 'a' THEN 'AGGREGATE'
+          ELSE COALESCE(pg_get_functiondef(p.oid), '')
+        END AS procedure_definition,
+        p.prokind
+      FROM pg_proc p
+      INNER JOIN pg_namespace n ON p.pronamespace = n.oid
+      WHERE n.nspname = 'public'
+      AND p.prokind IN ('f', 'p', 'a')  -- f=function, p=procedure, a=aggregate
     `;
+
     const result = await this.query<{
       procedure_name: string;
+      result_type: string;
+      argument_data_types: string;
       procedure_definition: string;
+      prokind: string;
     }>(sql);
-    return result.map((row) => ({
-      name: row.procedure_name,
-      definition: row.procedure_definition,
-    }));
+
+    return result.map((row) => {
+      let definition = row.procedure_definition;
+
+      // For aggregate functions, construct a descriptive definition
+      if (row.prokind === "a") {
+        definition =
+          `AGGREGATE FUNCTION ${row.procedure_name}(${row.argument_data_types}) ` +
+          `RETURNS ${row.result_type}`;
+      }
+
+      return {
+        name: row.procedure_name,
+        definition: definition,
+      };
+    });
   }
 
   async getViews(): Promise<ViewInfo[]> {
