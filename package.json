@@ -1,8 +1,8 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Database analyser and visualiser",
-  "packageManager": "yarn@4.5.3",
+  "packageManager": "yarn@1.22.22",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",

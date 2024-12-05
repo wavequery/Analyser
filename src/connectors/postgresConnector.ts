@@ -11,9 +11,11 @@ import {
 
 export class PostgresConnector implements DatabaseConnector {
   private pool: Pool;
+  private schema: string;
 
-  constructor(config: PoolConfig) {
+  constructor(config: PoolConfig & { schema?: string }) {
     this.pool = new Pool(config);
+    this.schema = config.schema || 'public';
   }
 
   async connect(): Promise<void> {
@@ -33,10 +35,10 @@ export class PostgresConnector implements DatabaseConnector {
     const sql = `
       SELECT table_name
       FROM information_schema.tables
-      WHERE table_schema = 'public'
+      WHERE table_schema = $1
       AND table_type = 'BASE TABLE'
     `;
-    const result = await this.query<{ table_name: string }>(sql);
+    const result = await this.query<{ table_name: string }>(sql, [this.schema]);
     return result.map((row) => row.table_name);
   }
 
@@ -58,15 +60,17 @@ export class PostgresConnector implements DatabaseConnector {
           ON tc.constraint_name = kcu.constraint_name
         WHERE tc.constraint_type = 'PRIMARY KEY'
           AND tc.table_name = $1
+          AND tc.table_schema = $2
       ) pk ON c.column_name = pk.column_name
       WHERE c.table_name = $1
+      AND c.table_schema = $2
     `;
     const result = await this.query<{
       column_name: string;
       data_type: string;
       is_nullable: string;
       is_primary_key: boolean;
-    }>(sql, [tableName]);
+    }>(sql, [tableName, this.schema]);
     return result.map((row) => ({
       name: row.column_name,
       type: row.data_type,
@@ -209,7 +213,7 @@ export class PostgresConnector implements DatabaseConnector {
         p.prokind
       FROM pg_proc p
       INNER JOIN pg_namespace n ON p.pronamespace = n.oid
-      WHERE n.nspname = 'public'
+      WHERE n.nspname = $1
       AND p.prokind IN ('f', 'p', 'a')  -- f=function, p=procedure, a=aggregate
     `;
 
@@ -219,7 +223,7 @@ export class PostgresConnector implements DatabaseConnector {
       argument_data_types: string;
       procedure_definition: string;
       prokind: string;
-    }>(sql);
+    }>(sql, [this.schema]);
 
     return result.map((row) => {
       let definition = row.procedure_definition;
@@ -246,12 +250,12 @@ export class PostgresConnector implements DatabaseConnector {
       FROM
         information_schema.views
       WHERE
-        table_schema = 'public'
+        table_schema = $1
     `;
     const result = await this.query<{
       view_name: string;
       view_definition: string;
-    }>(sql);
+    }>(sql, [this.schema]);
     return result.map((row) => ({
       name: row.view_name,
       definition: row.view_definition,

@@ -32,6 +32,7 @@ program
   .option("-u, --user <user>", "Database user")
   .option("-P, --password <password>", "Database password")
   .option("-f, --file <file>", "SQLite database file path")
+  .option("-S, --schema <string>", "Schema name if not public", "public")
   .option("-s, --serve", "Start the visualization server after analysis")
   .option(
     "-o, --output <path>",
@@ -51,6 +52,7 @@ program
       port: parseInt(options.port),
       user: options.user,
       password: options.password,
+      schema: options.schema,
       database: options.database,
     };
 
