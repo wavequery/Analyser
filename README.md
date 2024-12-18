@@ -4,6 +4,14 @@ WaveQuery Database Analyser is a powerful tool for analyzing and visualizing dat
 
 ![DEMO](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzVpM2xkc2NudnB5ZzE0eXlucHB2dTAwM3VwcjZ6eW92YzU0dXMyNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FK1avllDK14VPt9RnY/giphy.gif)
 
+## Try it Live
+
+Want to see the power of WaveQuery Database Analyser in action? Visit our interactive playground at [WaveQuery Playground](https://dashboard.wavequery.com/playground). Here you can:
+- Explore sample database schemas
+- Visualize relationships and table structures
+- Test queries and see real-time results
+- Experience the analyzer's features without any setup
+
 ## Features
 
 - Support for MySQL, PostgreSQL, MariaDB, BigQuery and SQLite databases

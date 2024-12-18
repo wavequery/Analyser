@@ -1,6 +1,6 @@
 export { analyzeDatabase } from "./analyzers/databaseAnalyzer";
 export { DatabaseConnector } from "./connectors/baseConnector";
-export { PostgresConnector} from "./connectors/postgresConnector"; 
+export { PostgresConnector, PostgresConnectorConfig} from "./connectors/postgresConnector"; 
 export { MariaDBConnector } from "./connectors/mariadbConnector";
 export { MySQLConnector } from "./connectors/mysqlConnector";
 export { SQLiteConnector } from "./connectors/sqliteConnector";

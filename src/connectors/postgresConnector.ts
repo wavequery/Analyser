@@ -9,13 +9,15 @@ import {
   ViewInfo,
 } from "./baseConnector";
 
+export type PostgresConnectorConfig = PoolConfig & { schema?: string };
+
 export class PostgresConnector implements DatabaseConnector {
   private pool: Pool;
   private schema: string;
 
-  constructor(config: PoolConfig & { schema?: string }) {
+  constructor(config: PostgresConnectorConfig) {
     this.pool = new Pool(config);
-    this.schema = config.schema || 'public';
+    this.schema = config.schema || "public";
   }
 
   async connect(): Promise<void> {

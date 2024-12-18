@@ -112,6 +112,96 @@
       ]
     },
     {
+      "name": "payment_p2022_05",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [
+        {
+          "name": "payment_p2022_05_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        },
+        {
+          "name": "payment_p2022_05_pkey",
+          "columnName": "payment_date",
+          "isUnique": true
+        },
+        {
+          "name": "idx_fk_payment_p2022_05_customer_id",
+          "columnName": "customer_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_payment_p2022_05_staff_id",
+          "columnName": "staff_id",
+          "isUnique": false
+        },
+        {
+          "name": "payment_p2022_05_customer_id_idx",
+          "columnName": "customer_id",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_p2022_05_customer_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_05_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "payment_p2022_05_rental_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_05_staff_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
       "name": "actor",
       "columns": [
         {
@@ -197,6 +287,96 @@
         {
           "name": "category_pkey",
           "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "payment_p2022_06",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [
+        {
+          "name": "payment_p2022_06_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        },
+        {
+          "name": "payment_p2022_06_pkey",
+          "columnName": "payment_date",
+          "isUnique": true
+        },
+        {
+          "name": "idx_fk_payment_p2022_06_customer_id",
+          "columnName": "customer_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_payment_p2022_06_staff_id",
+          "columnName": "staff_id",
+          "isUnique": false
+        },
+        {
+          "name": "payment_p2022_06_customer_id_idx",
+          "columnName": "customer_id",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_p2022_06_customer_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_06_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "payment_p2022_06_rental_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_06_staff_id_fkey",
+          "type": "FOREIGN KEY"
         }
       ]
     },
@@ -301,6 +481,139 @@
         {
           "name": "customer_store_id_fkey",
           "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "film",
+      "columns": [
+        {
+          "name": "film_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "release_year",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "language_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "original_language_id",
+          "type": "integer",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_duration",
+          "type": "smallint",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_rate",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "length",
+          "type": "smallint",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "replacement_cost",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rating",
+          "type": "USER-DEFINED",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "last_update",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "special_features",
+          "type": "ARRAY",
+          "isNullable": true,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "fulltext",
+          "type": "tsvector",
+          "isNullable": false,
+          "isPrimaryKey": false
+        }
+      ],
+      "primaryKeys": [
+        "film_id"
+      ],
+      "indexes": [
+        {
+          "name": "film_pkey",
+          "columnName": "film_id",
+          "isUnique": true
+        },
+        {
+          "name": "film_fulltext_idx",
+          "columnName": "fulltext",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_language_id",
+          "columnName": "language_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_original_language_id",
+          "columnName": "original_language_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_title",
+          "columnName": "title",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "film_language_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "film_original_language_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "film_pkey",
+          "type": "PRIMARY KEY"
         }
       ]
     },
@@ -578,328 +891,6 @@
       ]
     },
     {
-      "name": "payment",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [],
-      "constraints": [
-        {
-          "name": "payment_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_p2022_01",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [
-        {
-          "name": "payment_p2022_01_pkey",
-          "columnName": "payment_id",
-          "isUnique": true
-        },
-        {
-          "name": "payment_p2022_01_pkey",
-          "columnName": "payment_date",
-          "isUnique": true
-        },
-        {
-          "name": "idx_fk_payment_p2022_01_customer_id",
-          "columnName": "customer_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_payment_p2022_01_staff_id",
-          "columnName": "staff_id",
-          "isUnique": false
-        },
-        {
-          "name": "payment_p2022_01_customer_id_idx",
-          "columnName": "customer_id",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_p2022_01_customer_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_01_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "payment_p2022_01_rental_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_01_staff_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_p2022_02",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [
-        {
-          "name": "payment_p2022_02_pkey",
-          "columnName": "payment_id",
-          "isUnique": true
-        },
-        {
-          "name": "payment_p2022_02_pkey",
-          "columnName": "payment_date",
-          "isUnique": true
-        },
-        {
-          "name": "idx_fk_payment_p2022_02_customer_id",
-          "columnName": "customer_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_payment_p2022_02_staff_id",
-          "columnName": "staff_id",
-          "isUnique": false
-        },
-        {
-          "name": "payment_p2022_02_customer_id_idx",
-          "columnName": "customer_id",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_p2022_02_customer_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_02_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "payment_p2022_02_rental_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_02_staff_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_p2022_05",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [
-        {
-          "name": "payment_p2022_05_pkey",
-          "columnName": "payment_id",
-          "isUnique": true
-        },
-        {
-          "name": "payment_p2022_05_pkey",
-          "columnName": "payment_date",
-          "isUnique": true
-        },
-        {
-          "name": "idx_fk_payment_p2022_05_customer_id",
-          "columnName": "customer_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_payment_p2022_05_staff_id",
-          "columnName": "staff_id",
-          "isUnique": false
-        },
-        {
-          "name": "payment_p2022_05_customer_id_idx",
-          "columnName": "customer_id",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_p2022_05_customer_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_05_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "payment_p2022_05_rental_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_05_staff_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
       "name": "rental",
       "columns": [
         {
@@ -1144,7 +1135,59 @@
       ]
     },
     {
-      "name": "payment_p2022_04",
+      "name": "payment",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [],
+      "constraints": [
+        {
+          "name": "payment_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "payment_p2022_02",
       "columns": [
         {
           "name": "payment_id",
@@ -1189,333 +1232,47 @@
       ],
       "indexes": [
         {
-          "name": "payment_p2022_04_pkey",
+          "name": "payment_p2022_02_pkey",
           "columnName": "payment_id",
           "isUnique": true
         },
         {
-          "name": "payment_p2022_04_pkey",
+          "name": "payment_p2022_02_pkey",
           "columnName": "payment_date",
           "isUnique": true
         },
         {
-          "name": "idx_fk_payment_p2022_04_customer_id",
+          "name": "idx_fk_payment_p2022_02_customer_id",
           "columnName": "customer_id",
           "isUnique": false
         },
         {
-          "name": "idx_fk_payment_p2022_04_staff_id",
+          "name": "idx_fk_payment_p2022_02_staff_id",
           "columnName": "staff_id",
           "isUnique": false
         },
         {
-          "name": "payment_p2022_04_customer_id_idx",
+          "name": "payment_p2022_02_customer_id_idx",
           "columnName": "customer_id",
           "isUnique": false
         }
       ],
       "constraints": [
         {
-          "name": "payment_p2022_04_customer_id_fkey",
+          "name": "payment_p2022_02_customer_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "payment_p2022_04_pkey",
+          "name": "payment_p2022_02_pkey",
           "type": "PRIMARY KEY"
         },
         {
-          "name": "payment_p2022_04_rental_id_fkey",
+          "name": "payment_p2022_02_rental_id_fkey",
           "type": "FOREIGN KEY"
         },
         {
-          "name": "payment_p2022_04_staff_id_fkey",
+          "name": "payment_p2022_02_staff_id_fkey",
           "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_p2022_06",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [
-        {
-          "name": "payment_p2022_06_pkey",
-          "columnName": "payment_id",
-          "isUnique": true
-        },
-        {
-          "name": "payment_p2022_06_pkey",
-          "columnName": "payment_date",
-          "isUnique": true
-        },
-        {
-          "name": "idx_fk_payment_p2022_06_customer_id",
-          "columnName": "customer_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_payment_p2022_06_staff_id",
-          "columnName": "staff_id",
-          "isUnique": false
-        },
-        {
-          "name": "payment_p2022_06_customer_id_idx",
-          "columnName": "customer_id",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_p2022_06_customer_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_06_pkey",
-          "type": "PRIMARY KEY"
-        },
-        {
-          "name": "payment_p2022_06_rental_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "payment_p2022_06_staff_id_fkey",
-          "type": "FOREIGN KEY"
-        }
-      ]
-    },
-    {
-      "name": "payment_p2022_07",
-      "columns": [
-        {
-          "name": "payment_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "customer_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "staff_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "amount",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "payment_date",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": true
-        }
-      ],
-      "primaryKeys": [
-        "payment_id",
-        "payment_date"
-      ],
-      "indexes": [
-        {
-          "name": "payment_p2022_07_pkey",
-          "columnName": "payment_id",
-          "isUnique": true
-        },
-        {
-          "name": "payment_p2022_07_pkey",
-          "columnName": "payment_date",
-          "isUnique": true
-        }
-      ],
-      "constraints": [
-        {
-          "name": "payment_p2022_07_pkey",
-          "type": "PRIMARY KEY"
-        }
-      ]
-    },
-    {
-      "name": "film",
-      "columns": [
-        {
-          "name": "film_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": true
-        },
-        {
-          "name": "title",
-          "type": "text",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "description",
-          "type": "text",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "release_year",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "language_id",
-          "type": "integer",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "original_language_id",
-          "type": "integer",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_duration",
-          "type": "smallint",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rental_rate",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "length",
-          "type": "smallint",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "replacement_cost",
-          "type": "numeric",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "rating",
-          "type": "USER-DEFINED",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "last_update",
-          "type": "timestamp with time zone",
-          "isNullable": false,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "special_features",
-          "type": "ARRAY",
-          "isNullable": true,
-          "isPrimaryKey": false
-        },
-        {
-          "name": "fulltext",
-          "type": "tsvector",
-          "isNullable": false,
-          "isPrimaryKey": false
-        }
-      ],
-      "primaryKeys": [
-        "film_id"
-      ],
-      "indexes": [
-        {
-          "name": "film_pkey",
-          "columnName": "film_id",
-          "isUnique": true
-        },
-        {
-          "name": "film_fulltext_idx",
-          "columnName": "fulltext",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_language_id",
-          "columnName": "language_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_fk_original_language_id",
-          "columnName": "original_language_id",
-          "isUnique": false
-        },
-        {
-          "name": "idx_title",
-          "columnName": "title",
-          "isUnique": false
-        }
-      ],
-      "constraints": [
-        {
-          "name": "film_language_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "film_original_language_id_fkey",
-          "type": "FOREIGN KEY"
-        },
-        {
-          "name": "film_pkey",
-          "type": "PRIMARY KEY"
         }
       ]
     },
@@ -1608,6 +1365,249 @@
           "type": "FOREIGN KEY"
         }
       ]
+    },
+    {
+      "name": "payment_p2022_07",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [
+        {
+          "name": "payment_p2022_07_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        },
+        {
+          "name": "payment_p2022_07_pkey",
+          "columnName": "payment_date",
+          "isUnique": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_p2022_07_pkey",
+          "type": "PRIMARY KEY"
+        }
+      ]
+    },
+    {
+      "name": "payment_p2022_01",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [
+        {
+          "name": "payment_p2022_01_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        },
+        {
+          "name": "payment_p2022_01_pkey",
+          "columnName": "payment_date",
+          "isUnique": true
+        },
+        {
+          "name": "idx_fk_payment_p2022_01_customer_id",
+          "columnName": "customer_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_payment_p2022_01_staff_id",
+          "columnName": "staff_id",
+          "isUnique": false
+        },
+        {
+          "name": "payment_p2022_01_customer_id_idx",
+          "columnName": "customer_id",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_p2022_01_customer_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_01_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "payment_p2022_01_rental_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_01_staff_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
+    },
+    {
+      "name": "payment_p2022_04",
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "staff_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "rental_id",
+          "type": "integer",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "numeric",
+          "isNullable": false,
+          "isPrimaryKey": false
+        },
+        {
+          "name": "payment_date",
+          "type": "timestamp with time zone",
+          "isNullable": false,
+          "isPrimaryKey": true
+        }
+      ],
+      "primaryKeys": [
+        "payment_id",
+        "payment_date"
+      ],
+      "indexes": [
+        {
+          "name": "payment_p2022_04_pkey",
+          "columnName": "payment_id",
+          "isUnique": true
+        },
+        {
+          "name": "payment_p2022_04_pkey",
+          "columnName": "payment_date",
+          "isUnique": true
+        },
+        {
+          "name": "idx_fk_payment_p2022_04_customer_id",
+          "columnName": "customer_id",
+          "isUnique": false
+        },
+        {
+          "name": "idx_fk_payment_p2022_04_staff_id",
+          "columnName": "staff_id",
+          "isUnique": false
+        },
+        {
+          "name": "payment_p2022_04_customer_id_idx",
+          "columnName": "customer_id",
+          "isUnique": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "payment_p2022_04_customer_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_04_pkey",
+          "type": "PRIMARY KEY"
+        },
+        {
+          "name": "payment_p2022_04_rental_id_fkey",
+          "type": "FOREIGN KEY"
+        },
+        {
+          "name": "payment_p2022_04_staff_id_fkey",
+          "type": "FOREIGN KEY"
+        }
+      ]
     }
   ],
   "relationships": [
@@ -1638,7 +1638,33 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_01",
+      "sourceTable": "inventory",
+      "sourceColumns": [
+        "film_id"
+      ],
+      "targetTable": "film",
+      "targetColumns": [
+        "film_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "inventory",
+      "sourceColumns": [
+        "store_id"
+      ],
+      "targetTable": "store",
+      "targetColumns": [
+        "store_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_05",
       "sourceColumns": [
         "customer_id"
       ],
@@ -1651,7 +1677,7 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_01",
+      "sourceTable": "payment_p2022_05",
       "sourceColumns": [
         "rental_id"
       ],
@@ -1664,39 +1690,13 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_01",
+      "sourceTable": "payment_p2022_05",
       "sourceColumns": [
         "staff_id"
       ],
       "targetTable": "staff",
       "targetColumns": [
         "staff_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "film_actor",
-      "sourceColumns": [
-        "actor_id"
-      ],
-      "targetTable": "actor",
-      "targetColumns": [
-        "actor_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "film_actor",
-      "sourceColumns": [
-        "film_id"
-      ],
-      "targetTable": "film",
-      "targetColumns": [
-        "film_id"
       ],
       "isInferred": false,
       "confidence": 1,
@@ -1729,19 +1729,6 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "address",
-      "sourceColumns": [
-        "city_id"
-      ],
-      "targetTable": "city",
-      "targetColumns": [
-        "city_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
       "sourceTable": "city",
       "sourceColumns": [
         "country_id"
@@ -1755,7 +1742,20 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "inventory",
+      "sourceTable": "film_actor",
+      "sourceColumns": [
+        "actor_id"
+      ],
+      "targetTable": "actor",
+      "targetColumns": [
+        "actor_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "film_actor",
       "sourceColumns": [
         "film_id"
       ],
@@ -1768,13 +1768,91 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "inventory",
+      "sourceTable": "film",
       "sourceColumns": [
-        "store_id"
+        "language_id"
       ],
-      "targetTable": "store",
+      "targetTable": "language",
       "targetColumns": [
-        "store_id"
+        "language_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "film",
+      "sourceColumns": [
+        "original_language_id"
+      ],
+      "targetTable": "language",
+      "targetColumns": [
+        "language_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "address",
+      "sourceColumns": [
+        "city_id"
+      ],
+      "targetTable": "city",
+      "targetColumns": [
+        "city_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_06",
+      "sourceColumns": [
+        "customer_id"
+      ],
+      "targetTable": "customer",
+      "targetColumns": [
+        "customer_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_06",
+      "sourceColumns": [
+        "rental_id"
+      ],
+      "targetTable": "rental",
+      "targetColumns": [
+        "rental_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_06",
+      "sourceColumns": [
+        "staff_id"
+      ],
+      "targetTable": "staff",
+      "targetColumns": [
+        "staff_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "store",
+      "sourceColumns": [
+        "address_id"
+      ],
+      "targetTable": "address",
+      "targetColumns": [
+        "address_id"
       ],
       "isInferred": false,
       "confidence": 1,
@@ -1801,45 +1879,6 @@
       "targetTable": "store",
       "targetColumns": [
         "store_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_02",
-      "sourceColumns": [
-        "customer_id"
-      ],
-      "targetTable": "customer",
-      "targetColumns": [
-        "customer_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_02",
-      "sourceColumns": [
-        "rental_id"
-      ],
-      "targetTable": "rental",
-      "targetColumns": [
-        "rental_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_02",
-      "sourceColumns": [
-        "staff_id"
-      ],
-      "targetTable": "staff",
-      "targetColumns": [
-        "staff_id"
       ],
       "isInferred": false,
       "confidence": 1,
@@ -1885,7 +1924,7 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_02",
       "sourceColumns": [
         "customer_id"
       ],
@@ -1898,7 +1937,7 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_02",
       "sourceColumns": [
         "rental_id"
       ],
@@ -1911,130 +1950,13 @@
       "type": "explicit"
     },
     {
-      "sourceTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_02",
       "sourceColumns": [
         "staff_id"
       ],
       "targetTable": "staff",
       "targetColumns": [
         "staff_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "store",
-      "sourceColumns": [
-        "address_id"
-      ],
-      "targetTable": "address",
-      "targetColumns": [
-        "address_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_04",
-      "sourceColumns": [
-        "customer_id"
-      ],
-      "targetTable": "customer",
-      "targetColumns": [
-        "customer_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_04",
-      "sourceColumns": [
-        "rental_id"
-      ],
-      "targetTable": "rental",
-      "targetColumns": [
-        "rental_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_04",
-      "sourceColumns": [
-        "staff_id"
-      ],
-      "targetTable": "staff",
-      "targetColumns": [
-        "staff_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_06",
-      "sourceColumns": [
-        "customer_id"
-      ],
-      "targetTable": "customer",
-      "targetColumns": [
-        "customer_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_06",
-      "sourceColumns": [
-        "rental_id"
-      ],
-      "targetTable": "rental",
-      "targetColumns": [
-        "rental_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "payment_p2022_06",
-      "sourceColumns": [
-        "staff_id"
-      ],
-      "targetTable": "staff",
-      "targetColumns": [
-        "staff_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "film",
-      "sourceColumns": [
-        "language_id"
-      ],
-      "targetTable": "language",
-      "targetColumns": [
-        "language_id"
-      ],
-      "isInferred": false,
-      "confidence": 1,
-      "type": "explicit"
-    },
-    {
-      "sourceTable": "film",
-      "sourceColumns": [
-        "original_language_id"
-      ],
-      "targetTable": "language",
-      "targetColumns": [
-        "language_id"
       ],
       "isInferred": false,
       "confidence": 1,
@@ -2068,6 +1990,84 @@
     },
     {
       "sourceTable": "payment_p2022_03",
+      "sourceColumns": [
+        "staff_id"
+      ],
+      "targetTable": "staff",
+      "targetColumns": [
+        "staff_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_01",
+      "sourceColumns": [
+        "customer_id"
+      ],
+      "targetTable": "customer",
+      "targetColumns": [
+        "customer_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_01",
+      "sourceColumns": [
+        "rental_id"
+      ],
+      "targetTable": "rental",
+      "targetColumns": [
+        "rental_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_01",
+      "sourceColumns": [
+        "staff_id"
+      ],
+      "targetTable": "staff",
+      "targetColumns": [
+        "staff_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_04",
+      "sourceColumns": [
+        "customer_id"
+      ],
+      "targetTable": "customer",
+      "targetColumns": [
+        "customer_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_04",
+      "sourceColumns": [
+        "rental_id"
+      ],
+      "targetTable": "rental",
+      "targetColumns": [
+        "rental_id"
+      ],
+      "isInferred": false,
+      "confidence": 1,
+      "type": "explicit"
+    },
+    {
+      "sourceTable": "payment_p2022_04",
       "sourceColumns": [
         "staff_id"
       ],
@@ -2113,6 +2113,19 @@
       "targetTable": "category",
       "targetColumns": [
         "category_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "film",
+      "sourceColumns": [
+        "film_id"
+      ],
+      "targetTable": "film",
+      "targetColumns": [
+        "film_id"
       ],
       "isInferred": true,
       "confidence": 1,
@@ -2184,85 +2197,20 @@
       "type": "implicit"
     },
     {
-      "sourceTable": "payment",
-      "sourceColumns": [
-        "payment_id"
-      ],
-      "targetTable": "payment",
-      "targetColumns": [
-        "payment_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
-      "sourceTable": "payment",
-      "sourceColumns": [
-        "customer_id"
-      ],
-      "targetTable": "customer",
-      "targetColumns": [
-        "customer_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
-      "sourceTable": "payment",
-      "sourceColumns": [
-        "staff_id"
-      ],
-      "targetTable": "staff",
-      "targetColumns": [
-        "staff_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
-      "sourceTable": "payment",
-      "sourceColumns": [
-        "rental_id"
-      ],
-      "targetTable": "rental",
-      "targetColumns": [
-        "rental_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
-      "sourceTable": "payment_p2022_01",
-      "sourceColumns": [
-        "payment_id"
-      ],
-      "targetTable": "payment",
-      "targetColumns": [
-        "payment_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
-      "sourceTable": "payment_p2022_02",
-      "sourceColumns": [
-        "payment_id"
-      ],
-      "targetTable": "payment",
-      "targetColumns": [
-        "payment_id"
-      ],
-      "isInferred": true,
-      "confidence": 1,
-      "type": "implicit"
-    },
-    {
       "sourceTable": "payment_p2022_05",
+      "sourceColumns": [
+        "payment_id"
+      ],
+      "targetTable": "payment",
+      "targetColumns": [
+        "payment_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "payment_p2022_06",
       "sourceColumns": [
         "payment_id"
       ],
@@ -2314,7 +2262,7 @@
       "type": "implicit"
     },
     {
-      "sourceTable": "payment_p2022_04",
+      "sourceTable": "payment",
       "sourceColumns": [
         "payment_id"
       ],
@@ -2327,7 +2275,59 @@
       "type": "implicit"
     },
     {
-      "sourceTable": "payment_p2022_06",
+      "sourceTable": "payment",
+      "sourceColumns": [
+        "customer_id"
+      ],
+      "targetTable": "customer",
+      "targetColumns": [
+        "customer_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "payment",
+      "sourceColumns": [
+        "staff_id"
+      ],
+      "targetTable": "staff",
+      "targetColumns": [
+        "staff_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "payment",
+      "sourceColumns": [
+        "rental_id"
+      ],
+      "targetTable": "rental",
+      "targetColumns": [
+        "rental_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "payment_p2022_02",
+      "sourceColumns": [
+        "payment_id"
+      ],
+      "targetTable": "payment",
+      "targetColumns": [
+        "payment_id"
+      ],
+      "isInferred": true,
+      "confidence": 1,
+      "type": "implicit"
+    },
+    {
+      "sourceTable": "payment_p2022_03",
       "sourceColumns": [
         "payment_id"
       ],
@@ -2392,20 +2392,20 @@
       "type": "implicit"
     },
     {
-      "sourceTable": "film",
+      "sourceTable": "payment_p2022_01",
       "sourceColumns": [
-        "film_id"
+        "payment_id"
       ],
-      "targetTable": "film",
+      "targetTable": "payment",
       "targetColumns": [
-        "film_id"
+        "payment_id"
       ],
       "isInferred": true,
       "confidence": 1,
       "type": "implicit"
     },
     {
-      "sourceTable": "payment_p2022_03",
+      "sourceTable": "payment_p2022_04",
       "sourceColumns": [
         "payment_id"
       ],
@@ -2454,8 +2454,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_04",
-      "targetTable": "payment_p2022_03",
+      "sourceTable": "payment_p2022_03",
+      "targetTable": "payment_p2022_04",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2463,8 +2463,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_01",
-      "targetTable": "payment_p2022_03",
+      "sourceTable": "payment_p2022_03",
+      "targetTable": "payment_p2022_01",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2481,8 +2481,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_07",
-      "targetTable": "payment_p2022_03",
+      "sourceTable": "payment_p2022_03",
+      "targetTable": "payment_p2022_07",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2490,8 +2490,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_01",
-      "targetTable": "payment_p2022_02",
+      "sourceTable": "payment_p2022_02",
+      "targetTable": "payment_p2022_01",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2499,8 +2499,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_02",
-      "targetTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_05",
+      "targetTable": "payment_p2022_02",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2508,8 +2508,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_01",
-      "targetTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_05",
+      "targetTable": "payment_p2022_01",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2553,8 +2553,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_01",
-      "targetTable": "payment_p2022_06",
+      "sourceTable": "payment_p2022_06",
+      "targetTable": "payment_p2022_01",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2562,8 +2562,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_04",
-      "targetTable": "payment_p2022_06",
+      "sourceTable": "payment_p2022_06",
+      "targetTable": "payment_p2022_04",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2571,8 +2571,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_04",
-      "targetTable": "payment_p2022_07",
+      "sourceTable": "payment_p2022_07",
+      "targetTable": "payment_p2022_04",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2580,8 +2580,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_02",
-      "targetTable": "payment_p2022_06",
+      "sourceTable": "payment_p2022_06",
+      "targetTable": "payment_p2022_02",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2598,8 +2598,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment_p2022_01",
-      "targetTable": "payment_p2022_07",
+      "sourceTable": "payment_p2022_07",
+      "targetTable": "payment_p2022_01",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2625,8 +2625,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment",
-      "targetTable": "payment_p2022_05",
+      "sourceTable": "payment_p2022_05",
+      "targetTable": "payment",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2661,8 +2661,8 @@
       "type": "semantic"
     },
     {
-      "sourceTable": "payment",
-      "targetTable": "payment_p2022_06",
+      "sourceTable": "payment_p2022_06",
+      "targetTable": "payment",
       "sourceColumns": [],
       "targetColumns": [],
       "isInferred": true,
@@ -2675,52 +2675,52 @@
     "film_actor",
     "film_category",
     "inventory",
-    "payment",
-    "payment_p2022_01",
-    "payment_p2022_02",
     "payment_p2022_05",
-    "store",
-    "payment_p2022_04",
     "payment_p2022_06",
+    "store",
+    "payment",
+    "payment_p2022_02",
+    "payment_p2022_03",
     "payment_p2022_07",
-    "payment_p2022_03"
+    "payment_p2022_01",
+    "payment_p2022_04"
   ],
   "storedProcedures": [
     {
       "name": "_group_concat",
-      "definition": "CREATE OR REPLACE FUNCTION public._group_concat(text, text)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\nAS $function$\nSELECT CASE\n  WHEN $2 IS NULL THEN $1\n  WHEN $1 IS NULL THEN $2\n  ELSE $1 || ', ' || $2\nEND\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila._group_concat(text, text)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\nAS $function$\nSELECT CASE\n  WHEN $2 IS NULL THEN $1\n  WHEN $1 IS NULL THEN $2\n  ELSE $1 || ', ' || $2\nEND\n$function$\n"
     },
     {
       "name": "film_in_stock",
-      "definition": "CREATE OR REPLACE FUNCTION public.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer)\n RETURNS SETOF integer\n LANGUAGE sql\nAS $function$\n     SELECT inventory_id\n     FROM inventory\n     WHERE film_id = $1\n     AND store_id = $2\n     AND inventory_in_stock(inventory_id);\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer)\n RETURNS SETOF integer\n LANGUAGE sql\nAS $function$\n     SELECT inventory_id\n     FROM inventory\n     WHERE film_id = $1\n     AND store_id = $2\n     AND inventory_in_stock(inventory_id);\n$function$\n"
     },
     {
       "name": "film_not_in_stock",
-      "definition": "CREATE OR REPLACE FUNCTION public.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer)\n RETURNS SETOF integer\n LANGUAGE sql\nAS $function$\n    SELECT inventory_id\n    FROM inventory\n    WHERE film_id = $1\n    AND store_id = $2\n    AND NOT inventory_in_stock(inventory_id);\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer)\n RETURNS SETOF integer\n LANGUAGE sql\nAS $function$\n    SELECT inventory_id\n    FROM inventory\n    WHERE film_id = $1\n    AND store_id = $2\n    AND NOT inventory_in_stock(inventory_id);\n$function$\n"
     },
     {
       "name": "get_customer_balance",
-      "definition": "CREATE OR REPLACE FUNCTION public.get_customer_balance(p_customer_id integer, p_effective_date timestamp with time zone)\n RETURNS numeric\n LANGUAGE plpgsql\nAS $function$\n       --#OK, WE NEED TO CALCULATE THE CURRENT BALANCE GIVEN A CUSTOMER_ID AND A DATE\n       --#THAT WE WANT THE BALANCE TO BE EFFECTIVE FOR. THE BALANCE IS:\n       --#   1) RENTAL FEES FOR ALL PREVIOUS RENTALS\n       --#   2) ONE DOLLAR FOR EVERY DAY THE PREVIOUS RENTALS ARE OVERDUE\n       --#   3) IF A FILM IS MORE THAN RENTAL_DURATION * 2 OVERDUE, CHARGE THE REPLACEMENT_COST\n       --#   4) SUBTRACT ALL PAYMENTS MADE BEFORE THE DATE SPECIFIED\nDECLARE\n    v_rentfees DECIMAL(5,2); --#FEES PAID TO RENT THE VIDEOS INITIALLY\n    v_overfees INTEGER;      --#LATE FEES FOR PRIOR RENTALS\n    v_payments DECIMAL(5,2); --#SUM OF PAYMENTS MADE PREVIOUSLY\nBEGIN\n    SELECT COALESCE(SUM(film.rental_rate),0) INTO v_rentfees\n    FROM film, inventory, rental\n    WHERE film.film_id = inventory.film_id\n      AND inventory.inventory_id = rental.inventory_id\n      AND rental.rental_date <= p_effective_date\n      AND rental.customer_id = p_customer_id;\n\n    SELECT COALESCE(SUM(IF((rental.return_date - rental.rental_date) > (film.rental_duration * '1 day'::interval),\n        ((rental.return_date - rental.rental_date) - (film.rental_duration * '1 day'::interval)),0)),0) INTO v_overfees\n    FROM rental, inventory, film\n    WHERE film.film_id = inventory.film_id\n      AND inventory.inventory_id = rental.inventory_id\n      AND rental.rental_date <= p_effective_date\n      AND rental.customer_id = p_customer_id;\n\n    SELECT COALESCE(SUM(payment.amount),0) INTO v_payments\n    FROM payment\n    WHERE payment.payment_date <= p_effective_date\n    AND payment.customer_id = p_customer_id;\n\n    RETURN v_rentfees + v_overfees - v_payments;\nEND\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.get_customer_balance(p_customer_id integer, p_effective_date timestamp with time zone)\n RETURNS numeric\n LANGUAGE plpgsql\nAS $function$\n       --#OK, WE NEED TO CALCULATE THE CURRENT BALANCE GIVEN A CUSTOMER_ID AND A DATE\n       --#THAT WE WANT THE BALANCE TO BE EFFECTIVE FOR. THE BALANCE IS:\n       --#   1) RENTAL FEES FOR ALL PREVIOUS RENTALS\n       --#   2) ONE DOLLAR FOR EVERY DAY THE PREVIOUS RENTALS ARE OVERDUE\n       --#   3) IF A FILM IS MORE THAN RENTAL_DURATION * 2 OVERDUE, CHARGE THE REPLACEMENT_COST\n       --#   4) SUBTRACT ALL PAYMENTS MADE BEFORE THE DATE SPECIFIED\nDECLARE\n    v_rentfees DECIMAL(5,2); --#FEES PAID TO RENT THE VIDEOS INITIALLY\n    v_overfees INTEGER;      --#LATE FEES FOR PRIOR RENTALS\n    v_payments DECIMAL(5,2); --#SUM OF PAYMENTS MADE PREVIOUSLY\nBEGIN\n    SELECT COALESCE(SUM(film.rental_rate),0) INTO v_rentfees\n    FROM film, inventory, rental\n    WHERE film.film_id = inventory.film_id\n      AND inventory.inventory_id = rental.inventory_id\n      AND rental.rental_date <= p_effective_date\n      AND rental.customer_id = p_customer_id;\n\n    SELECT COALESCE(SUM(IF((rental.return_date - rental.rental_date) > (film.rental_duration * '1 day'::interval),\n        ((rental.return_date - rental.rental_date) - (film.rental_duration * '1 day'::interval)),0)),0) INTO v_overfees\n    FROM rental, inventory, film\n    WHERE film.film_id = inventory.film_id\n      AND inventory.inventory_id = rental.inventory_id\n      AND rental.rental_date <= p_effective_date\n      AND rental.customer_id = p_customer_id;\n\n    SELECT COALESCE(SUM(payment.amount),0) INTO v_payments\n    FROM payment\n    WHERE payment.payment_date <= p_effective_date\n    AND payment.customer_id = p_customer_id;\n\n    RETURN v_rentfees + v_overfees - v_payments;\nEND\n$function$\n"
     },
     {
       "name": "inventory_held_by_customer",
-      "definition": "CREATE OR REPLACE FUNCTION public.inventory_held_by_customer(p_inventory_id integer)\n RETURNS integer\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n    v_customer_id INTEGER;\nBEGIN\n\n  SELECT customer_id INTO v_customer_id\n  FROM rental\n  WHERE return_date IS NULL\n  AND inventory_id = p_inventory_id;\n\n  RETURN v_customer_id;\nEND $function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.inventory_held_by_customer(p_inventory_id integer)\n RETURNS integer\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n    v_customer_id INTEGER;\nBEGIN\n\n  SELECT customer_id INTO v_customer_id\n  FROM rental\n  WHERE return_date IS NULL\n  AND inventory_id = p_inventory_id;\n\n  RETURN v_customer_id;\nEND $function$\n"
     },
     {
       "name": "inventory_in_stock",
-      "definition": "CREATE OR REPLACE FUNCTION public.inventory_in_stock(p_inventory_id integer)\n RETURNS boolean\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n    v_rentals INTEGER;\n    v_out     INTEGER;\nBEGIN\n    -- AN ITEM IS IN-STOCK IF THERE ARE EITHER NO ROWS IN THE rental TABLE\n    -- FOR THE ITEM OR ALL ROWS HAVE return_date POPULATED\n\n    SELECT count(*) INTO v_rentals\n    FROM rental\n    WHERE inventory_id = p_inventory_id;\n\n    IF v_rentals = 0 THEN\n      RETURN TRUE;\n    END IF;\n\n    SELECT COUNT(rental_id) INTO v_out\n    FROM inventory LEFT JOIN rental USING(inventory_id)\n    WHERE inventory.inventory_id = p_inventory_id\n    AND rental.return_date IS NULL;\n\n    IF v_out > 0 THEN\n      RETURN FALSE;\n    ELSE\n      RETURN TRUE;\n    END IF;\nEND $function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.inventory_in_stock(p_inventory_id integer)\n RETURNS boolean\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n    v_rentals INTEGER;\n    v_out     INTEGER;\nBEGIN\n    -- AN ITEM IS IN-STOCK IF THERE ARE EITHER NO ROWS IN THE rental TABLE\n    -- FOR THE ITEM OR ALL ROWS HAVE return_date POPULATED\n\n    SELECT count(*) INTO v_rentals\n    FROM rental\n    WHERE inventory_id = p_inventory_id;\n\n    IF v_rentals = 0 THEN\n      RETURN TRUE;\n    END IF;\n\n    SELECT COUNT(rental_id) INTO v_out\n    FROM inventory LEFT JOIN rental USING(inventory_id)\n    WHERE inventory.inventory_id = p_inventory_id\n    AND rental.return_date IS NULL;\n\n    IF v_out > 0 THEN\n      RETURN FALSE;\n    ELSE\n      RETURN TRUE;\n    END IF;\nEND $function$\n"
     },
     {
       "name": "last_day",
-      "definition": "CREATE OR REPLACE FUNCTION public.last_day(timestamp with time zone)\n RETURNS date\n LANGUAGE sql\n IMMUTABLE STRICT\nAS $function$\n  SELECT CASE\n    WHEN EXTRACT(MONTH FROM $1) = 12 THEN\n      (((EXTRACT(YEAR FROM $1) + 1) operator(pg_catalog.||) '-01-01')::date - INTERVAL '1 day')::date\n    ELSE\n      ((EXTRACT(YEAR FROM $1) operator(pg_catalog.||) '-' operator(pg_catalog.||) (EXTRACT(MONTH FROM $1) + 1) operator(pg_catalog.||) '-01')::date - INTERVAL '1 day')::date\n    END\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.last_day(timestamp with time zone)\n RETURNS date\n LANGUAGE sql\n IMMUTABLE STRICT\nAS $function$\n  SELECT CASE\n    WHEN EXTRACT(MONTH FROM $1) = 12 THEN\n      (((EXTRACT(YEAR FROM $1) + 1) operator(pg_catalog.||) '-01-01')::date - INTERVAL '1 day')::date\n    ELSE\n      ((EXTRACT(YEAR FROM $1) operator(pg_catalog.||) '-' operator(pg_catalog.||) (EXTRACT(MONTH FROM $1) + 1) operator(pg_catalog.||) '-01')::date - INTERVAL '1 day')::date\n    END\n$function$\n"
     },
     {
       "name": "last_updated",
-      "definition": "CREATE OR REPLACE FUNCTION public.last_updated()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n    NEW.last_update = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND $function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.last_updated()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n    NEW.last_update = CURRENT_TIMESTAMP;\n    RETURN NEW;\nEND $function$\n"
     },
     {
       "name": "rewards_report",
-      "definition": "CREATE OR REPLACE FUNCTION public.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric)\n RETURNS SETOF customer\n LANGUAGE plpgsql\n SECURITY DEFINER\nAS $function$\nDECLARE\n    last_month_start DATE;\n    last_month_end DATE;\nrr RECORD;\ntmpSQL TEXT;\nBEGIN\n\n    /* Some sanity checks... */\n    IF min_monthly_purchases = 0 THEN\n        RAISE EXCEPTION 'Minimum monthly purchases parameter must be > 0';\n    END IF;\n    IF min_dollar_amount_purchased = 0.00 THEN\n        RAISE EXCEPTION 'Minimum monthly dollar amount purchased parameter must be > $0.00';\n    END IF;\n\n    last_month_start := CURRENT_DATE - '3 month'::interval;\n    last_month_start := to_date((extract(YEAR FROM last_month_start) || '-' || extract(MONTH FROM last_month_start) || '-01'),'YYYY-MM-DD');\n    last_month_end := LAST_DAY(last_month_start);\n\n    /*\n    Create a temporary storage area for Customer IDs.\n    */\n    CREATE TEMPORARY TABLE tmpCustomer (customer_id INTEGER NOT NULL PRIMARY KEY);\n\n    /*\n    Find all customers meeting the monthly purchase requirements\n    */\n\n    tmpSQL := 'INSERT INTO tmpCustomer (customer_id)\n        SELECT p.customer_id\n        FROM payment AS p\n        WHERE DATE(p.payment_date) BETWEEN '||quote_literal(last_month_start) ||' AND '|| quote_literal(last_month_end) || '\n        GROUP BY customer_id\n        HAVING SUM(p.amount) > '|| min_dollar_amount_purchased || '\n        AND COUNT(customer_id) > ' ||min_monthly_purchases ;\n\n    EXECUTE tmpSQL;\n\n    /*\n    Output ALL customer information of matching rewardees.\n    Customize output as needed.\n    */\n    FOR rr IN EXECUTE 'SELECT c.* FROM tmpCustomer AS t INNER JOIN customer AS c ON t.customer_id = c.customer_id' LOOP\n        RETURN NEXT rr;\n    END LOOP;\n\n    /* Clean up */\n    tmpSQL := 'DROP TABLE tmpCustomer';\n    EXECUTE tmpSQL;\n\nRETURN;\nEND\n$function$\n"
+      "definition": "CREATE OR REPLACE FUNCTION pagila.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric)\n RETURNS SETOF pagila.customer\n LANGUAGE plpgsql\n SECURITY DEFINER\nAS $function$\nDECLARE\n    last_month_start DATE;\n    last_month_end DATE;\nrr RECORD;\ntmpSQL TEXT;\nBEGIN\n\n    /* Some sanity checks... */\n    IF min_monthly_purchases = 0 THEN\n        RAISE EXCEPTION 'Minimum monthly purchases parameter must be > 0';\n    END IF;\n    IF min_dollar_amount_purchased = 0.00 THEN\n        RAISE EXCEPTION 'Minimum monthly dollar amount purchased parameter must be > $0.00';\n    END IF;\n\n    last_month_start := CURRENT_DATE - '3 month'::interval;\n    last_month_start := to_date((extract(YEAR FROM last_month_start) || '-' || extract(MONTH FROM last_month_start) || '-01'),'YYYY-MM-DD');\n    last_month_end := LAST_DAY(last_month_start);\n\n    /*\n    Create a temporary storage area for Customer IDs.\n    */\n    CREATE TEMPORARY TABLE tmpCustomer (customer_id INTEGER NOT NULL PRIMARY KEY);\n\n    /*\n    Find all customers meeting the monthly purchase requirements\n    */\n\n    tmpSQL := 'INSERT INTO tmpCustomer (customer_id)\n        SELECT p.customer_id\n        FROM payment AS p\n        WHERE DATE(p.payment_date) BETWEEN '||quote_literal(last_month_start) ||' AND '|| quote_literal(last_month_end) || '\n        GROUP BY customer_id\n        HAVING SUM(p.amount) > '|| min_dollar_amount_purchased || '\n        AND COUNT(customer_id) > ' ||min_monthly_purchases ;\n\n    EXECUTE tmpSQL;\n\n    /*\n    Output ALL customer information of matching rewardees.\n    Customize output as needed.\n    */\n    FOR rr IN EXECUTE 'SELECT c.* FROM tmpCustomer AS t INNER JOIN customer AS c ON t.customer_id = c.customer_id' LOOP\n        RETURN NEXT rr;\n    END LOOP;\n\n    /* Clean up */\n    tmpSQL := 'DROP TABLE tmpCustomer';\n    EXECUTE tmpSQL;\n\nRETURN;\nEND\n$function$\n"
     },
     {
       "name": "group_concat",
@@ -2730,31 +2730,31 @@
   "views": [
     {
       "name": "actor_info",
-      "definition": " SELECT a.actor_id,\n    a.first_name,\n    a.last_name,\n    group_concat(DISTINCT ((c.name || ': '::text) || ( SELECT group_concat(f.title) AS group_concat\n           FROM ((film f\n             JOIN film_category fc_1 ON ((f.film_id = fc_1.film_id)))\n             JOIN film_actor fa_1 ON ((f.film_id = fa_1.film_id)))\n          WHERE ((fc_1.category_id = c.category_id) AND (fa_1.actor_id = a.actor_id))\n          GROUP BY fa_1.actor_id))) AS film_info\n   FROM (((actor a\n     LEFT JOIN film_actor fa ON ((a.actor_id = fa.actor_id)))\n     LEFT JOIN film_category fc ON ((fa.film_id = fc.film_id)))\n     LEFT JOIN category c ON ((fc.category_id = c.category_id)))\n  GROUP BY a.actor_id, a.first_name, a.last_name;"
+      "definition": " SELECT a.actor_id,\n    a.first_name,\n    a.last_name,\n    pagila.group_concat(DISTINCT ((c.name || ': '::text) || ( SELECT pagila.group_concat(f.title) AS group_concat\n           FROM ((pagila.film f\n             JOIN pagila.film_category fc_1 ON ((f.film_id = fc_1.film_id)))\n             JOIN pagila.film_actor fa_1 ON ((f.film_id = fa_1.film_id)))\n          WHERE ((fc_1.category_id = c.category_id) AND (fa_1.actor_id = a.actor_id))\n          GROUP BY fa_1.actor_id))) AS film_info\n   FROM (((pagila.actor a\n     LEFT JOIN pagila.film_actor fa ON ((a.actor_id = fa.actor_id)))\n     LEFT JOIN pagila.film_category fc ON ((fa.film_id = fc.film_id)))\n     LEFT JOIN pagila.category c ON ((fc.category_id = c.category_id)))\n  GROUP BY a.actor_id, a.first_name, a.last_name;"
     },
     {
       "name": "customer_list",
-      "definition": " SELECT cu.customer_id AS id,\n    ((cu.first_name || ' '::text) || cu.last_name) AS name,\n    a.address,\n    a.postal_code AS \"zip code\",\n    a.phone,\n    city.city,\n    country.country,\n        CASE\n            WHEN cu.activebool THEN 'active'::text\n            ELSE ''::text\n        END AS notes,\n    cu.store_id AS sid\n   FROM (((customer cu\n     JOIN address a ON ((cu.address_id = a.address_id)))\n     JOIN city ON ((a.city_id = city.city_id)))\n     JOIN country ON ((city.country_id = country.country_id)));"
+      "definition": " SELECT cu.customer_id AS id,\n    ((cu.first_name || ' '::text) || cu.last_name) AS name,\n    a.address,\n    a.postal_code AS \"zip code\",\n    a.phone,\n    city.city,\n    country.country,\n        CASE\n            WHEN cu.activebool THEN 'active'::text\n            ELSE ''::text\n        END AS notes,\n    cu.store_id AS sid\n   FROM (((pagila.customer cu\n     JOIN pagila.address a ON ((cu.address_id = a.address_id)))\n     JOIN pagila.city ON ((a.city_id = city.city_id)))\n     JOIN pagila.country ON ((city.country_id = country.country_id)));"
     },
     {
       "name": "film_list",
-      "definition": " SELECT film.film_id AS fid,\n    film.title,\n    film.description,\n    category.name AS category,\n    film.rental_rate AS price,\n    film.length,\n    film.rating,\n    group_concat(((actor.first_name || ' '::text) || actor.last_name)) AS actors\n   FROM ((((category\n     LEFT JOIN film_category ON ((category.category_id = film_category.category_id)))\n     LEFT JOIN film ON ((film_category.film_id = film.film_id)))\n     JOIN film_actor ON ((film.film_id = film_actor.film_id)))\n     JOIN actor ON ((film_actor.actor_id = actor.actor_id)))\n  GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;"
+      "definition": " SELECT film.film_id AS fid,\n    film.title,\n    film.description,\n    category.name AS category,\n    film.rental_rate AS price,\n    film.length,\n    film.rating,\n    pagila.group_concat(((actor.first_name || ' '::text) || actor.last_name)) AS actors\n   FROM ((((pagila.category\n     LEFT JOIN pagila.film_category ON ((category.category_id = film_category.category_id)))\n     LEFT JOIN pagila.film ON ((film_category.film_id = film.film_id)))\n     JOIN pagila.film_actor ON ((film.film_id = film_actor.film_id)))\n     JOIN pagila.actor ON ((film_actor.actor_id = actor.actor_id)))\n  GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;"
     },
     {
       "name": "nicer_but_slower_film_list",
-      "definition": " SELECT film.film_id AS fid,\n    film.title,\n    film.description,\n    category.name AS category,\n    film.rental_rate AS price,\n    film.length,\n    film.rating,\n    group_concat((((upper(\"substring\"(actor.first_name, 1, 1)) || lower(\"substring\"(actor.first_name, 2))) || upper(\"substring\"(actor.last_name, 1, 1))) || lower(\"substring\"(actor.last_name, 2)))) AS actors\n   FROM ((((category\n     LEFT JOIN film_category ON ((category.category_id = film_category.category_id)))\n     LEFT JOIN film ON ((film_category.film_id = film.film_id)))\n     JOIN film_actor ON ((film.film_id = film_actor.film_id)))\n     JOIN actor ON ((film_actor.actor_id = actor.actor_id)))\n  GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;"
-    },
-    {
-      "name": "staff_list",
-      "definition": " SELECT s.staff_id AS id,\n    ((s.first_name || ' '::text) || s.last_name) AS name,\n    a.address,\n    a.postal_code AS \"zip code\",\n    a.phone,\n    city.city,\n    country.country,\n    s.store_id AS sid\n   FROM (((staff s\n     JOIN address a ON ((s.address_id = a.address_id)))\n     JOIN city ON ((a.city_id = city.city_id)))\n     JOIN country ON ((city.country_id = country.country_id)));"
+      "definition": " SELECT film.film_id AS fid,\n    film.title,\n    film.description,\n    category.name AS category,\n    film.rental_rate AS price,\n    film.length,\n    film.rating,\n    pagila.group_concat((((upper(\"substring\"(actor.first_name, 1, 1)) || lower(\"substring\"(actor.first_name, 2))) || upper(\"substring\"(actor.last_name, 1, 1))) || lower(\"substring\"(actor.last_name, 2)))) AS actors\n   FROM ((((pagila.category\n     LEFT JOIN pagila.film_category ON ((category.category_id = film_category.category_id)))\n     LEFT JOIN pagila.film ON ((film_category.film_id = film.film_id)))\n     JOIN pagila.film_actor ON ((film.film_id = film_actor.film_id)))\n     JOIN pagila.actor ON ((film_actor.actor_id = actor.actor_id)))\n  GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;"
     },
     {
       "name": "sales_by_film_category",
-      "definition": " SELECT c.name AS category,\n    sum(p.amount) AS total_sales\n   FROM (((((payment p\n     JOIN rental r ON ((p.rental_id = r.rental_id)))\n     JOIN inventory i ON ((r.inventory_id = i.inventory_id)))\n     JOIN film f ON ((i.film_id = f.film_id)))\n     JOIN film_category fc ON ((f.film_id = fc.film_id)))\n     JOIN category c ON ((fc.category_id = c.category_id)))\n  GROUP BY c.name\n  ORDER BY (sum(p.amount)) DESC;"
+      "definition": " SELECT c.name AS category,\n    sum(p.amount) AS total_sales\n   FROM (((((pagila.payment p\n     JOIN pagila.rental r ON ((p.rental_id = r.rental_id)))\n     JOIN pagila.inventory i ON ((r.inventory_id = i.inventory_id)))\n     JOIN pagila.film f ON ((i.film_id = f.film_id)))\n     JOIN pagila.film_category fc ON ((f.film_id = fc.film_id)))\n     JOIN pagila.category c ON ((fc.category_id = c.category_id)))\n  GROUP BY c.name\n  ORDER BY (sum(p.amount)) DESC;"
     },
     {
       "name": "sales_by_store",
-      "definition": " SELECT ((c.city || ','::text) || cy.country) AS store,\n    ((m.first_name || ' '::text) || m.last_name) AS manager,\n    sum(p.amount) AS total_sales\n   FROM (((((((payment p\n     JOIN rental r ON ((p.rental_id = r.rental_id)))\n     JOIN inventory i ON ((r.inventory_id = i.inventory_id)))\n     JOIN store s ON ((i.store_id = s.store_id)))\n     JOIN address a ON ((s.address_id = a.address_id)))\n     JOIN city c ON ((a.city_id = c.city_id)))\n     JOIN country cy ON ((c.country_id = cy.country_id)))\n     JOIN staff m ON ((s.manager_staff_id = m.staff_id)))\n  GROUP BY cy.country, c.city, s.store_id, m.first_name, m.last_name\n  ORDER BY cy.country, c.city;"
+      "definition": " SELECT ((c.city || ','::text) || cy.country) AS store,\n    ((m.first_name || ' '::text) || m.last_name) AS manager,\n    sum(p.amount) AS total_sales\n   FROM (((((((pagila.payment p\n     JOIN pagila.rental r ON ((p.rental_id = r.rental_id)))\n     JOIN pagila.inventory i ON ((r.inventory_id = i.inventory_id)))\n     JOIN pagila.store s ON ((i.store_id = s.store_id)))\n     JOIN pagila.address a ON ((s.address_id = a.address_id)))\n     JOIN pagila.city c ON ((a.city_id = c.city_id)))\n     JOIN pagila.country cy ON ((c.country_id = cy.country_id)))\n     JOIN pagila.staff m ON ((s.manager_staff_id = m.staff_id)))\n  GROUP BY cy.country, c.city, s.store_id, m.first_name, m.last_name\n  ORDER BY cy.country, c.city;"
+    },
+    {
+      "name": "staff_list",
+      "definition": " SELECT s.staff_id AS id,\n    ((s.first_name || ' '::text) || s.last_name) AS name,\n    a.address,\n    a.postal_code AS \"zip code\",\n    a.phone,\n    city.city,\n    country.country,\n    s.store_id AS sid\n   FROM (((pagila.staff s\n     JOIN pagila.address a ON ((s.address_id = a.address_id)))\n     JOIN pagila.city ON ((a.city_id = city.city_id)))\n     JOIN pagila.country ON ((city.country_id = country.country_id)));"
     }
   ]
 }
