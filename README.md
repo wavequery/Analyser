@@ -6,7 +6,7 @@ WaveQuery Database Analyser is a powerful tool for analyzing and visualizing dat
 
 ## Try it Live
 
-Want to see the power of WaveQuery Database Analyser in action? Visit our interactive playground at [WaveQuery Playground](https://dashboard.wavequery.com/playground). Here you can:
+Want to see the power of WaveQuery Database Analyser in action? Visit our interactive playground at [WaveQuery Playground](https://beta.dashboard.wavequery.com/playground). Here you can:
 - Explore sample database schemas
 - Visualize relationships and table structures
 - Test queries and see real-time results
