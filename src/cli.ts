@@ -19,6 +19,7 @@ import {
   createSamplingStrategy,
   SamplingStrategy,
 } from "./analyzers/samplingStrategy/samplingStrategy";
+import { ClickhouseConnector } from "./connectors/clickhouseConnector";
 
 const program = new Command();
 
@@ -32,8 +33,9 @@ program
   .option("-u, --user <user>", "Database user")
   .option("-P, --password <password>", "Database password")
   .option("-f, --file <file>", "SQLite database file path")
-  .option("-S, --schema <string>", "Schema name if not public", "public")
   .option("-s, --serve", "Start the visualization server after analysis")
+  .option("-S, --schema <string>", "Schema name if not public", "public")
+  .option("--PR, --protocol <protocol>", "Protocol (http/https) for Clickhouse", "https")
   .option(
     "-o, --output <path>",
     "Path to export the JSON file",
@@ -69,6 +71,16 @@ program
       case "sqlite":
         connector = new SQLiteConnector(options.file);
         break;
+      case "clickhouse":
+        connector = new ClickhouseConnector({
+          host: connectorOptions.host,
+          port: connectorOptions.port,
+          username: connectorOptions.user,
+          password: connectorOptions.password,
+          database: options.database,
+          protocol: options.protocol as "http" | "https",
+        });
+        break;
       default:
         logger.error("Unsupported database type");
         process.exit(1);
@@ -87,7 +99,7 @@ program
         samplingStrategy,
         logger,
         outputPath,
-        exportData: true
+        exportData: true,
       });
       logger.log("Database analysis completed successfully.");
     } catch (error) {

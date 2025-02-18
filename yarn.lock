@@ -373,6 +373,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@clickhouse/client-common@npm:1.10.1":
+  version: 1.10.1
+  resolution: "@clickhouse/client-common@npm:1.10.1"
+  checksum: 10/75e372219ffc592c68434ad214a9d985439489578ffa8ea2c059f73c1759e5777de88d0569a679fbc5be0c139906257e50e75620c470707d8dca75af279f12f6
+  languageName: node
+  linkType: hard
+
+"@clickhouse/client@npm:^1.10.1":
+  version: 1.10.1
+  resolution: "@clickhouse/client@npm:1.10.1"
+  dependencies:
+    "@clickhouse/client-common": "npm:1.10.1"
+  checksum: 10/7c3aad9c3bea4fb770de657a9518c7bbc6fbc328a4459c56d8256a774372500cff36c70688b9db2be08a36c4bc63494f1cdcce30eacbfece6e735aaa524ca063
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -1561,6 +1577,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wavequery/analyser@workspace:."
   dependencies:
+    "@clickhouse/client": "npm:^1.10.1"
     "@google-cloud/bigquery": "npm:^7.9.0"
     "@neondatabase/serverless": "npm:^0.10.4"
     "@tensorflow-models/universal-sentence-encoder": "npm:^1.3.3"

@@ -83,6 +83,35 @@ class BigQuerySamplingStrategy implements SamplingStrategy {
   }
 }
 
+class ClickhouseSamplingStrategy implements SamplingStrategy {
+  getSampleQuery(
+    tableName: string,
+    columnName: string,
+    sampleSize: number
+  ): string {
+    // Clickhouse supports two efficient sampling methods:
+    // 1. SAMPLE - for tables with sampling key
+    // 2. ORDER BY rand() - for tables without sampling key
+
+    // We'll use a combination to ensure we get a good random sample
+    // The subquery with SAMPLE helps reduce the initial data set
+    // The outer query ensures we get exactly the number of distinct values we want
+    return `
+      SELECT DISTINCT ${columnName}
+      FROM (
+        SELECT ${columnName}
+        FROM ${tableName}
+        SAMPLE ${Math.min(
+          (sampleSize * 100) / 1000,
+          100
+        )} -- Convert desired rows to percentage, max 100%
+        ORDER BY rand()
+      )
+      LIMIT ${sampleSize}
+    `;
+  }
+}
+
 function createSamplingStrategy(databaseType: string): SamplingStrategy {
   switch (databaseType.toLowerCase()) {
     case "mariadb":
@@ -95,6 +124,8 @@ function createSamplingStrategy(databaseType: string): SamplingStrategy {
       return new PostgresSamplingStrategy();
     case "bigquery":
       return new BigQuerySamplingStrategy();
+    case "clickhouse":
+      return new ClickhouseSamplingStrategy();
     default:
       throw new Error(`Unsupported database type: ${databaseType}`);
   }
