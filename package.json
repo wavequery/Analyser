@@ -1,6 +1,6 @@
 {
   "name": "@wavequery/analyser",
-  "version": "0.0.46",
+  "version": "0.0.47",
   "description": "Database analyser and visualiser",
   "packageManager": "yarn@1.22.22",
   "main": "./dist/cjs/index.js",
@@ -79,6 +79,11 @@
   ],
   "author": "amin@wavequery.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wavequery/analyser.git"
+  },
+  "homepage": "https://github.com/wavequery/analyser#README.md",
   "dependencies": {
     "@clickhouse/client": "^1.10.1",
     "@google-cloud/bigquery": "^7.9.0",
